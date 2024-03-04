@@ -1,11 +1,11 @@
 site_name: Gustav-Engine
-repo_url: https://github.com/GustavoSchip/Gustav-Engine
-site_url: https://GustavoSchip.github.io/Gustav-Engine
+repo_url: https://github.com/Gustav-Engine/Gustav-Engine
+site_url: https://Gustav-Engine.github.io/Gustav-Engine
 site_description: Attempt at a DnD 5e Character builder inspired by Aurora Builder.
 site_author: GustavoSchip
 edit_uri: edit/main/docs/
-repo_name: GustavoSchip/Gustav-Engine
-copyright: Maintained by <a href="https://GustavoSchip.com">GustavoSchip</a>.
+repo_name: Gustav-Engine/Gustav-Engine
+copyright: Maintained by <a href="https://github.com/GustavoSchip">GustavoSchip</a>.
 
 nav:
   - Home: index.md
@@ -15,9 +15,9 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-            setup_commands:
-                - import sys
-                - sys.path.append('../')
+          setup_commands:
+            - import sys
+            - sys.path.append('../')
 theme:
   name: material
   feature:
@@ -43,9 +43,7 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/GustavoSchip/Gustav-Engine
-    - icon: fontawesome/brands/python
-      link: https://pypi.org/project/Gustav-Engine
+      link: https://github.com/Gustav-Engine/Gustav-Engine
 
 markdown_extensions:
   - toc:
