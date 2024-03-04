@@ -3,15 +3,15 @@ name = "gustav_engine"
 version = "0.0.1"
 description = "Attempt at a DnD 5e Character builder inspired by Aurora Builder."
 authors = ["GustavoSchip <gustavoschip@proton.me>"]
-repository = "https://github.com/GustavoSchip/Gustav-Engine"
-documentation = "https://GustavoSchip.github.io/Gustav-Engine/"
+repository = "https://github.com/Gustav-Engine/Gustav-Engine"
+documentation = "https://Gustav-Engine.github.io/Gustav-Engine/"
 readme = "README.md"
-packages = [
-  {include = "gustav_engine"}
-]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
+textual = "^0.43.2"
+textual-web = "^0.7.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.0"
@@ -25,10 +25,6 @@ tox = "^4.11.1"
 mkdocs = "^1.4.2"
 mkdocs-material = "^9.2.7"
 mkdocstrings = {extras = ["python"], version = "^0.23.0"}
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 files = ["gustav_engine"]
