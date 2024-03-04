@@ -9,7 +9,7 @@ You can contribute in many ways:
 
 ## Report Bugs
 
-Report bugs at https://github.com/GustavoSchip/Gustav-Engine/issues
+Report bugs at https://github.com/Gustav-Engine/Gustav-Engine/issues
 
 If you are reporting a bug, please include:
 
@@ -29,11 +29,12 @@ Anything tagged with "enhancement" and "help wanted" is open to whoever wants to
 
 ## Write Documentation
 
-Cookiecutter PyPackage could always use more documentation, whether as part of the official docs, in docstrings, or even on the web in blog posts, articles, and such.
+Cookiecutter PyPackage could always use more documentation, whether as part of the official docs, in docstrings, or even
+on the web in blog posts, articles, and such.
 
 ## Submit Feedback
 
-The best way to send feedback is to file an issue at https://github.com/GustavoSchip/Gustav-Engine/issues.
+The best way to send feedback is to file an issue at https://github.com/Gustav-Engine/Gustav-Engine/issues.
 
 If you are proposing a new feature:
 
@@ -101,13 +102,6 @@ Now, validate that all unit tests are passing:
 
 ```bash
 make test
-```
-
-9. Before raising a pull request you should also run tox.
-   This will run the tests across different versions of Python:
-
-```bash
-tox
 ```
 
 This requires you to have multiple versions of python installed.
