@@ -1,12 +1,11 @@
-name: release-main
+name: release-master
 
 on:
   release:
     types: [published]
-    branches: [main]
+    branches: [master]
 
 jobs:
-  
   deploy-docs:
     runs-on: ubuntu-latest
     steps:
@@ -18,4 +17,3 @@ jobs:
 
       - name: Deploy documentation
         run: poetry run mkdocs gh-deploy --force
-  
