@@ -41,7 +41,9 @@ def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config
 
     if verbose:
         echo("Verbose: Invoking server...")
-    invoke_server(verbose=verbose, address=address, port=port, config=config, app_handler=app_handler)
+    invoke_server(
+        verbose=verbose, address=address, port=port, config=config, app_handler=app_handler
+    )  # ignore[arg-type]
     return
 
 
