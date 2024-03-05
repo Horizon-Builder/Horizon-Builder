@@ -78,6 +78,8 @@ ignore = [
     "E501",
     # DoNotAssignLambda
     "E731",
+    # UsePEP604Annotation
+    "UP007",
 ]
 
 [tool.ruff.format]
