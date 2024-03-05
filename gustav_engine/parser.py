@@ -15,8 +15,9 @@ def invoke_parser(verbose: Literal[False] | Literal[True], config: dict, app_han
             parsed_xml = parse(source=PurePath(config["engine"]["content_folder"], Path(xml_file)), forbid_dtd=True)
             parsed_xml_root = parsed_xml.getroot()
             if parsed_xml_root.tag == "elements" and parsed_xml_root.attrib == {}:
-                for element in parsed_xml_root:
-                    print(element.tag, element.attrib)
+                for element in parsed_xml_root.iter("element"):
                     for child in element.iter():
-                        print(child.tag, child.attrib, child.text)
+                        echo(
+                            f"{parsed_xml_root.tag} {element.tag} {element.attrib} {child.tag} {child.attrib} {child.text}"
+                        )
     return

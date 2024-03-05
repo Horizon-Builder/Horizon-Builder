@@ -24,14 +24,14 @@ VERSION = "v0.0.1"
     type=Path(exists=True, readable=True, file_okay=True, dir_okay=False, resolve_path=True, path_type=PLPath),
     help="Specify the config file.",
 )
-def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config: Path) -> None:
+def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config: PLPath) -> None:
     """Gustav-Engine
 
     Attempt at a DnD 5e Character builder inspired by Aurora Builder.
     """
-    echo(f"Gustav-Engine: Running version '{VERSION}' on {system()} {version()}.")
+    echo(f"Gustav-Engine: Running version '{VERSION}' on {system()} {version()}.\n")
     if verbose:
-        echo("Verbose logging enabled!")
+        echo("Warning: Verbose logging enabled!")
     if exists(str(config)):
         with open_file(str(config)) as f:
             config = safe_load(f.read())
@@ -41,9 +41,7 @@ def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config
 
     if verbose:
         echo("Verbose: Invoking server...")
-    invoke_server(
-        verbose=verbose, address=address, port=port, config=config, app_handler=app_handler
-    )  # ignore[arg-type]
+    invoke_server(verbose=verbose, address=address, port=port, config=config, app_handler=app_handler)
     return
 
 

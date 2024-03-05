@@ -10,7 +10,6 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
-textual-web = "^0.7.0"
 flask = "^3.0.2"
 defusedxml = "^0.7.1"
 click = "^8.1.7"
@@ -32,6 +31,7 @@ mkdocstrings = { extras = ["python"], version = "^0.23.0" }
 [tool.mypy]
 files = ["gustav_engine"]
 disallow_untyped_defs = "True"
+ignore_missing_imports = "True"
 disallow_any_unimported = "True"
 no_implicit_optional = "True"
 check_untyped_defs = "True"
@@ -41,7 +41,6 @@ show_error_codes = "True"
 
 [tool.deptry.per_rule_ignores]
 DEP001 = ["server", "parser", "main"]
-DEP002 = ["textual-web"]
 
 [tool.ruff]
 target-version = "py311"
