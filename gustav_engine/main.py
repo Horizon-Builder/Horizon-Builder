@@ -1,12 +1,11 @@
 from os.path import exists
 from sys import argv
-from typing import Union
+from typing import Literal
 
 from click import Path, command, echo, option
 from flask import Flask
+from server import invoke_server
 from yaml import safe_load
-
-from gustav_engine.server import invoke_server
 
 app_handler = Flask("Gustav-Engine")
 
@@ -16,15 +15,15 @@ app_handler = Flask("Gustav-Engine")
 @option("--address", "-a", default="127.0.0.1", type=str, show_default=True, help="Specify the host address.")
 @option("--port", "-p", default=80, type=int, show_default=True, help="Specify the host port.")
 @option("--config", "-p", default="~/config.yml", type=Path(), help="Specify the config file.")
-def cli(verbose: Union[None | False | True], address: str, port: int, config: Path) -> None:
+def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config: Path) -> None:
     """Gustav-Engine
 
     Attempt at a DnD 5e Character builder inspired by Aurora Builder.
     """
     if verbose:
         echo("Verbose logging enabled!")
-    if exists(config):
-        with open(config) as f:
+    if exists(config):  # type: ignore[compatible]
+        with open(config) as f:  # type: ignore[compatible]
             config = safe_load(f.read())
 
     invoke_server(verbose, address, port, config, app_handler)
