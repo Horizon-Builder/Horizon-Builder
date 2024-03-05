@@ -16,7 +16,7 @@ from pathlib import Path, PurePath
 from typing import Literal
 
 from click import echo, style
-from defusedxml.ElementTree import parse
+from defusedxml.ElementTree import parse  # type: ignore[import-untyped]
 from flask import Flask
 
 
