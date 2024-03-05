@@ -44,6 +44,7 @@ follows:
 | Custom content (XML) editor/studio                                                        | TODO        | MID      | N/A      |
 | GitHub community guidelines, pull request + issue templates and `**.md` updates           | TODO        | LOW      | 35%      |
 | More robust Python versions support                                                       | TODO        | LOW      | -        |
+| Cache system to speed up custom content (XML)                                             | TODO        | HIGH     | N/A      |
 
 ## Technologies used
 
