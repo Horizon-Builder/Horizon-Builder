@@ -1,7 +1,6 @@
 # Tests will be written once the application is somewhat working.
+from main import cli
 from pytest import raises
-
-from gustav_engine.main import cli
 
 
 def test_main():
