@@ -32,7 +32,6 @@ mkdocstrings = { extras = ["python"], version = "^0.23.0" }
 [tool.mypy]
 files = ["gustav_engine"]
 disallow_untyped_defs = "True"
-ignore_missing_imports = "True"
 disallow_any_unimported = "True"
 no_implicit_optional = "True"
 check_untyped_defs = "True"
