@@ -1,4 +1,4 @@
-name: Main
+name: Master
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
       - name: Run checks
         run: make check
 
-  tox:
+  pytest:
     runs-on: ubuntu-latest
     strategy:
       matrix:
