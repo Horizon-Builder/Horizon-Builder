@@ -22,14 +22,14 @@
 [![Commit activity](https://img.shields.io/github/commit-activity/m/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/commit-activity/m/Gustav-Engine/Gustav-Engine)
 [![License](https://img.shields.io/github/license/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/license/Gustav-Engine/Gustav-Engine)
 
+---
+
 Attempt at a DnD 5e Character builder inspired by Aurora Builder.
 
 - **GitHub repository**: <https://github.com/Gustav-Engine/Gustav-Engine/>
 - **Documentation**: <https://Gustav-Engine.github.io/Gustav-Engine/>
 
 ## Planned features and progress
-
----
 
 The table below describes and shows some of the most requested features and improvement suggestions. The board goes as
 follows:
@@ -46,8 +46,6 @@ follows:
 | More robust Python versions support                                                       | TODO        | LOW      | -        |
 
 ## Technologies used
-
----
 
 The following technologies (packages) are currently used in the project, the technologies listed below are the ones that
 are included in the packaged release:
