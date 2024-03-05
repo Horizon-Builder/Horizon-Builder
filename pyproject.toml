@@ -7,6 +7,7 @@ repository = "https://github.com/Gustav-Engine/Gustav-Engine"
 documentation = "https://Gustav-Engine.github.io/Gustav-Engine/"
 readme = "README.md"
 package-mode = false
+license = "LICENSE"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"

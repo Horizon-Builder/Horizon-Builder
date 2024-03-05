@@ -1,10 +1,22 @@
+#   Copyright [2024] [GustavoSchip]
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 from os.path import exists
 from pathlib import Path as PLPath
-from platform import system, version
 from sys import argv
 from typing import Literal
 
-from click import Path, command, echo, open_file, option
+from click import Path, command, echo, open_file, option, style
 from flask import Flask
 from server import invoke_server
 from yaml import safe_load
@@ -29,18 +41,18 @@ def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config
 
     Attempt at a DnD 5e Character builder inspired by Aurora Builder.
     """
-    echo(f"Gustav-Engine: Running version '{VERSION}' on {system()} {version()}.\n")
+    echo(style(text="Gustav-Engine: Running version '{VERSION}' on {system()} {version()}.\n", fg="magenta"))
     if verbose:
-        echo("Warning: Verbose logging enabled!")
+        echo(style(text="Warning: Verbose logging enabled!", fg="yellow"))
     if exists(str(config)):
         with open_file(str(config)) as f:
             config = safe_load(f.read())
     else:
-        echo("No config file found! Exiting...")
+        echo(style(text="No config file found! Exiting...", fg="red"))
         exit(1)
 
     if verbose:
-        echo("Verbose: Invoking server...")
+        echo(style(text="Verbose: Invoking server...", fg="cyan"))
     invoke_server(verbose=verbose, address=address, port=port, config=config, app_handler=app_handler)
     return
 
