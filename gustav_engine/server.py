@@ -6,5 +6,5 @@ from flask import Flask
 
 def invoke_server(
     verbose: Literal[False] | Literal[True], address: str, port: int, config: Path, app_handler: Flask
-) -> None:
+) -> None:  # type: ignore[empty-body]
     return

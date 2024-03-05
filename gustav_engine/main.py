@@ -22,8 +22,8 @@ def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config
     """
     if verbose:
         echo("Verbose logging enabled!")
-    if exists(config):  # type: ignore[compatible]
-        with open(config) as f:  # type: ignore[compatible]
+    if exists(config):  # type: ignore[arg-type]
+        with open(config) as f:  # type: ignore[call-overload]
             config = safe_load(f.read())
 
     invoke_server(verbose, address, port, config, app_handler)
