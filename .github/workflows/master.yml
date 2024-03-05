@@ -27,7 +27,7 @@ jobs:
 
   pre-commit:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize' || github.repository == 'Gustav-Engine/Gustav-Engine'
     concurrency:
       group: pre-commit-${{ github.head_ref || github.run_id }}
       cancel-in-progress: true
