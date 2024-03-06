@@ -53,13 +53,13 @@ def cli(verbose: Literal[False] | Literal[True], address: str | None, port: int 
         exit(1)
     if address is None:
         try:
-            address = str(config["engine"]["address"])
+            address = str(config["engine"]["address"])  # type: ignore[index]
         except KeyError:
             echo(style(text="Error: Address not configured! Exiting...", fg="red"))
             exit(1)
     if port is None:
         try:
-            port = int(config["engine"]["port"])
+            port = int(config["engine"]["port"])  # type: ignore[index]
         except KeyError:
             echo(style(text="Error: Port not configured! Exiting...", fg="red"))
             exit(1)
