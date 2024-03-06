@@ -43,7 +43,7 @@ follows:
 | XML content compatibility from [Aurora Builder](https://aurorabuilder.com/documentation/) | TODO        | HIGH     | 1.5%     |
 | Local web app for better compatibility                                                    | TODO        | MID      | 0%       |
 | Custom content (XML) editor/studio                                                        | TODO        | MID      | N/A      |
-| GitHub community guidelines, pull request + issue templates and `**.md` updates           | TODO        | LOW      | 35%      |
+| GitHub community guidelines, pull request + issue templates and `**.md` updates           | TODO        | LOW      | 95%      |
 | More robust Python versions support                                                       | TODO        | LOW      | -        |
 | Cache system to speed up custom content (XML)                                             | TODO        | HIGH     | N/A      |
 

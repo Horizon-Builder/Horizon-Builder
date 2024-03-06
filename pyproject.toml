@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Gustav-Engine"
-version = "0.0.1"
+version = "v0.0.1"
 description = "Attempt at a DnD 5e Character builder inspired by Aurora Builder."
 authors = ["GustavoSchip <gustavoschip@proton.me>"]
 repository = "https://github.com/Gustav-Engine/Gustav-Engine"

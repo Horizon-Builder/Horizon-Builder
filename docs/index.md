@@ -18,7 +18,7 @@
 
 [![Release](https://img.shields.io/github/v/release/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/v/release/Gustav-Engine/Gustav-Engine)
 [![codecov](https://codecov.io/gh/Gustav-Engine/Gustav-Engine/branch/main/graph/badge.svg?token=ZMQTFLR4RH)](https://codecov.io/gh/Gustav-Engine/Gustav-Engine)
-[![Known Vulnerabilities](https://snyk.io/test/github/Gustav-Engine/Gustav-Engine/badge.svg)](https://snyk.io/)
+[![Snyk security](https://snyk.io/test/github/Gustav-Engine/Gustav-Engine/badge.svg)](https://snyk.io/)
 [![Python](https://img.shields.io/badge/Python-v3.11-blue)](https://www.python.org/downloads/release/python-311/)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/commit-activity/m/Gustav-Engine/Gustav-Engine)
 [![License](https://img.shields.io/github/license/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/license/Gustav-Engine/Gustav-Engine)
@@ -43,7 +43,7 @@ follows:
 | XML content compatibility from [Aurora Builder](https://aurorabuilder.com/documentation/) | TODO        | HIGH     | 1.5%     |
 | Local web app for better compatibility                                                    | TODO        | MID      | 0%       |
 | Custom content (XML) editor/studio                                                        | TODO        | MID      | N/A      |
-| GitHub community guidelines, pull request + issue templates and `**.md` updates           | TODO        | LOW      | 35%      |
+| GitHub community guidelines, pull request + issue templates and `**.md` updates           | TODO        | LOW      | 95%      |
 | More robust Python versions support                                                       | TODO        | LOW      | -        |
 | Cache system to speed up custom content (XML)                                             | TODO        | HIGH     | N/A      |
 
