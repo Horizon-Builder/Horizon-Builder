@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security advisories
+    url: https://github.com/Gustav-Engine/Gustav-Engine/security
+    about: Please report any security related issue here.
+  - name: Gustav-Engine documentation
+    url: https://Gustav-Engine.github.io/Gustav-Engine/
+    about: Please do reasearch here before posting an issue.

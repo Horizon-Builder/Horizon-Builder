@@ -16,7 +16,7 @@ from pathlib import Path as PLPath
 from sys import argv, exit
 from typing import Literal
 
-from click import Path, command, echo, open_file, option, style
+from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
 from server import invoke_server
 from yaml import safe_load
@@ -27,8 +27,8 @@ VERSION = "v0.0.1"
 
 @command()
 @option("--verbose", "-v", is_flag=True, help="Enable verbose logging.")
-@option("--address", "-a", default="127.0.0.1", type=str, show_default=True, help="Specify the host address.")
-@option("--port", "-p", default=80, type=int, show_default=True, help="Specify the host port.")
+@option("--address", "-a", type=str, show_default=True, help="Specify the host address.")
+@option("--port", "-p", type=int, show_default=True, help="Specify the host port.")
 @option(
     "--config",
     "-p",
@@ -36,7 +36,7 @@ VERSION = "v0.0.1"
     type=Path(exists=True, readable=True, file_okay=True, dir_okay=False, resolve_path=True, path_type=PLPath),
     help="Specify the config file.",
 )
-def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config: PLPath) -> None:
+def cli(verbose: Literal[False] | Literal[True], address: str | None, port: int | None, config: PLPath) -> None:
     """Gustav-Engine
 
     Attempt at a DnD 5e Character builder inspired by Aurora Builder.
@@ -45,11 +45,19 @@ def cli(verbose: Literal[False] | Literal[True], address: str, port: int, config
     if verbose:
         echo(style(text="Warning: Verbose logging enabled!", fg="yellow"))
     if exists(str(config)):
-        with open_file(str(config)) as f:
-            config = safe_load(f.read())
+        try:
+            with open_file(str(config)) as f:
+                config = safe_load(f.read())
+        except FileError as error:
+            echo(style(text=f"Error: {error}! Exiting...", fg="red"))
+            exit(1)
     else:
-        echo(style(text="No config file found! Exiting...", fg="red"))
+        echo(style(text="Error: No config file found! Exiting...", fg="red"))
         exit(1)
+    if address is None:
+        address = str(config["address"])
+    elif port is None:
+        port = int(config["port"])
 
     if verbose:
         echo(style(text="Verbose: Invoking server...", fg="cyan"))
