@@ -7,6 +7,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -103,6 +107,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       security-events: write
+      actions: read
     if: github.repository == 'Gustav-Engine/Gustav-Engine' && github.event_name == 'push'
     steps:
       - name: Check out
