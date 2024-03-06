@@ -98,3 +98,23 @@ jobs:
 
       - name: Check if documentation can be built
         run: poetry run mkdocs build -s
+
+  security:
+    runs-on: ubuntu-latest
+    if: github.repository == 'Gustav-Engine/Gustav-Engine' && github.event_name == 'push'
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
