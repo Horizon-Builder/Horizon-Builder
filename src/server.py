@@ -11,17 +11,66 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from sys import exit
+from threading import Thread
 from typing import Literal
 
 from click import echo, style
 from flask import Flask
-from parser import invoke_parser
+from parser import XMLError, invoke_parser
+from werkzeug.serving import make_server
 
 
-def invoke_server(
+def invoke_server(  # noqa: C901
     verbose: Literal[False] | Literal[True], address: str, port: int, config: dict, app_handler: Flask
 ) -> None:
     if verbose:
         echo(style(text="Verbose: Invoking parser...", fg="cyan"))
-    invoke_parser(verbose=verbose, config=config, app_handler=app_handler)
-    return
+    try:
+        xml_data: any = invoke_parser(verbose=verbose, config=config)
+        if verbose:
+            echo(style(text=f"Debug: XML Data: {xml_data}", fg="green"))
+    except XMLError as error:
+        echo(style(text=f"Error: {error}! Exiting...", fg="red"))
+        exit(1)
+
+    class ServerThread(Thread):
+        def __init__(self, app) -> None:
+            Thread.__init__(self)
+            self.server = make_server(host=address, port=port, app=app_handler)
+            self.ctx = app.app_context()
+            self.ctx.push()
+
+        def run(self) -> None:
+            if verbose:
+                echo(style(text="Verbose: Starting server...", fg="cyan"))
+            self.server.serve_forever()
+
+        def shutdown(self) -> None:
+            if verbose:
+                echo(style(text="Verbose: Shutting down server...", fg="cyan"))
+            self.server.shutdown()
+
+    app_server: ServerThread = ServerThread(app_handler)
+
+    def start_server() -> None:
+        @app_handler.route("/")
+        def hello_world():
+            return "<p>Hello, World!</p>"
+
+        app_server.start()
+        return
+
+    def stop_server() -> None:
+        app_server.shutdown()
+        return
+
+    start_server()
+
+    while True:
+        try:
+            continue
+        except KeyboardInterrupt:
+            stop_server()
+            break
+    exit(0)

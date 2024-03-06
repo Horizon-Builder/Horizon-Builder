@@ -17,24 +17,33 @@ from typing import Literal
 
 from click import echo, style
 from defusedxml.ElementTree import parse  # type: ignore[import-untyped]
-from flask import Flask
 
 
-def invoke_parser(verbose: Literal[False] | Literal[True], config: dict, app_handler: Flask) -> None:
+class XMLError(Exception):
+    def __init__(self, message: str, error: Exception) -> None:
+        super().__init__(message)
+        self.exception = error  # TODO: update exception
+
+
+def invoke_parser(verbose: Literal[False] | Literal[True], config: dict) -> any:
+    files_to_parse = []
+    xml_dict = {}
     if verbose:
         echo(style(text="Verbose: Loading XML contents...", fg="cyan"))
-    for xml_file in listdir(PurePath(config["engine"]["content_folder"])):
-        if xml_file.endswith(".xml"):
-            parsed_xml = parse(source=PurePath(config["engine"]["content_folder"], Path(xml_file)), forbid_dtd=True)
+    try:
+        for file in listdir(PurePath(config["engine"]["content_folder"])):
+            if str(file).endswith(".xml"):
+                files_to_parse.append(PurePath(config["engine"]["content_folder"], Path(file)))
+        for xml_file in files_to_parse:
+            parsed_xml = parse(source=xml_file, forbid_dtd=True)
             parsed_xml_root = parsed_xml.getroot()
             if parsed_xml_root.tag == "elements" and parsed_xml_root.attrib == {}:
-                for element in parsed_xml_root.iter("element"):
-                    for child in element.iter():
-                        if verbose:
-                            echo(
-                                style(
-                                    text=f"Debug: {parsed_xml_root.tag} {element.tag} {element.attrib} {child.tag} {child.attrib} {child.text}",
-                                    fg="green",
-                                )
-                            )
-    return
+                for element in parsed_xml_root.iter("element"):  # noqa: B007
+                    pass
+                for child in element.iter():  # noqa: B007
+                    pass
+    except Exception as error:
+        if verbose:
+            echo(style(text=f"Verbose: XML Data: {xml_dict}", fg="cyan"))
+        raise XMLError(message=f"{error}", error=error)  # noqa: B904 TRY200
+    return xml_dict
