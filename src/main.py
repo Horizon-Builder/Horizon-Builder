@@ -13,7 +13,7 @@
 #   limitations under the License.
 from os.path import exists
 from pathlib import Path as PLPath
-from sys import argv
+from sys import argv, exit
 from typing import Literal
 
 from click import Path, command, echo, open_file, option, style
