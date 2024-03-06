@@ -18,7 +18,6 @@
 
 [![Release](https://img.shields.io/github/v/release/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/v/release/Gustav-Engine/Gustav-Engine)
 [![codecov](https://codecov.io/gh/Gustav-Engine/Gustav-Engine/branch/main/graph/badge.svg?token=ZMQTFLR4RH)](https://codecov.io/gh/Gustav-Engine/Gustav-Engine)
-[![Snyk security](https://snyk.io/test/github/Gustav-Engine/Gustav-Engine/badge.svg)](https://snyk.io/)
 [![Python](https://img.shields.io/badge/Python-v3.11-blue)](https://www.python.org/downloads/release/python-311/)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/commit-activity/m/Gustav-Engine/Gustav-Engine)
 [![License](https://img.shields.io/github/license/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/license/Gustav-Engine/Gustav-Engine)
