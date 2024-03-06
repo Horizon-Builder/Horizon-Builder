@@ -101,6 +101,7 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+    if: github.repository == 'Gustav-Engine/Gustav-Engine' && github.event_name == 'push'
     steps:
       - name: Check out
         uses: actions/checkout@v3
