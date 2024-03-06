@@ -1,6 +1,7 @@
 # Description
 
-Please include a summary of the changes and the related issue. Please also include relevant motivation and context. List any dependencies that are required for this change.
+Please include a summary of the changes and the related issue. Please also include relevant motivation and context. List
+any dependencies that are required for this change.
 
 Fixes # (issue)
 
@@ -15,7 +16,8 @@ Please tell us under what type the change belongs.
 
 # How Has This Been Tested?
 
-Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also
+list any relevant details for your test configuration
 
 - [ ] ran `make check`
 - [ ] pytest only
