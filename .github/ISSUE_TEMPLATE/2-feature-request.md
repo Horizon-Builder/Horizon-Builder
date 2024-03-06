@@ -1,3 +1,11 @@
+---
+name: Feature request report
+about: Use this template for requesting new features.
+title: "REQUEST: [FEATURE NAME]"
+labels: enhancement
+assignees: GustavoSchip
+---
+
 # Feature request report
 
 ## What is the current behavior?

@@ -1,3 +1,11 @@
+---
+name: Bug report issue
+about: Use this template for reporting new bugs.
+title: "BUG: [BUG NAME]"
+labels: bug, enhancement
+assignees: GustavoSchip
+---
+
 # Bug report
 
 ## What is the current behavior?
