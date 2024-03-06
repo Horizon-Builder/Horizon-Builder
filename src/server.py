@@ -13,6 +13,7 @@
 #   limitations under the License.
 from sys import exit
 from threading import Thread
+from time import sleep
 from typing import Literal
 
 from click import echo, style
@@ -27,7 +28,7 @@ def invoke_server(  # noqa: C901
     if verbose:
         echo(style(text="Verbose: Invoking parser...", fg="cyan"))
     try:
-        xml_data: any = invoke_parser(verbose=verbose, config=config)
+        xml_data: dict = invoke_parser(verbose=verbose, config=config)
         if verbose:
             echo(style(text=f"Debug: XML Data: {xml_data}", fg="green"))
     except XMLError as error:
@@ -35,7 +36,7 @@ def invoke_server(  # noqa: C901
         exit(1)
 
     class ServerThread(Thread):
-        def __init__(self, app) -> None:
+        def __init__(self, app: Flask) -> None:
             Thread.__init__(self)
             self.server = make_server(host=address, port=port, app=app_handler)
             self.ctx = app.app_context()
@@ -55,7 +56,7 @@ def invoke_server(  # noqa: C901
 
     def start_server() -> None:
         @app_handler.route("/")
-        def hello_world():
+        def hello_world() -> str:
             return "<p>Hello, World!</p>"
 
         app_server.start()
@@ -66,11 +67,10 @@ def invoke_server(  # noqa: C901
         return
 
     start_server()
-
     while True:
         try:
-            continue
+            sleep(0.01)
         except KeyboardInterrupt:
             stop_server()
             break
-    exit(0)
+    return

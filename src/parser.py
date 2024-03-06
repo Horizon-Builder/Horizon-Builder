@@ -25,9 +25,9 @@ class XMLError(Exception):
         self.exception = error  # TODO: update exception
 
 
-def invoke_parser(verbose: Literal[False] | Literal[True], config: dict) -> any:
+def invoke_parser(verbose: Literal[False] | Literal[True], config: dict) -> dict:
     files_to_parse = []
-    xml_dict = {}
+    xml_dict = {}  # type: ignore[var-annotated]
     if verbose:
         echo(style(text="Verbose: Loading XML contents...", fg="cyan"))
     try:
@@ -39,9 +39,9 @@ def invoke_parser(verbose: Literal[False] | Literal[True], config: dict) -> any:
             parsed_xml_root = parsed_xml.getroot()
             if parsed_xml_root.tag == "elements" and parsed_xml_root.attrib == {}:
                 for element in parsed_xml_root.iter("element"):  # noqa: B007
-                    pass
+                    pass  # TODO: implement
                 for child in element.iter():  # noqa: B007
-                    pass
+                    pass  # TODO: implement
     except Exception as error:
         if verbose:
             echo(style(text=f"Verbose: XML Data: {xml_dict}", fg="cyan"))
