@@ -14,37 +14,34 @@
    limitations under the License.
 -->
 
-# Gustav-Engine
+# Horizon Builder
 
-[![Release](https://img.shields.io/github/v/release/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/v/release/Gustav-Engine/Gustav-Engine)
-[![codecov](https://codecov.io/gh/Gustav-Engine/Gustav-Engine/branch/main/graph/badge.svg?token=ZMQTFLR4RH)](https://codecov.io/gh/Gustav-Engine/Gustav-Engine)
+[![Release](https://img.shields.io/github/v/release/Horizon-Builder/Horizon-Builder)](https://img.shields.io/github/v/release/Horizon-Builder/Horizon-Builder)
 [![Python](https://img.shields.io/badge/Python-v3.11-blue)](https://www.python.org/downloads/release/python-311/)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/commit-activity/m/Gustav-Engine/Gustav-Engine)
-[![License](https://img.shields.io/github/license/Gustav-Engine/Gustav-Engine)](https://img.shields.io/github/license/Gustav-Engine/Gustav-Engine)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/Horizon-Builder/Horizon-Builder)](https://img.shields.io/github/commit-activity/m/Horizon-Builder/Horizon-Builder)
+[![License](https://img.shields.io/github/license/Horizon-Builder/Horizon-Builder)](https://img.shields.io/github/license/Horizon-Builder/Horizon-Builder)
 
 ---
 
 Attempt at a DnD 5e Character builder inspired by Aurora Builder.
 
-- **GitHub repository**: <https://github.com/Gustav-Engine/Gustav-Engine/>
-- **Documentation**: <https://Gustav-Engine.github.io/Gustav-Engine/>
+- **GitHub repository**: <https://github.com/Horizon-Builder/Horizon-Builder/>
+- **Documentation**: <https://horizon-builder.github.io/Horizon-Builder/>
 
 ## Planned features and progress
 
 The table below describes and shows some of the most requested features and improvement suggestions. The board goes as
 follows:
 
-| Idea                                                                                      | Description | Priority | Progress |
-| ----------------------------------------------------------------------------------------- | ----------- | -------- | -------- |
-| (Graphical) User Interface                                                                | TODO        | MID      | N/A      |
-| Modular + configurable PDF                                                                | TODO        | LOW      | N/A      |
-| Combat + utilities for game sessions                                                      | TODO        | LOW      | N/A      |
-| XML content compatibility from [Aurora Builder](https://aurorabuilder.com/documentation/) | TODO        | HIGH     | 1.5%     |
-| Local web app for better compatibility                                                    | TODO        | MID      | 0%       |
-| Custom content (XML) editor/studio                                                        | TODO        | MID      | N/A      |
-| GitHub community guidelines, pull request + issue templates and `**.md` updates           | TODO        | LOW      | 95%      |
-| More robust Python versions support                                                       | TODO        | LOW      | -        |
-| Cache system to speed up custom content (XML)                                             | TODO        | HIGH     | N/A      |
+| Idea                                                                                      | Description                                                                                                                                                                                                             | Priority | Progress |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- |
+| (Graphical) User Interface                                                                | Make it easier to work with data for the end user.                                                                                                                                                                      | MID      | 0%       |
+| Modular + configurable PDF                                                                | Make all kinds of DnD Character Sheet PDFs compatible for more variety and customisation options.                                                                                                                       | LOW      | N/A      |
+| Combat + utilities for game sessions                                                      | Make playing using a computer/laptop more bearable by implementing a unique sheet section with all important (combat) stats near each other and also provide tools such as a dice roller for attacks, saves and skills. | LOW      | N/A      |
+| XML content compatibility from [Aurora Builder](https://aurorabuilder.com/documentation/) | Make it so that most (if not all) already made content for Aurora is compatible with Gustav-Engine                                                                                                                      | HIGH     | 1.5%     |
+| Local web app for better compatibility                                                    | TODO                                                                                                                                                                                                                    | MID      | 35%      |
+| Custom content (XML) editor/studio                                                        | TODO                                                                                                                                                                                                                    | MID      | N/A      |
+| Cache system to speed up custom content (XML)                                             | TODO                                                                                                                                                                                                                    | HIGH     | N/A      |
 
 ## Technologies used
 

@@ -21,7 +21,7 @@ from flask import Flask
 from server import invoke_server  # type: ignore[import-not-found]
 from yaml import safe_load
 
-app_handler = Flask("Gustav-Engine")
+app_handler = Flask("Horizon Builder")
 VERSION = "v0.0.1"
 
 
@@ -45,7 +45,7 @@ def cli(
     config: PLPath,
     server_only: Literal[False] | Literal[True],
 ) -> None:
-    """Gustav-Engine
+    """Horizon Builder
 
     Attempt at a DnD 5e Character builder inspired by Aurora Builder.
     """

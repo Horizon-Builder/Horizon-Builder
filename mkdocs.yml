@@ -1,10 +1,10 @@
-site_name: Gustav-Engine
-repo_url: https://github.com/Gustav-Engine/Gustav-Engine
-site_url: https://Gustav-Engine.github.io/Gustav-Engine
+site_name: Horizon Builder
+repo_url: https://github.com/Horizon-Builder/Horizon-Builder
+site_url: https://horizon-builder.github.io/Horizon-Builder
 site_description: Attempt at a DnD 5e Character builder inspired by Aurora Builder.
 site_author: GustavoSchip
 edit_uri: edit/main/docs/
-repo_name: Gustav-Engine/Gustav-Engine
+repo_name: Horizon-Builder/Horizon-Builder
 copyright: Maintained by <a href="https://github.com/GustavoSchip">GustavoSchip</a>.
 
 nav:
@@ -43,7 +43,7 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/Gustav-Engine/Gustav-Engine
+      link: https://github.com/Horizon-Builder/Horizon-Builder
 
 markdown_extensions:
   - toc:

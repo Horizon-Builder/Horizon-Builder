@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "Gustav-Engine"
+name = "Horizon Builder"
 version = "v0.0.1"
 description = "Attempt at a DnD 5e Character builder inspired by Aurora Builder."
 authors = ["GustavoSchip <gustavoschip@proton.me>"]
-repository = "https://github.com/Gustav-Engine/Gustav-Engine"
-documentation = "https://Gustav-Engine.github.io/Gustav-Engine/"
+repository = "https://github.com/Horizon-Builder/Horizon-Builder"
+documentation = "https://horizon-builder.github.io/Horizon-Builder/"
 readme = "README.md"
 package-mode = false
 license = "LICENSE"
