@@ -18,6 +18,7 @@ from typing import Literal
 from webbrowser import open as web_open
 
 from click import echo, style
+from data import data_factory  # type: ignore[import-not-found]
 from endpoints.endpoint_api import endpoint_api  # type: ignore[import-not-found]
 from endpoints.endpoint_index import endpoint_index  # type: ignore[import-not-found]
 from flask import Flask, Response
@@ -40,8 +41,9 @@ def invoke_server(  # noqa: C901
     else:
         app_log.setLevel("ERROR")
 
-    xml_data: dict = invoke_parser(verbose=verbose, config=config)
-    echo(style(text=f"Debug: XML Data: {xml_data}", fg="green"))
+    yml_data: dict = invoke_parser(action="parse", verbose=verbose, config=config)
+    yml_files: list = invoke_parser(action="parse", verbose=verbose, config=config)
+    data_factory(data=yml_data, files=yml_files, verbose=verbose, config=config)
 
     class ServerThread(Thread):
         def __init__(self, app: Flask) -> None:
