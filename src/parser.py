@@ -24,7 +24,10 @@ def invoke_parser(action: str, verbose: Literal[False] | Literal[True], config: 
     yml_dict: dict = {}
     if action == "parse":
         for file in listdir(PurePath(config["engine"]["content"]["content_folder"])):
-            if str(file).endswith(".yml"):
+            if (
+                str(file).endswith(".yml")
+                and PurePath(config["engine"]["content"]["content_folder"], Path(file)) not in files_to_parse
+            ):
                 files_to_parse.append(PurePath(config["engine"]["content"]["content_folder"], Path(file)))
         for yml_file in files_to_parse:
             if verbose:

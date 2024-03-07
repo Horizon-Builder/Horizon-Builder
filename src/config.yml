@@ -1,7 +1,11 @@
 engine:
+  version: 1
   content:
     content_folder: ./content/
+    type: yml # Can be xml or yml
+    compatibility: false # Can be Aurora or false
   plugins:
+    plugin_folder: ./plugins/
     enabled: false
   web:
     address: 127.0.0.1
