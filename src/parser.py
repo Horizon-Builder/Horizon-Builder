@@ -1,4 +1,4 @@
-#   Copyright [2024] [GustavoSchip]
+#   Copyright 2024 GustavoSchip
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -15,35 +15,24 @@ from os import listdir
 from pathlib import Path, PurePath
 from typing import Literal
 
-from click import echo, style
-from defusedxml.ElementTree import parse  # type: ignore[import-untyped]
-
-
-class XMLError(Exception):
-    def __init__(self, message: str, error: Exception) -> None:
-        super().__init__(message)
-        self.exception = error  # TODO: update exception
+from click import FileError, echo, open_file, style
+from xmltodict import parse  # type: ignore[import-untyped]
 
 
 def invoke_parser(verbose: Literal[False] | Literal[True], config: dict) -> dict:
-    files_to_parse = []
-    xml_dict = {}  # type: ignore[var-annotated]
-    if verbose:
-        echo(style(text="Verbose: Loading XML contents...", fg="cyan"))
-    try:
-        for file in listdir(PurePath(config["engine"]["content_folder"])):
-            if str(file).endswith(".xml"):
-                files_to_parse.append(PurePath(config["engine"]["content_folder"], Path(file)))
-        for xml_file in files_to_parse:
-            parsed_xml = parse(source=xml_file, forbid_dtd=True)
-            parsed_xml_root = parsed_xml.getroot()
-            if parsed_xml_root.tag == "elements" and parsed_xml_root.attrib == {}:
-                for element in parsed_xml_root.iter("element"):  # noqa: B007
-                    pass  # TODO: implement
-                for child in element.iter():  # noqa: B007
-                    pass  # TODO: implement
-    except Exception as error:
+    files_to_parse: list = []
+    xml_dict: dict = {}
+    for file in listdir(PurePath(config["engine"]["content"]["content_folder"])):
+        if str(file).endswith(".xml"):
+            files_to_parse.append(PurePath(config["engine"]["content"]["content_folder"], Path(file)))
+    for xml_file in files_to_parse:
         if verbose:
-            echo(style(text=f"Verbose: XML Data: {xml_dict}", fg="cyan"))
-        raise XMLError(message=f"{error}", error=error)  # noqa: B904 TRY200
+            echo(style(text=f"Verbose: Trying to parse contents of '{xml_file}'", fg="cyan"))
+        try:
+            with open_file(filename=str(xml_file), encoding="utf-8") as f:
+                parsed_xml = parse(xml_input=f.read())
+                xml_dict[str(xml_file.name)] = parsed_xml
+        except (FileError, ValueError) as error:
+            echo(style(text=f"Error: {error}! Skipping...", fg="red"))
+            continue
     return xml_dict

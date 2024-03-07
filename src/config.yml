@@ -1,4 +1,10 @@
 engine:
-  content_folder: ./content/
-  address: 127.0.0.1
-  port: 80
+  content:
+    content_folder: ./content/
+  plugins:
+    enabled: false
+  web:
+    address: 127.0.0.1
+    port: 80
+    logs:
+      enabled: false

@@ -1,4 +1,4 @@
-#   Copyright [2024] [GustavoSchip]
+#   Copyright 2024 GustavoSchip
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ from typing import Literal
 
 from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
-from server import invoke_server
+from server import invoke_server  # type: ignore[import-not-found]
 from yaml import safe_load
 
 app_handler = Flask("Gustav-Engine")
@@ -26,18 +26,25 @@ VERSION = "v0.0.1"
 
 
 @command()
-@option("--verbose", "-v", is_flag=True, help="Enable verbose logging.")
-@option("--address", "-a", type=str, show_default=True, help="Specify the host address.")
-@option("--port", "-p", type=int, show_default=True, help="Specify the host port.")
+@option("--verbose", "-V", is_flag=True, help="Enable verbose logging.")
+@option("--address", "-A", type=str, show_default=True, help="Specify the host address.")
+@option("--port", "-P", type=int, show_default=True, help="Specify the host port.")
 @option(
     "--config",
-    "-c",
+    "-C",
     default="config.yml",
     type=Path(exists=True, readable=True, file_okay=True, dir_okay=False, resolve_path=True, path_type=PLPath),
     show_default=True,
     help="Specify the config file.",
 )
-def cli(verbose: Literal[False] | Literal[True], address: str | None, port: int | None, config: PLPath) -> None:
+@option("--server-only", "-So", is_flag=True, help="Only run the server.")
+def cli(
+    verbose: Literal[False] | Literal[True],
+    address: str | None,
+    port: int | None,
+    config: PLPath,
+    server_only: Literal[False] | Literal[True],
+) -> None:
     """Gustav-Engine
 
     Attempt at a DnD 5e Character builder inspired by Aurora Builder.
@@ -45,6 +52,8 @@ def cli(verbose: Literal[False] | Literal[True], address: str | None, port: int 
     echo(style(text=f"Gustav-Engine: Running version '{VERSION}' on {system()} {version()}.\n", fg="magenta"))
     if verbose:
         echo(style(text="Warning: Verbose logging enabled!", fg="yellow"))
+    if server_only:
+        echo(style(text="Warning: Server only mode enabled!", fg="yellow"))
     try:
         with open_file(filename=str(config)) as f:
             config = safe_load(f.read())
@@ -53,27 +62,26 @@ def cli(verbose: Literal[False] | Literal[True], address: str | None, port: int 
         exit(1)
     if address is None:
         try:
-            address = str(config["engine"]["address"])  # type: ignore[index]
+            address = str(config["engine"]["web"]["address"])  # type: ignore[index]
         except KeyError:
             echo(style(text="Error: Address not configured! Exiting...", fg="red"))
             exit(1)
     if port is None:
         try:
-            port = int(config["engine"]["port"])  # type: ignore[index]
+            port = int(config["engine"]["web"]["port"])  # type: ignore[index]
         except KeyError:
             echo(style(text="Error: Port not configured! Exiting...", fg="red"))
             exit(1)
     if verbose:
-        echo(style(text=f"Verbose: Host set to 'http://{address}:{port}'", fg="cyan"))
+        echo(style(text=f"Verbose: Host set to '{address}:{port}'", fg="cyan"))
 
-    if verbose:
-        echo(style(text="Verbose: Invoking server...", fg="cyan"))
     invoke_server(
         verbose=verbose,
         address=address,
         port=port,
-        config=config,  # type: ignore[arg-type]
+        config=config,
         app_handler=app_handler,
+        server_only=server_only,
     )
     return
 
