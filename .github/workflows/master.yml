@@ -82,7 +82,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          poetry install --with dev --verbose
+          poetry install --with dev,docs,main --no-interaction
 
       - name: Test with pytest
         run: make test
