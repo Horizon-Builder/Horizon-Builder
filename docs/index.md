@@ -61,6 +61,7 @@ as follows:
 
 - [Flask](https://github.com/pallets/flask)
 - [Flask-SocketIO](https://github.com/miguelgrinberg/flask-socketio)
+- [gevent](https://github.com/gevent/gevent)
 - [$ click\_](https://github.com/pallets/click)
 - [PyYAML](https://github.com/yaml/pyyaml)
 - [Pydantic](https://docs.pydantic.dev/latest/)
