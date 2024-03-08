@@ -63,7 +63,7 @@ class Stat(BaseModel):
 
     name: str
     value: int
-    type: str
+    type: str  # noqa: A003
 
 
 class Skill(BaseModel):
@@ -87,7 +87,7 @@ class Damage(BaseModel):
     additional: Optional[int] - Additional damage that is added to the result of the roll
     """
 
-    type: Optional[str]  # Slashing, Fire, etc
+    type: Optional[str]  # noqa: A003  # Slashing, Fire, etc
     roll: Optional[DieRoll]
     additional: Optional[int]
 
@@ -132,15 +132,15 @@ class Spellcasting(BaseModel):
     """
     A spellcasting class.
 
-    source: Optional[Union["Class", any]] - Tie it to a class for bonuses, etc
+    source: Optional[Union["Class", Any]] - Tie it to a class for bonuses, etc
     type: str - Prepared, Known
     spellcasting_ability: Optional[Union['Stat', str]] - The ability that the class uses to cast spells
     spells: list[Spell] - The list of spells that the class can cast
     optional_rules: Optional[str] - Any optional rules that the class uses
     """
 
-    source: Optional[Union["Class", any]]  # Tie it to a class for bonuses, etc
-    type: str  # Prepared, Known
+    source: Optional[Union["Class", Any]]  # Tie it to a class for bonuses, etc
+    type: str  # noqa: A003  # Prepared, Known
     spellcasting_ability: Optional[Union[Stat, str]]
     spells: list[Spell]
     optional_rules: Optional[str]
@@ -156,7 +156,7 @@ class Proficiency(BaseModel):
     """
 
     name: str
-    type: str
+    type: str  # noqa: A003
     description: Optional[str]
 
 
@@ -174,7 +174,7 @@ class Weapon(BaseModel):
     """
 
     name: str
-    type: list["WeaponCategory"]
+    type: list["WeaponCategory"]  # noqa: A003
     proficiency: Optional[Proficiency]
     description: Optional[str]
     damage: Optional[list[Damage]]
@@ -236,7 +236,7 @@ class Armor(BaseModel):
     """
 
     name: str
-    type: list["ArmorCategory"]
+    type: list["ArmorCategory"]  # noqa: A003
     proficiency: Optional[Proficiency]
     description: Optional[str]
     armor_class: int
