@@ -40,7 +40,7 @@ class DieRoll(BaseModel):
 class Property(BaseModel):
     """
     Misc information accociated with a 5e element.
-    Examples: age, height, weight, deity, faction, exc
+    Examples: age, height, weight, deity, faction, etc
 
     name: str - The name of the property
     type: str - The type/field that the property is associated with
@@ -87,7 +87,7 @@ class Damage(BaseModel):
     additional: Optional[int] - Additional damage that is added to the result of the roll
     """
 
-    type: Optional[str]  # Slashing, Fire, exc
+    type: Optional[str]  # Slashing, Fire, etc
     roll: Optional[DieRoll]
     additional: Optional[int]
 
@@ -132,14 +132,14 @@ class Spellcasting(BaseModel):
     """
     A spellcasting class.
 
-    source: Optional['Class'|any] - Tie it to a class for bonuses, etc
+    source: Optional[Union["Class", any]] - Tie it to a class for bonuses, etc
     type: str - Prepared, Known
     spellcasting_ability: Optional[Union['Stat', str]] - The ability that the class uses to cast spells
     spells: list[Spell] - The list of spells that the class can cast
     optional_rules: Optional[str] - Any optional rules that the class uses
     """
 
-    source: Optional["Class" | any]  # Tie it to a class for bonuses, etc
+    source: Optional[Union["Class", any]]  # Tie it to a class for bonuses, etc
     type: str  # Prepared, Known
     spellcasting_ability: Optional[Union[Stat, str]]
     spells: list[Spell]
@@ -185,7 +185,7 @@ class Weapon(BaseModel):
 class WeaponCategory(BaseModel):
     """
     A category to group weapons.
-    Examples: Simple, Martial, Ranged, Melee, Longsword, exc
+    Examples: Simple, Martial, Ranged, Melee, Longsword, etc
 
     name: str - The name of the weapon category
     description: Optional[str] - The description of the weapon category
@@ -324,12 +324,12 @@ class BackgroundFeature(BaseModel):
 
     name: str - The name of the background feature
     description: Optional[str] - The description of the background feature
-    grants: Optional[list[Union[Grant|Selection]]] - The grants of the background feature
+    grants: Optional[list[Union[Grant, Selection]]] - The grants of the background feature
     """
 
     name: str
     description: Optional[str]
-    grants: Optional[list[Union[Grant | Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
 
 
 class Background(BaseModel):
@@ -342,7 +342,7 @@ class Background(BaseModel):
     background_features: Optional[list[BackgroundFeature]] - The background features of the background
     languages: Optional[list[Language]] - The languages of the background
     stats: Optional[list[Stat]] - The stats given by the background (PHB2024, ONEDND_PLAYTEST)
-    grants: Optional[list[Union[Grant|Selection]]] - The grants of the background
+    grants: Optional[list[Union[Grant, Selection]]] - The grants of the background
     """
 
     name: str
@@ -351,7 +351,7 @@ class Background(BaseModel):
     background_features: Optional[list[BackgroundFeature]]
     languages: Optional[list[Language]]
     stats: Optional[list[Stat]]
-    grants: Optional[list[Union[Grant | Selection]]]  # Includes proficiencies, feats, etc
+    grants: Optional[list[Union[Grant, Selection]]]  # Includes proficiencies, feats, etc
 
 
 class FeatFeature(BaseModel):
@@ -360,12 +360,12 @@ class FeatFeature(BaseModel):
 
     name: str - The name of the feature
     description: Optional[str] - The description of the feature
-    grants: Optional[list[Union[Grant|Selection]]] - The grants of the feature
+    grants: Optional[list[Union[Grant, Selection]]] - The grants of the feature
     """
 
     name: str
     description: Optional[str]
-    grants: Optional[list[Union[Grant | Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
 
 
 class Feat(BaseModel):
@@ -374,7 +374,7 @@ class Feat(BaseModel):
 
     name: str - The name of the feat
     description: Optional[str] - The description of the feat
-    grants: Optional[list[Union[Grant|Selection]]] - The grants of the feat
+    grants: Optional[list[Union[Grant, Selection]]] - The grants of the feat
     feat_features: Optional[list[FeatFeature]] - The features of the feat
     """
 
@@ -404,7 +404,7 @@ class Race(BaseModel):
 
     name: str - The name of the race
     description: Optional[str] - The description of the race
-    subrace = Optional[list['SubRace'|'VarientRace']] - The selected Subrace/VarientRace
+    subrace = Optional[list['SubRace', 'VariantRace']] - The selected Subrace/VariantRace
     size: str - The size of the creature. Example: Medium, Small
     speed: int - The base speed of the creature.
     vision: Optional[Vision] - The vision granted by the race
@@ -413,7 +413,7 @@ class Race(BaseModel):
 
     name: str
     description: Optional[str]
-    subrace = Optional[list[Union["SubRace", "VarientRace"]]]
+    subrace = Optional[list[Union["SubRace", "VariantRace"]]]
     size: str
     speed: int
     vision: Optional[Vision]
@@ -438,15 +438,15 @@ class SubRace(BaseModel):
     race_features: Optional[list[RaceFeature]]
 
 
-class VarientRace(BaseModel):
+class VariantRace(BaseModel):
     """
     A subrace
 
-    name: str - The name of the varient race
-    description: Optional[str] - The description of the varient race
-    parent: The base race of the varient race
-    vision: Optional[Vision] - The vision granted by the varient race
-    race_features: Optional[list[RaceFeature]] - The features granted by the varient race
+    name: str - The name of the variant race
+    description: Optional[str] - The description of the variant race
+    parent: The base race of the variant race
+    vision: Optional[Vision] - The vision granted by the variant race
+    race_features: Optional[list[RaceFeature]] - The features granted by the variant race
     """
 
     name: str
@@ -462,12 +462,12 @@ class ClassFeature(BaseModel):
 
     name: str - The name of the feature
     description: Optional[str] - The description of the feature
-    grants: Optional[list[Union[Grant|Selection]]] - The grants of the feature
+    grants: Optional[list[Union[Grant, Selection]]] - The grants of the feature
     """
 
     name: str
     description: Optional[str]
-    grants: Optional[list[Union[Grant | Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
 
 
 class Class(BaseModel):
@@ -482,7 +482,7 @@ class Class(BaseModel):
     class_features: Optional[list[ClassFeature]] - The features of the class
     proficiency: Optional[list[Proficiency]] - The proficiencies of the class
     saving_throws: Optional[list[Stat]] - The saving throws of the class
-    grants: Optional[list[Union[Grant|Selection]]] - The grants of the class
+    grants: Optional[list[Union[Grant, Selection]]] - The grants of the class
     spellcasting: Optional[Spellcasting] - The spellcasting of the class
     """
 
@@ -494,7 +494,7 @@ class Class(BaseModel):
     class_features: Optional[list[ClassFeature]]
     proficiency: Optional[list[Proficiency]]
     saving_throws: Optional[list[Stat]]
-    grants: Optional[list[Union[Grant | Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
     spellcasting: Optional[Spellcasting]
 
 
@@ -506,14 +506,14 @@ class SubClass(BaseModel):
     parent: Class - The base class of the subclass
     description: Optional[str] - The description of the subclass
     class_features: Optional[list[ClassFeature]] - The features of the subclass
-    grants: Optional[list[Union[Grant|Selection]]] - The grants of the subclass
+    grants: Optional[list[Union[Grant, Selection]]] - The grants of the subclass
     """
 
     name: str
     parent: Class
     description: Optional[str]
     class_features: Optional[list[ClassFeature]]
-    grants: Optional[list[Union[Grant | Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
 
 
 class Character(BaseModel):
@@ -535,7 +535,7 @@ class Character(BaseModel):
     level: int
     experience: Optional[float]
     background: Optional[Background]
-    properties: Optional[list[Property]]  # Diety, Age, exc
+    properties: Optional[list[Property]]  # Diety, Age, etc
     race: Optional[Race]
     character_class: Optional[list[Class]]
     stats: Optional[list[Stat]]
