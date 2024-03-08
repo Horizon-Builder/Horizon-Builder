@@ -45,7 +45,7 @@ show_error_codes = true
 pythonpath = ["src"]
 
 [tool.deptry.per_rule_ignores]
-DEP001 = ["main", "server", "parser", "plugins", "endpoints", "interfaces", "api_actions"]
+DEP001 = ["main", "server", "parser", "data", "models", "plugins", "endpoints", "interfaces", "api_actions"]
 DEP002 = ["pyopenssl"]
 
 [tool.ruff]
