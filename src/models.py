@@ -10,7 +10,7 @@ class Grant(BaseModel):
     A grant is a way to give a character a bonus or ability.
     """
 
-    property: Any  # TODO: Figure out how to do this
+    property: Any  # noqa: A003  # TODO: Figure out how to do this
 
 
 class Selection(BaseModel):
@@ -48,7 +48,7 @@ class Property(BaseModel):
     """
 
     name: str
-    type: str
+    type: str  # noqa: A003
     description: Optional[str]
 
 
@@ -117,7 +117,7 @@ class Spell(BaseModel):
     level: int
     school: Optional[str]
     casting_time: str
-    range: Optional[int]
+    range: Optional[int]  # noqa: A003
     components_s: bool
     components_v: bool
     components_m: Optional[list[str]]
