@@ -1,4 +1,4 @@
-'Holds the models for the D&D 5e elements'
+"Holds the models for the D&D 5e elements"
 
 from typing import Optional, Union
 
@@ -9,7 +9,9 @@ class Grant(BaseModel):
     """
     A grant is a way to give a character a bonus or ability.
     """
-    property: any # TODO: Figure out how to do this
+
+    property: any  # TODO: Figure out how to do this
+
 
 class Selection(BaseModel):
     """
@@ -18,8 +20,10 @@ class Selection(BaseModel):
     name: str - The lable of the selection field
     grants: Optional[list[Grant]] - The list of grants that the selection can give
     """
+
     name: str
     grants: Optional[list[Grant]]
+
 
 class DieRoll(BaseModel):
     """
@@ -28,8 +32,10 @@ class DieRoll(BaseModel):
     die_count: int - The number of dice to roll
     die_size: int - The size of the die to roll
     """
+
     die_count: int
     die_size: int
+
 
 class Property(BaseModel):
     """
@@ -40,9 +46,11 @@ class Property(BaseModel):
     type: str - The type/field that the property is associated with
     description: Optional[str] - The value associated with the property
     """
+
     name: str
     type: str
     description: Optional[str]
+
 
 class Stat(BaseModel):
     """
@@ -52,9 +60,11 @@ class Stat(BaseModel):
     value: int - The value of the stat
     type: str - The type of the stat
     """
+
     name: str
     value: int
     type: str
+
 
 class Skill(BaseModel):
     """
@@ -63,8 +73,10 @@ class Skill(BaseModel):
     name: str - The name of the skill
     calculation: str - The calculation used to determine the value of the skill
     """
+
     name: str
     calculation: str
+
 
 class Damage(BaseModel):
     """
@@ -74,9 +86,11 @@ class Damage(BaseModel):
     roll: Optional[DieRoll] - The roll of the damage
     additional: Optional[int] - Additional damage that is added to the result of the roll
     """
-    type: Optional[str] # Slashing, Fire, exc
+
+    type: Optional[str]  # Slashing, Fire, exc
     roll: Optional[DieRoll]
     additional: Optional[int]
+
 
 class Spell(BaseModel):
     """
@@ -97,6 +111,7 @@ class Spell(BaseModel):
     damage: Optional[list[Damage]] - The damage of the spell
     properties: Optional[list[Property]] - The properties of the spell
     """
+
     name: str
     description: Optional[str]
     level: int
@@ -112,6 +127,7 @@ class Spell(BaseModel):
     damage: Optional[list[Damage]]
     properties: Optional[list[Property]]
 
+
 class Spellcasting(BaseModel):
     """
     A spellcasting class.
@@ -122,11 +138,13 @@ class Spellcasting(BaseModel):
     spells: list[Spell] - The list of spells that the class can cast
     optional_rules: Optional[str] - Any optional rules that the class uses
     """
-    source: Optional['Class'|any] # Tie it to a class for bonuses, etc
-    type: str # Prepared, Known
+
+    source: Optional["Class" | any]  # Tie it to a class for bonuses, etc
+    type: str  # Prepared, Known
     spellcasting_ability: Optional[Union[Stat, str]]
     spells: list[Spell]
     optional_rules: Optional[str]
+
 
 class Proficiency(BaseModel):
     """
@@ -136,9 +154,11 @@ class Proficiency(BaseModel):
     type: str - The type of the proficiency
     description: Optional[str] - The description of the proficiency
     """
+
     name: str
     type: str
     description: Optional[str]
+
 
 class Weapon(BaseModel):
     """
@@ -152,13 +172,15 @@ class Weapon(BaseModel):
     properties: Optional[list[Property]] - The properties of the weapon
     weight: Optional[int] - The weight of the weapon
     """
+
     name: str
-    type: list['WeaponCategory']
+    type: list["WeaponCategory"]
     proficiency: Optional[Proficiency]
     description: Optional[str]
     damage: Optional[list[Damage]]
     properties: Optional[list[Property]]
     weight: Optional[int]
+
 
 class WeaponCategory(BaseModel):
     """
@@ -169,9 +191,11 @@ class WeaponCategory(BaseModel):
     description: Optional[str] - The description of the weapon category
     weapons: Optional[list[Union[Weapon,'WeaponCategory']]] - The weapons in the category
     """
+
     name: str
     description: Optional[str]
-    weapons: Optional[list[Union[Weapon,'WeaponCategory']]]
+    weapons: Optional[list[Union[Weapon, "WeaponCategory"]]]
+
 
 class MagicWeapon(BaseModel):
     """
@@ -186,14 +210,16 @@ class MagicWeapon(BaseModel):
     properties: Optional[list[Property]] - The properties of the weapon
     hit_bonus: Optional[int] - The hit bonus of the weapon
     """
+
     name: str
     parent: Optional[Weapon]
     description: Optional[str]
     damage: Optional[list[Damage]]
     damage_bonus: Optional[int]
-    grants: Optional[list[Union[Grant,Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
     properties: Optional[list[Property]]
     hit_bonus: Optional[int]
+
 
 class Armor(BaseModel):
     """
@@ -208,14 +234,16 @@ class Armor(BaseModel):
     weight: Optional[int] - The weight of the armor
     properties: Optional[list[Property]] - The properties of the armor
     """
+
     name: str
-    type: list['ArmorCategory']
+    type: list["ArmorCategory"]
     proficiency: Optional[Proficiency]
     description: Optional[str]
     armor_class: int
     stealth_disadvantage: bool
     weight: Optional[int]
     properties: Optional[list[Property]]
+
 
 class ArmorCategory(BaseModel):
     """
@@ -228,11 +256,13 @@ class ArmorCategory(BaseModel):
     strength_requirement: Optional[int] - The strength requirement of the armor
     ac_calculation: Optional[str] - The standard calculation used to determine the armor class of the armor
     """
+
     name: str
     description: Optional[str]
-    armors: Optional[list[Union[Armor,'ArmorCategory']]]
+    armors: Optional[list[Union[Armor, "ArmorCategory"]]]
     strength_requirement: Optional[int]
     ac_calculation: Optional[str]
+
 
 class MagicArmor(BaseModel):
     """
@@ -249,6 +279,7 @@ class MagicArmor(BaseModel):
     grants: Optional[list[Union[Grant,Selection]]] - The grants of the armor
     properties: Optional[list[Property]] - The properties of the armor
     """
+
     name: str
     parent: Optional[Armor]
     description: Optional[str]
@@ -257,8 +288,9 @@ class MagicArmor(BaseModel):
     stealth_disadvantage_override: bool
     strength_requirement_override: Optional[int]
     weight_override: Optional[int]
-    grants: Optional[list[Union[Grant,Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
     properties: Optional[list[Property]]
+
 
 class Vision(BaseModel):
     """
@@ -268,9 +300,11 @@ class Vision(BaseModel):
     description: Optional[str] - The description of the vision type
     distance: int - The distance of the vision type
     """
+
     name: str
     description: Optional[str]
     distance: int
+
 
 class Language(BaseModel):
     """
@@ -279,8 +313,10 @@ class Language(BaseModel):
     name: str - The name of the language
     description: Optional[str] - The description of the language
     """
+
     name: str
     description: Optional[str]
+
 
 class BackgroundFeature(BaseModel):
     """
@@ -290,9 +326,11 @@ class BackgroundFeature(BaseModel):
     description: Optional[str] - The description of the background feature
     grants: Optional[list[Union[Grant|Selection]]] - The grants of the background feature
     """
+
     name: str
     description: Optional[str]
-    grants: Optional[list[Union[Grant|Selection]]]
+    grants: Optional[list[Union[Grant | Selection]]]
+
 
 class Background(BaseModel):
     """
@@ -306,13 +344,15 @@ class Background(BaseModel):
     stats: Optional[list[Stat]] - The stats given by the background (PHB2024, ONEDND_PLAYTEST)
     grants: Optional[list[Union[Grant|Selection]]] - The grants of the background
     """
+
     name: str
     version: str
     description: Optional[str]
     background_features: Optional[list[BackgroundFeature]]
     languages: Optional[list[Language]]
     stats: Optional[list[Stat]]
-    grants: Optional[list[Union[Grant|Selection]]] # Includes proficiencies, feats, etc
+    grants: Optional[list[Union[Grant | Selection]]]  # Includes proficiencies, feats, etc
+
 
 class FeatFeature(BaseModel):
     """
@@ -322,9 +362,11 @@ class FeatFeature(BaseModel):
     description: Optional[str] - The description of the feature
     grants: Optional[list[Union[Grant|Selection]]] - The grants of the feature
     """
+
     name: str
     description: Optional[str]
-    grants: Optional[list[Union[Grant|Selection]]]
+    grants: Optional[list[Union[Grant | Selection]]]
+
 
 class Feat(BaseModel):
     """
@@ -335,10 +377,12 @@ class Feat(BaseModel):
     grants: Optional[list[Union[Grant|Selection]]] - The grants of the feat
     feat_features: Optional[list[FeatFeature]] - The features of the feat
     """
+
     name: str
     description: Optional[str]
-    grants: Optional[list[Union[Grant,Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
     feat_features: Optional[list[FeatFeature]]
+
 
 class RaceFeature(BaseModel):
     """
@@ -348,9 +392,11 @@ class RaceFeature(BaseModel):
     description: Optional[str] - The description of the feature
     grants: Optional[list[Union[Grant,Selection]]] - The grants of the feature
     """
+
     name: str
     description: Optional[str]
-    grants: Optional[list[Union[Grant,Selection]]]
+    grants: Optional[list[Union[Grant, Selection]]]
+
 
 class Race(BaseModel):
     """
@@ -364,13 +410,15 @@ class Race(BaseModel):
     vision: Optional[Vision] - The vision granted by the race
     race_features: Optional[list[RaceFeature]] - The features granted by the race
     """
+
     name: str
     description: Optional[str]
-    subrace = Optional[list[Union['SubRace','VarientRace']]]
+    subrace = Optional[list[Union["SubRace", "VarientRace"]]]
     size: str
     speed: int
     vision: Optional[Vision]
     race_features: Optional[list[RaceFeature]]
+
 
 class SubRace(BaseModel):
     """
@@ -382,11 +430,13 @@ class SubRace(BaseModel):
     vision: Optional[Vision] - The vision granted by the subrace
     race_features: Optional[list[RaceFeature]] - The features granted by the subrace
     """
+
     name: str
     description: Optional[str]
     parent: Race
     vision: Optional[Vision]
     race_features: Optional[list[RaceFeature]]
+
 
 class VarientRace(BaseModel):
     """
@@ -398,11 +448,13 @@ class VarientRace(BaseModel):
     vision: Optional[Vision] - The vision granted by the varient race
     race_features: Optional[list[RaceFeature]] - The features granted by the varient race
     """
+
     name: str
     description: Optional[str]
     parent: Race
     vision: Optional[Vision]
     race_features: Optional[list[RaceFeature]]
+
 
 class ClassFeature(BaseModel):
     """
@@ -412,9 +464,11 @@ class ClassFeature(BaseModel):
     description: Optional[str] - The description of the feature
     grants: Optional[list[Union[Grant|Selection]]] - The grants of the feature
     """
+
     name: str
     description: Optional[str]
-    grants: Optional[list[Union[Grant|Selection]]]
+    grants: Optional[list[Union[Grant | Selection]]]
+
 
 class Class(BaseModel):
     """
@@ -431,16 +485,18 @@ class Class(BaseModel):
     grants: Optional[list[Union[Grant|Selection]]] - The grants of the class
     spellcasting: Optional[Spellcasting] - The spellcasting of the class
     """
+
     name: str
     level: int
     hit_die: int
     description: Optional[str]
-    subclass = Optional[list['SubClass']]
+    subclass = Optional[list["SubClass"]]
     class_features: Optional[list[ClassFeature]]
     proficiency: Optional[list[Proficiency]]
     saving_throws: Optional[list[Stat]]
-    grants: Optional[list[Union[Grant|Selection]]]
+    grants: Optional[list[Union[Grant | Selection]]]
     spellcasting: Optional[Spellcasting]
+
 
 class SubClass(BaseModel):
     """
@@ -452,11 +508,13 @@ class SubClass(BaseModel):
     class_features: Optional[list[ClassFeature]] - The features of the subclass
     grants: Optional[list[Union[Grant|Selection]]] - The grants of the subclass
     """
+
     name: str
     parent: Optional[Class]
     description: Optional[str]
     class_features: Optional[list[ClassFeature]]
-    grants: Optional[list[Union[Grant|Selection]]]
+    grants: Optional[list[Union[Grant | Selection]]]
+
 
 class Character(BaseModel):
     """
@@ -473,10 +531,11 @@ class Character(BaseModel):
     skills: Optional[list[Skill]] - The skills of the character
     proficiency: Optional[list[Proficiency]] - The proficiencies of the character
     """
+
     level: int
     experience: Optional[float]
     background: Optional[Background]
-    properties: Optional[list[Property]] # Diety, Age, exc
+    properties: Optional[list[Property]]  # Diety, Age, exc
     race: Optional[Race]
     character_class: Optional[list[Class]]
     stats: Optional[list[Stat]]

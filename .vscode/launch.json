@@ -6,14 +6,10 @@
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src",
-			"python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "program": "main.py",
             "justMyCode": true,
-            "args": [
-                "--config",
-                "config.yml",
-                "--verbose",
-            ]
+            "args": ["--config", "config.yml", "--verbose"]
         }
     ]
 }
