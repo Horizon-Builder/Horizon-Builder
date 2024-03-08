@@ -24,7 +24,7 @@ list any relevant details for your test configuration
 
 **Test Configuration**:
 
-- Gustav-Engine version: ` `
+- Horizon Builder version: ` `
 - OS: ` `
 - Python version: ` `
 
