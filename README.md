@@ -49,7 +49,7 @@ follows:
 The following technologies (packages) are currently used in the project, the technologies listed below are the ones that
 are included in the packaged release:
 
-- [defusedxml](https://github.com/tiran/defusedxml)
 - [Flask](https://github.com/pallets/flask)
 - [$ click\_](https://github.com/pallets/click)
 - [PyYAML](https://github.com/yaml/pyyaml)
+- [Pydantic](https://docs.pydantic.dev/latest/)

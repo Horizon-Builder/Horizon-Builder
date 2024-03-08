@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "Horizon Builder"
 version = "v0.0.1"
-description = "Attempt at a DnD 5e Character builder inspired by Aurora Builder."
+description = "A 5e Character builder inspired by Aurora Builder."
 authors = ["GustavoSchip <gustavoschip@proton.me>"]
 repository = "https://github.com/Horizon-Builder/Horizon-Builder"
 documentation = "https://horizon-builder.github.io/Horizon-Builder/"
@@ -11,19 +11,19 @@ license = "LICENSE"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
-flask = "^3.0.2"
 click = "^8.1.7"
+flask = "^3.0.2"
+pydantic = "^2.6.3"
+pyopenssl = "^24.0.0"
 PyYAML = "^6.0.1"
 Werkzeug = "^3.0.1"
-pyopenssl = "^24.0.0"
-pydantic = "^2.6.3"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.2.0"
-pytest-cov = "^4.0.0"
 deptry = "^0.12.0"
 mypy = "^1.5.1"
 pre-commit = "^3.4.0"
+pytest = "^7.2.0"
+pytest-cov = "^4.0.0"
 types-PyYAML = "^6.0.12.12"
 
 [tool.poetry.group.docs.dependencies]
@@ -33,19 +33,19 @@ mkdocstrings = { extras = ["python"], version = "^0.23.0" }
 
 [tool.mypy]
 files = ["src"]
-disallow_untyped_defs = "True"
-disallow_any_unimported = "True"
-no_implicit_optional = "True"
-check_untyped_defs = "True"
-warn_return_any = "True"
-warn_unused_ignores = "True"
-show_error_codes = "True"
+disallow_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+show_error_codes = true
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 
 [tool.deptry.per_rule_ignores]
-DEP001 = ["main", "server", "parser", "plugins", "endpoints", "interfaces", "api_actions"]
+DEP001 = ["main", "server", "parser", "data", "models", "plugins", "endpoints", "interfaces", "api_actions"]
 DEP002 = ["pyopenssl"]
 
 [tool.ruff]

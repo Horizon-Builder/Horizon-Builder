@@ -19,7 +19,7 @@ from click import FileError, echo, open_file, style
 from yaml import safe_load
 
 
-def invoke_parser(action: str, verbose: Literal[False] | Literal[True], config: dict) -> dict | list:
+def invoke_parser(action: str, verbose: Literal[False] | Literal[True], config: dict) -> dict | list:  # type: ignore[return]
     files_to_parse: list = []
     yml_dict: dict = {}
     if action == "parse":
