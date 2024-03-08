@@ -14,6 +14,7 @@
 from typing import Literal
 
 from click import echo, style
+
 # TODO: Implement without '*'
 # from models import *  # type: ignore[import-not-found]
 
