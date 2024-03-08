@@ -1,6 +1,6 @@
 "Holds the models for the D&D 5e elements"
 
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from pydantic import BaseModel
 
@@ -10,7 +10,7 @@ class Grant(BaseModel):
     A grant is a way to give a character a bonus or ability.
     """
 
-    property: any  # TODO: Figure out how to do this
+    property: Any  # TODO: Figure out how to do this
 
 
 class Selection(BaseModel):
