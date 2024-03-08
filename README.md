@@ -53,3 +53,4 @@ are included in the packaged release:
 - [Flask](https://github.com/pallets/flask)
 - [$ click\_](https://github.com/pallets/click)
 - [PyYAML](https://github.com/yaml/pyyaml)
+- [Pydantic](https://docs.pydantic.dev/latest/)

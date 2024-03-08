@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Horizon Launch (Poetry)",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/src",
+			"python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "program": "main.py",
+            "justMyCode": true,
+            "args": [
+                "--config",
+                "config.yml",
+                "--verbose",
+            ]
+        }
+    ]
+}

@@ -69,7 +69,7 @@ If you are using `pyenv`, select a version to use locally. (See installed versio
 pyenv local <x.y.z>
 ```
 
-Then, install and activate the environment with:
+Using [Poetry](https://python-poetry.org/docs/), install and activate the environment with:
 
 ```bash
 poetry install
