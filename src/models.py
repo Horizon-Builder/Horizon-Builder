@@ -510,7 +510,7 @@ class SubClass(BaseModel):
     """
 
     name: str
-    parent: Optional[Class]
+    parent: Class
     description: Optional[str]
     class_features: Optional[list[ClassFeature]]
     grants: Optional[list[Union[Grant | Selection]]]
