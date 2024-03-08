@@ -39,7 +39,7 @@ VERSION = "v0.0.1"
 )
 @option("--server-only", "-So", is_flag=True, help="Only run the server.")
 def cli(
-    verbose: Literal[False] | Literal[True],
+    verbose: Literal[True, False],
     address: str | None,
     port: int | None,
     config: PLPath,

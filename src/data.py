@@ -19,7 +19,7 @@ from click import echo, style
 # from models import *  # type: ignore[import-not-found]
 
 
-def data_factory(data: dict, files: list, verbose: Literal[False] | Literal[True], config: dict) -> None:
+def data_factory(data: dict, files: list, verbose: Literal[True, False], config: dict) -> None:
     if config["engine"]["content"]["type"].lower() != "yml":
         echo(style(text=f"Error: Unsupported content type '{config['engine']['content']['type'].lower()}'.", fg="red"))
         return

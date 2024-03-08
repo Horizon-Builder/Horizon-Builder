@@ -27,12 +27,12 @@ from werkzeug.serving import make_server
 
 
 def invoke_server(  # noqa: C901
-    verbose: Literal[False] | Literal[True],
+    verbose: Literal[True, False],
     address: str,
     port: int,
     config: dict,
     app_handler: Flask,
-    server_only: Literal[False] | Literal[True],
+    server_only: Literal[True, False],
 ) -> None:
     app_log = getLogger("werkzeug")
     app_log.disabled = False
