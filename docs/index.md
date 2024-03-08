@@ -42,6 +42,7 @@ follows:
 | Custom content (YML) editor/studio                          | TODO                                                                                                                                                                                                                    | MID      | N/A      |
 | Cache system to speed up custom content (YML)               | TODO                                                                                                                                                                                                                    | MID      | N/A      |
 | DM Source control + campaign level config files for sources | TODO                                                                                                                                                                                                                    | LOW      | N/A      |
+| Websockets for DM \<-> Player Aurora sessions               | TODO                                                                                                                                                                                                                    | LOW      | ~0%      |
 
 ## Technologies used
 
