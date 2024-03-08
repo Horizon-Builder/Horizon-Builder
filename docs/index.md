@@ -53,7 +53,8 @@ follows:
 
 ## Most notable packages used
 
-The following packages are currently used in the project, without them, Horizon Builder would be nothing. They list goes as follows:
+The following packages are currently used in the project, without them, Horizon Builder would be nothing. They list goes
+as follows:
 
 <details>
 <summary>List of Packages</summary>

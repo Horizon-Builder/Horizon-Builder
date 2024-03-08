@@ -33,6 +33,7 @@ def invoke_server(  # noqa: C901
     config: dict,
     app_handler: Flask,
     server_only: Literal[True, False],
+    interface_only: Literal[True, False],
 ) -> None:
     app_log = getLogger("werkzeug")
     app_log.disabled = False
@@ -86,19 +87,11 @@ def invoke_server(  # noqa: C901
         return
 
     start_server()
-    if server_only:
-        while True:
-            try:
-                sleep(0.01)
-            except KeyboardInterrupt:
-                stop_server()
-                break
-    else:
-        while True:
-            try:
-                sleep(0.01)  # TODO: implement interactive UI logic from this point on
-            except KeyboardInterrupt:
-                stop_server()
-                break
+    while True:
+        try:
+            sleep(0.01)  # TODO: implement interactive UI logic from this point on
+        except KeyboardInterrupt:
+            stop_server()
+            break
     sleep(0.01)  # Fixes some weird echo() behavior near the closing of the program.
     return
