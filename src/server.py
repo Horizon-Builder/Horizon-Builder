@@ -12,8 +12,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 # from threading import Thread
-from time import sleep
-from typing import Any, Literal
+from collections.abc import Callable
+from typing import Any, Literal, Union
 
 from click import echo, style
 from data import data_factory  # type: ignore[import-not-found]
@@ -31,7 +31,7 @@ def invoke_server(
     app_handler: Flask,
     server_only: Literal[True, False],
     interface_only: Literal[True, False],
-) -> None:
+) -> Union[tuple[True, Callable], None]:
     yml_data: dict = invoke_parser(action="parse", verbose=verbose, config=config)
     yml_files: list = invoke_parser(action="parse", verbose=verbose, config=config)
     data_factory(data=yml_data, files=yml_files, verbose=verbose, config=config)
@@ -44,7 +44,12 @@ def invoke_server(
 
     def start_server() -> None:
         if verbose:
-            echo(style(text=f"Verbose: WebSockets running on 'wss://{address}:{port}'.", fg="cyan"))
+            echo(
+                style(
+                    text=f"Verbose: WebSockets running on 'wss://{address}:{port}'.",
+                    fg="cyan",
+                )
+            )
         app_sockets.run(host=address, port=port, app=app_handler)
         return
 
@@ -55,11 +60,4 @@ def invoke_server(
         return
 
     start_server()
-    while True:
-        try:
-            sleep(0.01)  # TODO: implement interactive UI logic from this point on
-        except KeyboardInterrupt:
-            stop_server()
-            break
-    sleep(0.01)  # Fixes some weird echo() behavior near the closing of the program.
-    return
+    return (True, stop_server)  # Everything is set up, returning to main.py

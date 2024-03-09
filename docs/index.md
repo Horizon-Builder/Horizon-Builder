@@ -59,7 +59,7 @@ as follows:
 <details>
 <summary>List of Packages</summary>
 
-- [Flask](https://github.com/pallets/flask)
+- [FastAPI](https://github.com/tiangolo/fastapi)
 - [Flask-SocketIO](https://github.com/miguelgrinberg/flask-socketio)
 - [gevent](https://github.com/gevent/gevent)
 - [$ click\_](https://github.com/pallets/click)
