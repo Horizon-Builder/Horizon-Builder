@@ -19,7 +19,6 @@ gevent-websocket = "^0.10.1"
 pydantic = "^2.6.3"
 pyopenssl = "^24.0.0"
 PyYAML = "^6.0.1"
-Werkzeug = "^3.0.1"
 
 [tool.poetry.group.dev.dependencies]
 deptry = "^0.12.0"
@@ -48,7 +47,7 @@ show_error_codes = true
 pythonpath = ["src"]
 
 [tool.deptry.per_rule_ignores]
-DEP001 = ["main", "server", "parser", "data", "models", "plugins", "endpoints", "interfaces", "api_actions"]
+DEP001 = ["main", "server", "parser", "data", "models", "plugins", "websockets", "endpoints", "interfaces", "api_actions"]
 DEP002 = ["pyopenssl", "gevent", "gevent-websocket"]
 
 [tool.ruff]

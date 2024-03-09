@@ -11,9 +11,11 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-from flask import Response, jsonify
+from uuid import uuid1
+
+from flask_socketio import emit  # type: ignore[import-untyped]
 
 
-def action_ping() -> Response:
-    response: dict = {"Message": "Pong!"}
-    return jsonify(response)
+def session(json: dict) -> None:
+    emit("server", {"session": {"id": str(uuid1()), "data": json}})
+    return

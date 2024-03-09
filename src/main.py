@@ -14,7 +14,7 @@
 from pathlib import Path as PLPath
 from platform import system, version
 from sys import argv, exit
-from typing import Literal
+from typing import Literal, Union
 
 from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
@@ -41,8 +41,8 @@ VERSION = "v0.0.1"
 @option("--interface-only", "-Io", is_flag=True, help="Only run the interface.")
 def cli(  # noqa: C901
     verbose: Literal[True, False],
-    address: str | None,
-    port: int | None,
+    address: Union[str, None],
+    port: Union[int, None],
     config: PLPath,
     server_only: Literal[True, False],
     interface_only: Literal[True, False],
@@ -80,7 +80,7 @@ def cli(  # noqa: C901
             echo(style(text="Error: Port not configured! Exiting...", fg="red"))
             exit(1)
     if verbose:
-        echo(style(text=f"Verbose: Host set to '{address}:{port}'", fg="cyan"))
+        echo(style(text=f"Verbose: Host set to '{address}:{port}'.", fg="cyan"))
 
     invoke_server(
         verbose=verbose,
