@@ -31,33 +31,44 @@ def invoke_server(
     app_handler: Flask,
     server_only: Literal[True, False],
     interface_only: Literal[True, False],
-) -> Union[tuple[True, Callable], None]:
+) -> Union[tuple[Literal[True], Callable], None]:
     yml_data: dict = invoke_parser(action="parse", verbose=verbose, config=config)
     yml_files: list = invoke_parser(action="parse", verbose=verbose, config=config)
     data_factory(data=yml_data, files=yml_files, verbose=verbose, config=config)
 
-    app_sockets: SocketIO = SocketIO(app_handler, async_mode="gevent", ssl_context="adhoc")  # type: ignore[no-any-unimported]
+    app_sockets: SocketIO = SocketIO(app_handler, async_mode="gevent")  # type: ignore[no-any-unimported]
 
-    @app_sockets.on(message="session", namespace="/")
+    @app_sockets.on(message="session", namespace="/session")
     def test(json: Any) -> Any:
         return session(json=json)
+
+    @app_handler.get("/")
+    def read_root() -> dict:
+        return {"Hello": "World"}
 
     def start_server() -> None:
         if verbose:
             echo(
                 style(
-                    text=f"Verbose: WebSockets running on 'wss://{address}:{port}'.",
+                    text=f"Verbose: WebSockets server running on 'ws://{address}:{port}'.",
                     fg="cyan",
                 )
             )
+            echo(
+                style(
+                    text=f"Verbose: HTTP server running on 'https://{address}:{port}'.",
+                    fg="cyan",
+                )
+            )
+
         app_sockets.run(host=address, port=port, app=app_handler)
         return
 
-    def stop_server() -> None:
+    def stop_servers() -> None:
         if verbose:
-            echo(style(text="Verbose: WebSockets are exiting...", fg="cyan"))
+            echo(style(text="Verbose: Servers are exiting...", fg="cyan"))
         app_sockets.stop()
         return
 
     start_server()
-    return (True, stop_server)  # Everything is set up, returning to main.py
+    return True, stop_servers  # Everything is set up, returning to main.py

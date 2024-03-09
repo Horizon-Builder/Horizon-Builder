@@ -23,14 +23,14 @@ from flask import Flask
 from server import invoke_server  # type: ignore[import-not-found]
 from yaml import safe_load
 
-app_handler = Flask("Horizon Builder")
+app_handler: Flask = Flask("Horizon Builder")
 VERSION = "v0.0.1"
 
 
 @command()
 @option("--verbose", "-V", is_flag=True, help="Enable verbose logging.")
 @option("--address", "-A", type=str, show_default=True, help="Specify the host address.")
-@option("--port", "-P", type=int, show_default=True, help="Specify the host port.")
+@option("--port", "-P", type=int, show_default=True, help="Specify the host HTTP port.")
 @option(
     "--config",
     "-C",
@@ -48,6 +48,7 @@ VERSION = "v0.0.1"
 )
 @option("--server-only", "-So", is_flag=True, help="Only run the server.")
 @option("--interface-only", "-Io", is_flag=True, help="Only run the interface.")
+# ^ Make the server not open connection for outside, and remove/stop protocols related to it
 def cli(  # noqa: C901
     verbose: Literal[True, False],
     address: Union[str, None],
@@ -96,12 +97,12 @@ def cli(  # noqa: C901
         try:
             port = int(config["engine"]["web"]["port"])  # type: ignore[index]
         except KeyError:
-            echo(style(text="Error: Port not configured! Exiting...", fg="red"))
+            echo(style(text="Error: HTTP port not configured! Exiting...", fg="red"))
             exit(1)
     if verbose:
-        echo(style(text=f"Verbose: Host set to '{address}:{port}'.", fg="cyan"))
+        echo(style(text=f"Verbose: Host set to '{address}'.", fg="cyan"))
 
-    out, stop_server = invoke_server(
+    out, stop_servers = invoke_server(
         verbose=verbose,
         address=address,
         port=port,
@@ -110,14 +111,17 @@ def cli(  # noqa: C901
         server_only=server_only,
         interface_only=interface_only,
     )
-    if out is True and type(stop_server) == Callable:
+    if out is True and isinstance(stop_servers, Callable):  # type: ignore[arg-type]
         while True:
             try:
                 sleep(0.01)  # TODO: implement interactive UI logic from this point on
             except KeyboardInterrupt:
-                stop_server()
+                stop_servers()
                 break
         sleep(0.01)  # Fixes some weird echo() behavior near the closing of the program.
+    else:
+        echo(style(text="Error: Server had problems running! Exiting...", fg="red"))
+        exit(1)
     return
 
 
