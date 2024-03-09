@@ -39,5 +39,9 @@ Add yourselves here:
 ###Application Features
 ##The Dumping Ground
 ###Yet to be Incorporated
+* Ability to add a custom standard array
+* More UI customization
+* Ability to buy items for a custom amount
+* Spell point support
 ###Awaiting further discussion with Dev team
 ###Put on Hold for a rainy day
