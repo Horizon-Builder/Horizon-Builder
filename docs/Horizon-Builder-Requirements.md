@@ -44,5 +44,6 @@ Add yourselves here:
 * Ability to buy items for a custom amount
 * Spell point support
 * filter out specific types of elements from a source. For example, maybe someone likes a lot of one source but doesn't want specifically the spells
+* plugin support sometime after ALPHA, maybe add some hooks/overrides so that they can expand them that way for functionallity and the generics can be done via config (can be set in app) with like the basic color/accent setter base theme dark/light you know the drill
 ###Awaiting further discussion with Dev team
 ###Put on Hold for a rainy day
