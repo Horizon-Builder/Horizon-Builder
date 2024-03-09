@@ -43,5 +43,6 @@ Add yourselves here:
 * More UI customization
 * Ability to buy items for a custom amount
 * Spell point support
+* filter out specific types of elements from a source. For example, maybe someone likes a lot of one source but doesn't want specifically the spells
 ###Awaiting further discussion with Dev team
 ###Put on Hold for a rainy day
