@@ -25,7 +25,7 @@ def data_factory(data: dict, files: list, verbose: Literal[True, False], config:
         return
     for file in files:
         if verbose:
-            echo(style(text=f"Verbose: Trying to process contents of '{file}'", fg="cyan"))
+            echo(style(text=f"Verbose: Trying to process contents of '{file}'.", fg="cyan"))
         data = data[file]
         if data["engine"]["encoding"].lower() != "utf-8":
             echo(style(text=f"Error: Unsupported encoding '{data['engine']['encoding'].lower()}'.", fg="red"))

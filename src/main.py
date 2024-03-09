@@ -14,7 +14,7 @@
 from pathlib import Path as PLPath
 from platform import system, version
 from sys import argv, exit
-from typing import Literal
+from typing import Literal, Union
 
 from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
@@ -38,12 +38,14 @@ VERSION = "v0.0.1"
     help="Specify the config file.",
 )
 @option("--server-only", "-So", is_flag=True, help="Only run the server.")
-def cli(
+@option("--interface-only", "-Io", is_flag=True, help="Only run the interface.")
+def cli(  # noqa: C901
     verbose: Literal[True, False],
-    address: str | None,
-    port: int | None,
+    address: Union[str, None],
+    port: Union[int, None],
     config: PLPath,
-    server_only: Literal[False] | Literal[True],
+    server_only: Literal[True, False],
+    interface_only: Literal[True, False],
 ) -> None:
     """Horizon Builder
 
@@ -52,8 +54,13 @@ def cli(
     echo(style(text=f"Gustav-Engine: Running version '{VERSION}' on {system()} {version()}.\n", fg="magenta"))
     if verbose:
         echo(style(text="Warning: Verbose logging enabled!", fg="yellow"))
+    if interface_only:
+        echo(style(text="Warning: Interface only mode enabled!", fg="yellow"))
     if server_only:
         echo(style(text="Warning: Server only mode enabled!", fg="yellow"))
+    if server_only and interface_only:
+        echo(style(text="Error: Server only mode and interface mode are both enabled!", fg="red"))
+        exit(1)
     try:
         with open_file(filename=str(config)) as f:
             config = safe_load(f.read())
@@ -73,7 +80,7 @@ def cli(
             echo(style(text="Error: Port not configured! Exiting...", fg="red"))
             exit(1)
     if verbose:
-        echo(style(text=f"Verbose: Host set to '{address}:{port}'", fg="cyan"))
+        echo(style(text=f"Verbose: Host set to '{address}:{port}'.", fg="cyan"))
 
     invoke_server(
         verbose=verbose,
@@ -82,6 +89,7 @@ def cli(
         config=config,
         app_handler=app_handler,
         server_only=server_only,
+        interface_only=interface_only,
     )
     return
 

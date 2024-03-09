@@ -9,6 +9,4 @@ engine:
     enabled: false # TODO: Implement...
   web:
     address: 127.0.0.1
-    port: 80
-    logs:
-      enabled: false
+    port: 17100

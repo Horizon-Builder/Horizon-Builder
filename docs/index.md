@@ -53,13 +53,15 @@ follows:
 
 ## Most notable packages used
 
-The following packages are currently used in the project, without them, Horizon Builder would be nothing. They list goes as follows:
+The following packages are currently used in the project, without them, Horizon Builder would be nothing. They list goes
+as follows:
 
 <details>
 <summary>List of Packages</summary>
 
 - [Flask](https://github.com/pallets/flask)
 - [Flask-SocketIO](https://github.com/miguelgrinberg/flask-socketio)
+- [gevent](https://github.com/gevent/gevent)
 - [$ click\_](https://github.com/pallets/click)
 - [PyYAML](https://github.com/yaml/pyyaml)
 - [Pydantic](https://docs.pydantic.dev/latest/)
