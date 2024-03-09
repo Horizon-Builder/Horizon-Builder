@@ -31,7 +31,12 @@ def invoke_parser(action: str, verbose: Literal[True, False], config: dict) -> d
                 files_to_parse.append(PurePath(config["engine"]["content"]["content_folder"], Path(file)))
         for yml_file in files_to_parse:
             if verbose:
-                echo(style(text=f"Verbose: Trying to parse contents of '{yml_file}'.", fg="cyan"))
+                echo(
+                    style(
+                        text=f"Verbose: Trying to parse contents of '{yml_file}'.",
+                        fg="cyan",
+                    )
+                )
             try:
                 with open_file(filename=str(yml_file), encoding="utf-8") as f:
                     parsed_yml = safe_load(stream=f.read())
