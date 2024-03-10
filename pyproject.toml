@@ -17,7 +17,7 @@ flask = { extras = ["async"], version = "^3.0.2" }
 gevent = "^24.2.1"
 gevent-websocket = "^0.10.1"
 pydantic = "^2.6.3"
-pyopenssl = "^24.0.0"
+pyopenssl = "^24.1.0"
 PyYAML = "^6.0.1"
 
 [tool.poetry.group.dev.dependencies]
