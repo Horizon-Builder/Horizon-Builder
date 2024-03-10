@@ -1,23 +1,28 @@
-#Horizon Builder
+# Horizon Builder
 
-##Project Objective
+## Project Objective
+
 To develop an OpenSource character creation application for Dungeons and Dragons 5th Edition, as a spiritual successor to the Aurora Builder application.
 
-###Project Background
+### Project Background
+
 Aurora Builder was a character building application developed by Bas Driessen and released for public consumption in _year_. The application allows users to create XML files and import them as content into the application. This method has allowed Aurora Builder to support every D&D 5e source to date, along with numerous 3rd party sources and a significant body of homebrew content. The author eventually decided to abandon development on the Aurora Builder application for various reasons, and did not share the source code before ceasing contact, shutting down the Patreon, and all but disappearing. 
 In the wake of this situation, several community members stepped up to maintain the Legacy of Aurora Builder. They continue to maintain the repositories of GitHub indices allowing the content to be shared and available for use by those creating characters. They also assist anyone who wishes to create homebrew content for Aurora and how to implement it.
 From within this community of creators and codeheads, several attempts have been made to produce a successor to Aurora Builder. These have begun with the goal of trying to rectify many of the issues faced by Aurora left unfinished by its original author. Without access to the original code, this was almost impossible, and required starting from the ground up. Due to the sheer amount of work required to develop an application like this, all previous attempts have gone unfulfilled.
 Horizon will be the exception, achieving where previously we have not been able to. The app will support 5e character creation, from official, 3rd party and homebrew sources, and provide tools for the D&D community to develop their own content for inclusion into the application. Horizon's aims are to incorporate the hard work produced in supporting Aurora, build upon it, fix the internal troubles, and add new and enhanced features, while staying true to its roots and providing compatibility to ingest and inherit Aurora files for use with the new Horizon app, ensuring continuity with past content and into the future. By remaining OpenSource from inception, the hope is that Horizon Builder will continue for as long as there is a community who wants to use it.
 
-##Project Team
+## Project Team
+
 Add yourselves here:
-* TEAM TITLE - NAME
+* Owner - GustavoSchip
 * TEAM TITLE - NAME
 * TEAM TITLE - NAME
 * TEAM TITLE - NAME
 
-##Project Scope
-###In Scope
+## Project Scope
+
+### In Scope
+
 * New ground-up application
   * Localised installation and server-hosted web application
 * Ability to ingest and support previously developed Aurora Builder content
@@ -25,20 +30,30 @@ Add yourselves here:
 * A Character Sheet output, incorporating various upgrades from the original Aurora character sheets.
 
    
-###Out of Scope
+### Out of Scope
+
 *
 
-##Functional Requirements
-###System Expectations
+## Functional Requirements
+
+### System Expectations
+
 |**ID**|**Requirement**|**MoSCoW**|**Status**|**Submitted by**|
 |:----:|:--------------|:--------:|:--------:|:--------------:|
 |1     |
-###Application Features
-##Non-functional Requirements
-###System Expectations
-###Application Features
-##The Dumping Ground
-###Yet to be Incorporated
+
+### Application Features
+
+## Non-functional Requirements
+
+### System Expectations
+
+### Application Features
+
+## The Dumping Ground
+
+### Yet to be Incorporated
+
 * Ability to add a custom standard array (Fresh)
 * More UI customization (Fresh)
 * Ability to buy items for a custom amount (Fresh)
@@ -93,9 +108,12 @@ Add yourselves here:
 * ability to set requirements for a feature, trait, feat, skill, item etc eg. class-restricted items (Koda)
 * ability to track current HP in the app (Stacy Skye)
 * ability to use RTF (or similar) within the character sheet PDF output. (stacy Skye)
-###Awaiting further discussion with Dev team
+
+### Awaiting further discussion with Dev team
+
 * The following is here because I pulled it from Discord but didn't understand the tech speak. I didn't want it to fade into the aether, but it needs explanation to be of worth to anyone but the devs as far as a requirement goes:
   * So that my implemented --server-only tag can be run as headless, after this has been sorted we should explore the GUI/system that uses the API that can be both in the same process or standalone so that the server is somewhere else, like on a different computer, example: Raspberry Pi. 
   * And the standalone GUI flag or --gui-only can make it skip the server and parser to only launch GUI and the --port and --address get reused as the new target host (address:port)
   * This is a nice way of doing it, it also makes it possible to isolate the server in docker and run the GUI client native, for the speed and feel of native, while the server is in a isolated supported container, that is a possible use case besides like seperate computer
-###Put on Hold for a rainy day
+### Put on Hold for a rainy day
+
