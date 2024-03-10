@@ -10,7 +10,7 @@ package-mode = false
 license = "LICENSE"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0"
+python = ">=3.9,<4.0"
 click = "^8.1.7"
 flask-socketio = "^5.3.6"
 flask = { extras = ["async"], version = "^3.0.2" }
@@ -21,7 +21,9 @@ pyopenssl = "^24.0.0"
 PyYAML = "^6.0.1"
 
 [tool.poetry.group.dev.dependencies]
+sphinx = "^7.2.6"
 deptry = "^0.12.0"
+black = "^24.2.0"
 mypy = "^1.5.1"
 pre-commit = "^3.4.0"
 pytest = "^7.2.0"
