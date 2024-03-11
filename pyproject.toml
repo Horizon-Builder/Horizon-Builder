@@ -6,11 +6,13 @@ authors = ["GustavoSchip <gustavoschip@proton.me>"]
 repository = "https://github.com/Horizon-Builder/Horizon-Builder"
 documentation = "https://horizon-builder.github.io/Horizon-Builder/"
 readme = "README.md"
-package-mode = false
 license = "LICENSE"
+packages = [
+    { include = "Horizon_Builder", from = "src" },
+]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
+python = ">=3.9,<3.13"
 click = "^8.1.7"
 flask-socketio = "^5.3.6"
 flask = { extras = ["async"], version = "^3.0.2" }
@@ -29,14 +31,18 @@ pre-commit = "^3.4.0"
 pytest = "^7.2.0"
 pytest-cov = "^4.0.0"
 types-PyYAML = "^6.0.12.12"
+pyinstaller = "^6.5.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.4.2"
 mkdocs-material = "^9.2.7"
 mkdocstrings = { extras = ["python"], version = "^0.23.0" }
 
+[tool.poetry-pyinstaller-plugin.scripts]
+Horizon_Builder = { source = "src/Horizon_Builder/main.py", type = "onedir", bundle = false }
+
 [tool.mypy]
-files = ["src"]
+files = ["src/Horizon_Builder"]
 disallow_untyped_defs = true
 disallow_any_unimported = true
 no_implicit_optional = true
@@ -46,7 +52,7 @@ warn_unused_ignores = true
 show_error_codes = true
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = ["src/Horizon_Builder"]
 
 [tool.deptry.per_rule_ignores]
 DEP001 = ["main", "server", "parser", "data", "models", "plugins", "websockets", "endpoints", "interfaces", "api_actions"]
@@ -105,7 +111,7 @@ skip_empty = true
 
 [tool.coverage.run]
 branch = true
-source = ["src"]
+source = ["src/Horizon_Builder"]
 
 
 [tool.ruff.per-file-ignores]
