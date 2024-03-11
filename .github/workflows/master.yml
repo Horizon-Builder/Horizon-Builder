@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - master
+      - dev
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - master
 
 permissions:
   contents: write
@@ -92,7 +95,7 @@ jobs:
         if: ${{ matrix.python-version == '3.11' }}
 
   pyinstaller:
-    if: needs.pytest.result == 'success' && github.event_name == 'push' && github.repository == 'Horizon-Builder/Horizon-Builder' && github.ref == 'refs/heads/master'
+    if: needs.pytest.result == 'success' && github.event_name == 'push' && github.repository == 'Horizon-Builder/Horizon-Builder'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

@@ -3,7 +3,7 @@ name: release-master
 on:
   release:
     types: [published]
-    branches: [master]
+    branches: [master, dev]
 
 jobs:
   deploy-docs:
