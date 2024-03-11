@@ -20,14 +20,6 @@ from click import echo, style
 
 
 def data_factory(data: dict, files: list, verbose: Literal[True, False], config: dict) -> None:
-    if config["engine"]["content"]["type"].lower() != "yml":
-        echo(
-            style(
-                text=f"Error: Unsupported content type '{config['engine']['content']['type'].lower()}'.",
-                fg="red",
-            )
-        )
-        return
     for file in files:
         if verbose:
             echo(style(text=f"Verbose: Trying to process contents of '{file}'.", fg="cyan"))

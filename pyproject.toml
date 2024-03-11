@@ -42,9 +42,6 @@ mkdocstrings = { extras = ["python"], version = "^0.23.0" }
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry-pyinstaller-plugin.scripts]
-Horizon_Builder = { source = "src/Horizon_Builder", type = "onedir", bundle = false }
-
 [tool.mypy]
 files = ["src/Horizon_Builder"]
 disallow_untyped_defs = true
@@ -59,7 +56,7 @@ show_error_codes = true
 pythonpath = ["src/Horizon_Builder"]
 
 [tool.deptry.per_rule_ignores]
-DEP001 = ["main", "server", "parser", "data", "models", "plugins", "websockets", "endpoints", "interfaces", "api_actions"]
+DEP001 = ["main", "server", "parser", "data", "models", "plugins", "websockets", "endpoints", "interfaces"]
 DEP002 = ["pyopenssl", "gevent", "gevent-websocket"]
 
 [tool.ruff]

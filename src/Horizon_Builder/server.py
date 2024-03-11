@@ -51,13 +51,13 @@ def invoke_server(
         if verbose:
             echo(
                 style(
-                    text=f"Verbose: WebSockets server running on 'ws://{address}:{port}'.",
+                    text=f"Verbose: WebSockets server running on 'wss://{address}:{port}'.",
                     fg="cyan",
                 )
             )
             echo(
                 style(
-                    text=f"Verbose: HTTP server running on 'https://{address}:{port}'.",
+                    text=f"Verbose: HTTP server running on 'http://{address}:{port}'.",
                     fg="cyan",
                 )
             )

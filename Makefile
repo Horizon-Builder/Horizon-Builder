@@ -1,3 +1,11 @@
+FLAGS = -F src/Horizon_Builder/main.py -n "Horizon Builder" --paths=.venv/Lib/site-packages --collect-all pyopenssl --hidden-import gevent --collect-all gevent-websocket --hidden-import engineio.async_drivers.gevent
+
+ifeq ($(OS),Windows_NT)
+    FLAGS += --add-data src\Horizon_Builder\config.yml;Horizon_Builder\config.yml
+else
+    FLAGS += --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml
+endif
+
 .PHONY: install
 install: ## Install the poetry environment and install the pre-commit hooks
 	@echo "🚀 Creating virtual environment using pyenv and poetry"
@@ -28,6 +36,10 @@ docs-test: ## Test if documentation can be built without warnings or errors
 .PHONY: docs
 docs: ## Build and serve the documentation
 	@poetry run mkdocs serve
+
+.PHONY: build
+build: ## Build the executable with pyinstaller
+	@pyinstaller $(FLAGS)
 
 .PHONY: help
 help:

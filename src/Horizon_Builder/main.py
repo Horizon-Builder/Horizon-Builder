@@ -12,11 +12,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 from collections.abc import Callable
+from os import mkdir
+from os.path import exists
 from pathlib import Path as PLPath
+from pathlib import PurePath
 from platform import system, version
 from sys import argv, exit
 from time import sleep
-from typing import Literal, Union
+from typing import Literal, Optional, Union
 
 from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
@@ -26,6 +29,107 @@ from Horizon_Builder.server import invoke_server  # type: ignore[import-not-foun
 
 app_handler: Flask = Flask("Horizon Builder")
 VERSION = "v0.0.1"
+
+
+def check_environment(action: str, config: Optional[dict] = None) -> None:  # noqa: C901
+    files = ["config.yml"]
+    folders = [
+        "plugins" "plugins/user",
+        "content",
+        "content/user",
+        "characters",
+        "characters/sheets",
+    ]
+    if action == "POST":
+        if config["engine"]["version"] != 1:
+            echo(
+                style(
+                    text=f"Error: Unsupported config version '{config['engine']['version'].lower()}'.",
+                    fg="red",
+                )
+            )
+            exit(1)
+        for folder in folders:
+            if folder == folders[0]:
+                if not exists(str(config["engine"]["plugins"]["plugins_folder"])):
+                    mkdir(str(config["engine"]["plugins"]["plugins_folder"]))
+            elif folder == folders[1]:
+                if not exists(
+                    str(
+                        PurePath(
+                            PLPath(config["engine"]["plugins"]["plugins_folder"]),
+                            PLPath("user"),
+                        )
+                    )
+                ):
+                    mkdir(
+                        str(
+                            PurePath(
+                                PLPath(config["engine"]["plugins"]["plugins_folder"]),
+                                PLPath("user"),
+                            )
+                        )
+                    )
+            elif folder == folders[2]:
+                if not exists(str(config["engine"]["content"]["content_folder"])):
+                    mkdir(str(config["engine"]["content"]["content_folder"]))
+            elif folder == folders[3]:
+                if not exists(
+                    str(
+                        PurePath(
+                            PLPath(config["engine"]["content"]["content_folder"]),
+                            PLPath("user"),
+                        )
+                    )
+                ):
+                    mkdir(
+                        str(
+                            PurePath(
+                                PLPath(config["engine"]["content"]["content_folder"]),
+                                PLPath("user"),
+                            )
+                        )
+                    )
+            elif folder == folders[4]:
+                if not exists(str(config["engine"]["characters"]["characters_folder"])):
+                    mkdir(str(config["engine"]["characters"]["characters_folder"]))
+            elif folder == folders[5]:  # noqa: SIM102
+                if not exists(
+                    str(
+                        PurePath(
+                            PLPath(config["engine"]["characters"]["characters_folder"]),
+                            PLPath("sheets"),
+                        )
+                    )
+                ):
+                    mkdir(
+                        str(
+                            PurePath(
+                                PLPath(config["engine"]["characters"]["characters_folder"]),
+                                PLPath("sheets"),
+                            )
+                        )
+                    )
+    elif action == "INIT":
+        for file in files:
+            if not exists(str(PurePath(PLPath(argv[0]).resolve().parent, PLPath(file)))):
+                with open(str(PurePath(PLPath(argv[0]).resolve().parent, PLPath(file))), "a+") as f:
+                    f.write(
+                        """engine:
+  version: 1
+  content:
+    content_folder: ./content/
+  characters:
+    characters_folder: ./characters/
+  plugins:
+    plugins_folder: ./plugins/
+    enabled: false
+  web:
+    address: 127.0.0.1
+    port: 80"""
+                    )
+                    f.close()
+    return
 
 
 @command()
@@ -88,6 +192,7 @@ def cli(  # noqa: C901
     except FileError as error:
         echo(style(text=f"Error: {error}! Exiting...", fg="red"))
         exit(1)
+    check_environment(action="POST", config=config)
     if address is None:
         try:
             address = str(config["engine"]["web"]["address"])  # type: ignore[index]
@@ -127,6 +232,7 @@ def cli(  # noqa: C901
 
 
 if __name__ == "__main__":  # pragma: no cover
+    check_environment(action="INIT")
     if len(argv) == 1:
         cli.main(["--help"])
     else:
