@@ -25,7 +25,7 @@ from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
 from yaml import safe_load
 
-from Horizon_Builder.server import invoke_server  # type: ignore[import-not-found]
+from Horizon_Builder.server import invoke_server
 
 app_handler: Flask = Flask("Horizon Builder")
 VERSION = "v0.0.1"
@@ -41,23 +41,23 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:  # no
         "characters/sheets",
     ]
     if action == "POST":
-        if config["engine"]["version"] != 1:
+        if config["engine"]["version"] != 1:  # type: ignore[index]
             echo(
                 style(
-                    text=f"Error: Unsupported config version '{config['engine']['version'].lower()}'.",
+                    text=f"Error: Unsupported config version '{config['engine']['version'].lower()}'.",  # type: ignore[index]
                     fg="red",
                 )
             )
             exit(1)
         for folder in folders:
             if folder == folders[0]:
-                if not exists(str(config["engine"]["plugins"]["plugins_folder"])):
-                    mkdir(str(config["engine"]["plugins"]["plugins_folder"]))
+                if not exists(str(config["engine"]["plugins"]["plugins_folder"])):  # type: ignore[index]
+                    mkdir(str(config["engine"]["plugins"]["plugins_folder"]))  # type: ignore[index]
             elif folder == folders[1]:
                 if not exists(
                     str(
                         PurePath(
-                            PLPath(config["engine"]["plugins"]["plugins_folder"]),
+                            PLPath(config["engine"]["plugins"]["plugins_folder"]),  # type: ignore[index]
                             PLPath("user"),
                         )
                     )
@@ -65,19 +65,19 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:  # no
                     mkdir(
                         str(
                             PurePath(
-                                PLPath(config["engine"]["plugins"]["plugins_folder"]),
+                                PLPath(config["engine"]["plugins"]["plugins_folder"]),  # type: ignore[index]
                                 PLPath("user"),
                             )
                         )
                     )
             elif folder == folders[2]:
-                if not exists(str(config["engine"]["content"]["content_folder"])):
-                    mkdir(str(config["engine"]["content"]["content_folder"]))
+                if not exists(str(config["engine"]["content"]["content_folder"])):  # type: ignore[index]
+                    mkdir(str(config["engine"]["content"]["content_folder"]))  # type: ignore[index]
             elif folder == folders[3]:
                 if not exists(
                     str(
                         PurePath(
-                            PLPath(config["engine"]["content"]["content_folder"]),
+                            PLPath(config["engine"]["content"]["content_folder"]),  # type: ignore[index]
                             PLPath("user"),
                         )
                     )
@@ -85,19 +85,19 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:  # no
                     mkdir(
                         str(
                             PurePath(
-                                PLPath(config["engine"]["content"]["content_folder"]),
+                                PLPath(config["engine"]["content"]["content_folder"]),  # type: ignore[index]
                                 PLPath("user"),
                             )
                         )
                     )
             elif folder == folders[4]:
-                if not exists(str(config["engine"]["characters"]["characters_folder"])):
-                    mkdir(str(config["engine"]["characters"]["characters_folder"]))
+                if not exists(str(config["engine"]["characters"]["characters_folder"])):  # type: ignore[index]
+                    mkdir(str(config["engine"]["characters"]["characters_folder"]))  # type: ignore[index]
             elif folder == folders[5]:  # noqa: SIM102
                 if not exists(
                     str(
                         PurePath(
-                            PLPath(config["engine"]["characters"]["characters_folder"]),
+                            PLPath(config["engine"]["characters"]["characters_folder"]),  # type: ignore[index]
                             PLPath("sheets"),
                         )
                     )
@@ -105,7 +105,7 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:  # no
                     mkdir(
                         str(
                             PurePath(
-                                PLPath(config["engine"]["characters"]["characters_folder"]),
+                                PLPath(config["engine"]["characters"]["characters_folder"]),  # type: ignore[index]
                                 PLPath("sheets"),
                             )
                         )
@@ -192,7 +192,7 @@ def cli(  # noqa: C901
     except FileError as error:
         echo(style(text=f"Error: {error}! Exiting...", fg="red"))
         exit(1)
-    check_environment(action="POST", config=config)
+    check_environment(action="POST", config=config)  # type: ignore[arg-type]
     if address is None:
         try:
             address = str(config["engine"]["web"]["address"])  # type: ignore[index]
@@ -208,11 +208,11 @@ def cli(  # noqa: C901
     if verbose:
         echo(style(text=f"Verbose: Host set to '{address}'.", fg="cyan"))
 
-    out, stop_servers = invoke_server(
+    out, stop_servers = invoke_server(  # type: ignore[misc]
         verbose=verbose,
         address=address,
         port=port,
-        config=config,
+        config=config,  # type: ignore[arg-type]
         app_handler=app_handler,
         server_only=server_only,
         interface_only=interface_only,

@@ -7,8 +7,6 @@ on:
       - dev
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches:
-      - master
 
 permissions:
   contents: write
