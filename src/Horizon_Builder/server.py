@@ -16,11 +16,12 @@ from collections.abc import Callable
 from typing import Any, Literal, Union
 
 from click import echo, style
-from data import data_factory  # type: ignore[import-not-found]
 from flask import Flask
 from flask_socketio import SocketIO  # type: ignore[import-untyped]
-from parser import invoke_parser  # type: ignore[import-not-found]
-from websockets.session import session  # type: ignore[import-not-found]
+
+from Horizon_Builder.data import data_factory  # type: ignore[import-not-found]
+from Horizon_Builder.parser import invoke_parser  # type: ignore[import-not-found]
+from Horizon_Builder.websockets.session import session  # type: ignore[import-not-found]
 
 
 def invoke_server(

@@ -38,8 +38,12 @@ mkdocs = "^1.4.2"
 mkdocs-material = "^9.2.7"
 mkdocstrings = { extras = ["python"], version = "^0.23.0" }
 
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry-pyinstaller-plugin.scripts]
-Horizon_Builder = { source = "src/Horizon_Builder/main.py", type = "onedir", bundle = false }
+Horizon_Builder = { source = "src/Horizon_Builder", type = "onedir", bundle = false }
 
 [tool.mypy]
 files = ["src/Horizon_Builder"]

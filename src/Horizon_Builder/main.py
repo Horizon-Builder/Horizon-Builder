@@ -20,8 +20,9 @@ from typing import Literal, Union
 
 from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
-from server import invoke_server  # type: ignore[import-not-found]
 from yaml import safe_load
+
+from Horizon_Builder.server import invoke_server  # type: ignore[import-not-found]
 
 app_handler: Flask = Flask("Horizon Builder")
 VERSION = "v0.0.1"
