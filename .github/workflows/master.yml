@@ -115,7 +115,7 @@ jobs:
           python_ver: "3.11"
           spec: "${{ steps.config.outputs.SPEC }}"
           requirements: "src/requirements.txt"
-          upload_exe_with_name: "Horizon Builder"
+          upload_exe_with_name: "Horizon Builder ${{ matrix.os }} ${{ runner.arch }} ${{ github.ref_name }}"
           options: ${{ steps.config.outputs.OPTIONS }}
 
   check-docs:
