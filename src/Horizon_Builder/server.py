@@ -35,7 +35,9 @@ def invoke_server(
 ) -> Union[tuple[Literal[True], Callable], None]:
     yml_data: dict = invoke_parser(action="parse", verbose=verbose, config=config)
     yml_files: list = invoke_parser(action="parse", verbose=verbose, config=config)
-    data_factory(data=yml_data, files=yml_files, verbose=verbose, config=config)
+    interpreted_data: list = data_factory(data=yml_data, files=yml_files, verbose=verbose, config=config)
+    if verbose:
+        echo(style(text=f"Verbose: Interpreted data: \n{interpreted_data}\n", fg="cyan"))
 
     app_sockets: SocketIO = SocketIO(app_handler, async_mode="gevent")  # type: ignore[no-any-unimported]
 
@@ -48,19 +50,18 @@ def invoke_server(
         return {"Hello": "World"}
 
     def start_server() -> None:
-        if verbose:
-            echo(
-                style(
-                    text=f"Verbose: WebSockets server running on 'wss://{address}:{port}'.",
-                    fg="cyan",
-                )
+        echo(
+            style(
+                text=f"Info: WebSockets server running on 'wss://{address}:{port}'.",
+                fg="green",
             )
-            echo(
-                style(
-                    text=f"Verbose: HTTP server running on 'http://{address}:{port}'.",
-                    fg="cyan",
-                )
+        )
+        echo(
+            style(
+                text=f"Info: HTTP server running on 'http://{address}:{port}'.",
+                fg="green",
             )
+        )
 
         app_sockets.run(host=address, port=port, app=app_handler)
         return

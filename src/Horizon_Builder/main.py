@@ -11,11 +11,11 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from atexit import register
 from collections.abc import Callable
-from os import mkdir
+from os import makedirs
 from os.path import exists
 from pathlib import Path as PLPath
-from pathlib import PurePath
 from platform import system, version
 from sys import argv, exit
 from time import sleep
@@ -31,91 +31,49 @@ app_handler: Flask = Flask("Horizon Builder")
 VERSION = "v0.0.1"
 
 
-def check_environment(action: str, config: Optional[dict] = None) -> None:  # noqa: C901
-    files = ["config.yml"]
-    folders = [
-        "plugins" "plugins/user",
-        "content",
-        "content/user",
-        "characters",
-        "characters/sheets",
-    ]
-    if action == "POST":
-        if config["engine"]["version"] != 1:  # type: ignore[index]
+def before_exit() -> None:
+    pass  # TODO: Implement a panic save for characters and/or cache.
+
+
+def check_environment(action: str, config: Optional[dict] = None) -> None:
+    if action == "POST" and config is not None:
+        folders = [
+            config.get("engine", {}).get("plugins", {}).get("plugins_folder"),
+            config.get("engine", {}).get("plugins", {}).get("plugins_folder", "") + "/user",
+            config.get("engine", {}).get("content", {}).get("content_folder"),
+            config.get("engine", {}).get("content", {}).get("content_folder", "") + "/user",
+            config.get("engine", {}).get("characters", {}).get("characters_folder"),
+            config.get("engine", {}).get("characters", {}).get("characters_folder", "") + "/sheets",
+        ]
+        try:
+            if config.get("engine", {}).get("version") != 1:  # type: ignore[index]
+                echo(
+                    style(
+                        text=f"Error: Unsupported config version '{config.get('engine', {}).get('version').lower()}'.",  # type: ignore[index]
+                        fg="red",
+                    )
+                )
+                exit(1)
+        except (IndexError, TypeError, AttributeError):
             echo(
                 style(
-                    text=f"Error: Unsupported config version '{config['engine']['version'].lower()}'.",  # type: ignore[index]
+                    text="Fatal: The config version could not be found!",
                     fg="red",
+                    blink=True,
+                    bold=True,
                 )
             )
             exit(1)
         for folder in folders:
-            if folder == folders[0]:
-                if not exists(str(config["engine"]["plugins"]["plugins_folder"])):  # type: ignore[index]
-                    mkdir(str(config["engine"]["plugins"]["plugins_folder"]))  # type: ignore[index]
-            elif folder == folders[1]:
-                if not exists(
-                    str(
-                        PurePath(
-                            PLPath(config["engine"]["plugins"]["plugins_folder"]),  # type: ignore[index]
-                            PLPath("user"),
-                        )
-                    )
-                ):
-                    mkdir(
-                        str(
-                            PurePath(
-                                PLPath(config["engine"]["plugins"]["plugins_folder"]),  # type: ignore[index]
-                                PLPath("user"),
-                            )
-                        )
-                    )
-            elif folder == folders[2]:
-                if not exists(str(config["engine"]["content"]["content_folder"])):  # type: ignore[index]
-                    mkdir(str(config["engine"]["content"]["content_folder"]))  # type: ignore[index]
-            elif folder == folders[3]:
-                if not exists(
-                    str(
-                        PurePath(
-                            PLPath(config["engine"]["content"]["content_folder"]),  # type: ignore[index]
-                            PLPath("user"),
-                        )
-                    )
-                ):
-                    mkdir(
-                        str(
-                            PurePath(
-                                PLPath(config["engine"]["content"]["content_folder"]),  # type: ignore[index]
-                                PLPath("user"),
-                            )
-                        )
-                    )
-            elif folder == folders[4]:
-                if not exists(str(config["engine"]["characters"]["characters_folder"])):  # type: ignore[index]
-                    mkdir(str(config["engine"]["characters"]["characters_folder"]))  # type: ignore[index]
-            elif folder == folders[5]:  # noqa: SIM102
-                if not exists(
-                    str(
-                        PurePath(
-                            PLPath(config["engine"]["characters"]["characters_folder"]),  # type: ignore[index]
-                            PLPath("sheets"),
-                        )
-                    )
-                ):
-                    mkdir(
-                        str(
-                            PurePath(
-                                PLPath(config["engine"]["characters"]["characters_folder"]),  # type: ignore[index]
-                                PLPath("sheets"),
-                            )
-                        )
-                    )
+            if folder and not exists(folder):
+                makedirs(folder)
     elif action == "INIT":
-        for file in files:
-            if not exists(str(PurePath(PLPath(argv[0]).resolve().parent, PLPath(file)))):
-                with open(str(PurePath(PLPath(argv[0]).resolve().parent, PLPath(file))), "a+") as f:
-                    f.write(
-                        """engine:
+        current_dir = PLPath(argv[0]).resolve().parent
+        config_path = current_dir / "config.yml"
+        if not config_path.exists():
+            with open(config_path, "w+") as f:
+                f.write(
+                    """engine:
   version: 1
   content:
     content_folder: ./content/
@@ -127,8 +85,7 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:  # no
   web:
     address: 127.0.0.1
     port: 80"""
-                    )
-                    f.close()
+                )
     return
 
 
@@ -232,6 +189,7 @@ def cli(  # noqa: C901
 
 
 if __name__ == "__main__":  # pragma: no cover
+    register(before_exit)
     check_environment(action="INIT")
     if len(argv) == 1:
         cli.main(["--help"])

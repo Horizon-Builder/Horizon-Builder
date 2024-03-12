@@ -1,8 +1,23 @@
-"Holds the models for the D&D 5e elements"
-
-from typing import Any, Optional, Union
+#   Copyright 2024 GustavoSchip
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+from typing import Any, ForwardRef, Optional, Union
 
 from pydantic import BaseModel
+
+SubRace = ForwardRef("SubRace")
+VariantRace = ForwardRef("VariantRace")
+SubClass = ForwardRef("SubClass")
 
 
 class Grant(BaseModel):
@@ -404,7 +419,7 @@ class Race(BaseModel):
 
     name: str - The name of the race
     description: Optional[str] - The description of the race
-    subrace = Optional[list['SubRace', 'VariantRace']] - The selected Subrace/VariantRace
+    subrace = Optional[list[Union[SubRace, VariantRace]]] - The selected Subrace/VariantRace
     size: str - The size of the creature. Example: Medium, Small
     speed: int - The base speed of the creature.
     vision: Optional[Vision] - The vision granted by the race
@@ -413,7 +428,7 @@ class Race(BaseModel):
 
     name: str
     description: Optional[str]
-    subrace = Optional[list[Union["SubRace", "VariantRace"]]]
+    subrace: Optional[list[Union["SubRace", "VariantRace"]]]
     size: str
     speed: int
     vision: Optional[Vision]
@@ -478,7 +493,7 @@ class Class(BaseModel):
     level: int - The current level class the class
     hit_die: int - The hit die of the class
     description: Optional[str] - The description of the class
-    subclass = Optional[list['SubClass']] - The subclasses of the class
+    subclass = Optional[list[SubClass]] - The subclasses of the class
     class_features: Optional[list[ClassFeature]] - The features of the class
     proficiency: Optional[list[Proficiency]] - The proficiencies of the class
     saving_throws: Optional[list[Stat]] - The saving throws of the class
@@ -490,7 +505,7 @@ class Class(BaseModel):
     level: int
     hit_die: int
     description: Optional[str]
-    subclass = Optional[list["SubClass"]]
+    subclass: Optional[list["SubClass"]]
     class_features: Optional[list[ClassFeature]]
     proficiency: Optional[list[Proficiency]]
     saving_throws: Optional[list[Stat]]
