@@ -66,12 +66,12 @@ build: ## Build the executable with pyinstaller
 	@pyinstaller $(FLAGS)
 
 .PHONY: options
-build: ## Build the executable with pyinstaller
+options: ## Configure the pyinstaller GitHub action
 	@echo $(GIT_FLAGS)
 
 
 .PHONY: spec
-build: ## Build the executable with pyinstaller
+spec: ## Select the spec file to use
 	@echo $(SPEC)
 
 .PHONY: help
