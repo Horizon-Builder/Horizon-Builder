@@ -1,6 +1,5 @@
-FLAGS = -F src/Horizon_Builder/main.py -n "Horizon Builder" --paths=.venv/Lib/site-packages --collect-all pyopenssl --hidden-import gevent --collect-all gevent-websocket --hidden-import engineio.async_drivers.gevent
+FLAGS = --collect-all pyopenssl --hidden-import gevent --collect-all gevent-websocket --hidden-import engineio.async_drivers.gevent --name "Horizon Builder" --onefile
 GIT_FLAGS = --onefile, --name "Horizon Builder",
-SPEC_PRE = ./src/
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS := Windows
@@ -8,24 +7,26 @@ else
     DETECTED_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown')
 endif
 
-
 ifeq ($(DETECTED_OS),Windows)
+    SPEC_PRE = .\\src\\
     SPEC_GEN = windows.spec
+    FLAGS += src\\Horizon_Builder\\main.py --paths=.venv\\Lib\\site-packages --add-data src\\Horizon_Builder\\config.yml;Horizon_Builder\\config.yml --console
+    GIT_FLAGS += --add-data src\\Horizon_Builder\\config.yml;Horizon_Builder\\config.yml,
 else ifeq ($(DETECTED_OS),Linux)
+    SPEC_PRE = ./src/
     SPEC_GEN = linux.spec
+    FLAGS += src/Horizon_Builder/main.py --paths=.venv/Lib/site-packages --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml
+    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml,
 else ifeq ($(DETECTED_OS),Darwin)
+    SPEC_PRE = ./src/
     SPEC_GEN = macos.spec
+    FLAGS += src/Horizon_Builder/main.py --paths=.venv/Lib/site-packages --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml --console
+    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml,
 else ## Assume linux?
+    SPEC_PRE = ./src/
     SPEC_GEN = linux.spec
-endif
-
-
-ifeq ($(DETECTED_OS),Windows)
-    FLAGS += --add-data src\Horizon_Builder\config.yml;Horizon_Builder\config.yml
-    GIT_FLAGS += --add-data src\Horizon_Builder\config.yml;Horizon_Builder\config.yml,
-else
-    FLAGS += --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml
-    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml;Horizon_Builder/config.yml,
+    FLAGS += src/Horizon_Builder/main.py --paths=.venv/Lib/site-packages --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml
+    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml,
 endif
 
 SPEC := $(strip $(SPEC_PRE))$(strip $(SPEC_GEN))
