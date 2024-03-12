@@ -25,7 +25,7 @@ ifeq ($(DETECTED_OS),Windows)
     GIT_FLAGS += --add-data src\Horizon_Builder\config.yml;Horizon_Builder\config.yml,
 else
     FLAGS += --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml
-    GIT_FLAGS += --add-data src\Horizon_Builder\config.yml;Horizon_Builder\config.yml,
+    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml;Horizon_Builder/config.yml,
 endif
 
 SPEC := $(strip $(SPEC_PRE))$(strip $(SPEC_GEN))

@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('src/Horizon_Builder/config.yml', 'Horizon_Builder/config.yml')]
+datas = [('Horizon_Builder\config.yml', 'Horizon_Builder\config.yml')]
 binaries = []
 hiddenimports = ['gevent', 'engineio.async_drivers.gevent']
 tmp_ret = collect_all('pyopenssl')
@@ -11,8 +11,8 @@ datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
 
 a = Analysis(
-    ['src/Horizon_Builder/main.py'],
-    pathex=['.venv/Lib/site-packages'],
+    ['Horizon_Builder\main.py'],
+    pathex=['.venv\Lib\site-packages'],
     binaries=binaries,
     datas=datas,
     hiddenimports=hiddenimports,
