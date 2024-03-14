@@ -16,10 +16,12 @@ from collections.abc import Callable
 from typing import Any, Literal, Union
 
 from click import echo, style
-from flask import Flask
+from flask import Flask, Response
 from flask_socketio import SocketIO  # type: ignore[import-untyped]
 
 from Horizon_Builder.data import data_factory
+from Horizon_Builder.endpoints.data import data
+from Horizon_Builder.endpoints.index import index
 from Horizon_Builder.parser import invoke_parser
 from Horizon_Builder.websockets.session import session
 
@@ -45,9 +47,13 @@ def invoke_server(
     def test(json: Any) -> Any:
         return session(json=json)
 
-    @app_handler.get("/")
-    def read_root() -> dict:
-        return {"Hello": "World"}
+    @app_handler.get(rule="/")
+    def _index() -> Union[dict, Response]:
+        return index(app_handler=app_handler)
+
+    @app_handler.route(rule="/data/image-handler/<image-id>", methods=["GET", "PATCH"])
+    def _data(image_id: str) -> Union[dict, Response]:
+        return data(app_handler=app_handler, action="Image_handler", image_id=image_id)
 
     def start_server() -> None:
         echo(
