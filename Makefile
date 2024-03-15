@@ -1,10 +1,10 @@
-FLAGS = --collect-all pyopenssl --hidden-import gevent --collect-all gevent-websocket --hidden-import engineio.async_drivers.gevent --name "Horizon Builder" --onefile
+FLAGS = --collect-all pyopenssl --hidden-import gevent --collect-all gevent-websocket --hidden-import engineio.async_drivers.gevent --hidden-import textual.widgets._tab --collect-all textual --collect-all trogon --name "Horizon Builder" --onefile
 GIT_FLAGS = --onefile, --name "Horizon Builder",
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS := Windows
-else ifeq (,$(findstring WINDOWS,$(PATH)))
-    DETECTED_OS := Windows
+# else ifeq (,$(findstring WINDOWS,$(PATH)))
+#     DETECTED_OS := Windows
 else
     DETECTED_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown')
 endif
@@ -13,22 +13,22 @@ ifeq ($(DETECTED_OS),Windows)
     SPEC_PRE = .\\src\\
     SPEC_GEN = windows.spec
     FLAGS += src\\Horizon_Builder\\main.py --paths=.venv\\Lib\\site-packages --add-data src\\Horizon_Builder\\config.yml;Horizon_Builder\\config.yml --console
-    GIT_FLAGS += --add-data src\\Horizon_Builder\\config.yml;Horizon_Builder\\config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent,
+    GIT_FLAGS += --add-data src\\Horizon_Builder\\config.yml;Horizon_Builder\\config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent, --hidden-import textual.widgets._tab, --collect-all textual, --collect-all trogon,
 else ifeq ($(DETECTED_OS),Linux)
     SPEC_PRE = ./src/
     SPEC_GEN = linux.spec
     FLAGS += src/Horizon_Builder/main.py --paths=.venv/Lib/site-packages --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml
-    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent,
+    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent, --hidden-import textual.widgets._tab, --collect-all textual, --collect-all trogon,
 else ifeq ($(DETECTED_OS),Darwin)
     SPEC_PRE = ./src/
     SPEC_GEN = macos.spec
     FLAGS += src/Horizon_Builder/main.py --paths=.venv/Lib/site-packages --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml --console
-    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent,
+    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent, --hidden-import textual.widgets._tab, --collect-all textual, --collect-all trogon,
 else ## Assume linux?
     SPEC_PRE = ./src/
     SPEC_GEN = linux.spec
     FLAGS += src/Horizon_Builder/main.py --paths=.venv/Lib/site-packages --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml
-    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent,
+    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent, --hidden-import textual.widgets._tab, --collect-all textual, --collect-all trogon,
 endif
 
 SPEC := $(strip $(SPEC_PRE))$(strip $(SPEC_GEN))

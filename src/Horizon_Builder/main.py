@@ -16,6 +16,7 @@ from collections.abc import Callable
 from os import makedirs
 from os.path import exists
 from pathlib import Path as PLPath
+from pathlib import PurePath
 from platform import system, version
 from sys import argv, exit
 from time import sleep
@@ -23,13 +24,51 @@ from typing import Literal, Optional, Union
 
 from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
-from trogon import tui
+from rich.text import Text
+from textual.binding import Binding
+from trogon import Trogon, constants, tui
+from trogon.trogon import CommandBuilder
+from trogon.widgets.about import TextDialog
 from yaml import safe_load
 
 from Horizon_Builder.server import invoke_server
 
 app_handler: Flask = Flask("Horizon Builder")
 VERSION = "v0.0.1"
+
+# Setup Trogon
+constants.APP_TITLE = "Horizon Builder"
+Trogon.CSS_PATH = PurePath(PLPath(argv[0]).resolve().parent, PLPath("resources"), PLPath("style.scss"))
+CommandBuilder.BINDINGS[0] = (Binding(key="ctrl+c", action="close", description="Close"),)
+
+
+class CustomAboutDialog(TextDialog):
+    DEFAULT_CSS = """
+    TextDialog > Vertical {
+        border: thick $primary 50%;
+    }
+    """
+
+    def __init__(self) -> None:
+        title = "About Horizon Builder"
+        message = Text.from_markup(
+            "by [@click=app.visit('https://github.com/GustavoSchip')]GustavoSchip[/].\n\n"
+            "Built with [@click=app.visit('https://github.com/textualize/textual')]Textual[/] "
+            "[@click=app.visit('https://github.com/Horizon-Builder/Horizon-Builder')]",
+        )
+        super().__init__(title, message)
+
+
+def action_close(self) -> None:
+    self.app.exit()
+
+
+def action_about(self) -> None:
+    self.app.push_screen(CustomAboutDialog())
+
+
+CommandBuilder.action_close_and_run = action_close
+CommandBuilder.action_about = action_about
 
 
 def before_exit() -> None:
@@ -71,6 +110,283 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:
     elif action == "INIT":
         current_dir = PLPath(argv[0]).resolve().parent
         config_path = current_dir / "config.yml"
+        resource_path = current_dir / "resources"
+        style_path = resource_path / "style.scss"
+        if not resource_path.exists():
+            makedirs(resource_path)
+        if not style_path.exists():
+            with open(style_path, "w+") as f:
+                f.write(
+                    """* {
+  scrollbar-color: $accent-lighten-2 20%;
+}
+
+#home-body {
+  height: 100%;
+  width: 1fr;
+}
+
+#home-body-scroll {
+  width: 1fr;
+  height: 1fr;
+
+}
+
+#home-exec-preview {
+  dock: bottom;
+  background: $panel-darken-2;
+  height: auto;
+}
+
+#home-exec-preview-container {
+  min-height: 3;
+  max-height: 8;
+  height: auto;
+  scrollbar-size-vertical: 1;
+}
+
+#home-exec-button {
+  height: 1fr;
+  width: auto;
+}
+
+#home-exec-preview-static {
+  width: 1fr;
+  padding: 1 2;
+  height: auto;
+}
+
+#home-exec-preview-buttons {
+  dock: right;
+  height: auto;
+  width: auto;
+}
+
+#home-commands-label {
+  color: $text;
+  background: $background 50%;
+  width: 100%;
+  height: 4;
+  padding: 1 2;
+}
+
+#home-sidebar {
+  dock: left;
+  width: auto;
+}
+
+#home-command-description {
+  width: 1fr;
+  height: 2;
+}
+
+#home-command-description-container {
+  dock: top;
+  width: 1fr;
+  height: 4;
+  padding: 1 2;
+  color: $text;
+  background: $accent-lighten-2 5%;
+}
+
+CommandBuilder .version-string {
+  color: $text-muted;
+  background: $background 50%;
+  text-style: italic;
+}
+
+CommandBuilder .prompt {
+  color: $success;
+  background: $background-darken-2;
+  text-style: bold;
+}
+
+CommandBuilder .command-name-syntax {
+  color: $accent-lighten-2;
+  background: $panel-darken-2;
+  text-style: italic bold;
+}
+
+CommandTree {
+  background: $background-lighten-1;
+  scrollbar-gutter: stable;
+  width: auto;
+  height: 1fr;
+  padding: 0 1;
+  margin-bottom: 1;  /* why is this needed? */
+  border: blank;
+}
+
+
+CommandTree:focus {
+  border: tall $success;
+}
+
+CommandTree > .tree--cursor {
+  background: $primary-darken-1;
+}
+
+CommandTree:focus > .tree--cursor {
+  background: $primary-lighten-1;
+}
+
+CommandTree > .tree--guides {
+  color: slategray;
+}
+
+CommandTree .group {
+  color: $accent-lighten-2;
+  text-style: bold;
+}
+
+CommandTree > .tree--guides-selected {
+  color: $primary-lighten-2;
+}
+
+CommandTree > .tree--guides-hover {
+  color: $primary-lighten-2;
+}
+
+ParameterControls {
+  height: auto;
+}
+
+ControlGroup {
+  height: auto;
+  border: solid $panel-lighten-2;
+
+}
+
+ControlGroup.single-item {
+  margin: 0;
+  border: none;
+}
+
+ControlGroup.single-item:focus-within {
+  margin: 0;
+  border: none;
+}
+
+ControlGroup:focus-within {
+  border: solid $primary;
+}
+
+ControlGroupsContainer {
+  height: auto;
+}
+
+Pretty {
+  height: auto;
+}
+
+.add-another-button {
+  margin-right: 1;
+  background: transparent;
+  color: $success;
+  border: none;
+  background: $boost;
+  height: 1;
+ }
+
+.add-another-button:hover {
+  background: transparent;
+}
+
+.add-another-button-container {
+  width: 1fr;
+  height: auto;
+  align: right top;
+}
+
+CommandInfo {
+  align: center middle;
+}
+
+.command-info-header-text {
+  padding: 1 1 0 2;
+}
+
+CommandForm .command-form-filter-input {
+  margin: 1 2;
+}
+
+$command-info-header-bg: $primary-darken-1;
+
+.command-info-header {
+  dock: top;
+  background: $command-info-header-bg;
+  color: $text;
+  height: auto;
+}
+
+.command-info-container {
+  width: 80%;
+  height: 60%;
+  background: $panel;
+}
+
+#command-info-switcher {
+  height: auto;
+}
+
+.command-info-text {
+  padding: 2 4;
+  height: auto;
+}
+
+.command-info-metadata {
+  padding: 2 4;
+  height: auto;
+}
+
+CommandInfo .title {
+  background: $command-info-header-bg;
+  text-style: bold;
+}
+
+CommandInfo .subtitle {
+  background: $command-info-header-bg;
+  color: $text-muted;
+}
+
+CommandInfo Tab {
+  width: 1fr;
+}
+
+.command-info-tabs {
+  width: 100%;
+}
+
+Tabs:focus .underline--bar {
+  color: $accent-lighten-1;
+}
+
+Select.command-form-select  {
+
+}
+
+Select.command-form-select SelectCurrent {
+  border: tall transparent;
+}
+
+Select.command-form-select:focus SelectCurrent {
+  border: tall $accent;
+}
+
+.command-form-multiple-choice {
+  margin-left: 0;
+  border: tall transparent;
+  background: $boost;
+  padding: 0 1;
+  margin-top: 0;
+}
+
+.command-form-multiple-choice:focus-within {
+
+  border: tall $accent;
+}
+"""
+                )
         if not config_path.exists():
             with open(config_path, "w+") as f:
                 f.write(

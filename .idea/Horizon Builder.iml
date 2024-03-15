@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/interface" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/plugins" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/websockets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Horizon_Builder/resources" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/site" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
