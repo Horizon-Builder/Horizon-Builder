@@ -64,6 +64,6 @@ as follows:
 - [gevent](https://github.com/gevent/gevent)
 - [$ click\_](https://github.com/pallets/click)
 - [PyYAML](https://github.com/yaml/pyyaml)
-- [Pydantic](https://docs.pydantic.dev/latest/)
+- [Textual](https://github.com/textualize/textual)
 
 </details>

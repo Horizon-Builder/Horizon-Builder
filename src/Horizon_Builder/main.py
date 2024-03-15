@@ -22,7 +22,15 @@ from sys import argv, exit
 from time import sleep
 from typing import Literal, Optional, Union
 
-from click import FileError, Path, command, echo, open_file, option, style
+from click import (
+    FileError,
+    Path,
+    command,
+    echo,
+    open_file,
+    option,
+    style,
+)
 from flask import Flask
 from rich.text import Text
 from textual.binding import Binding
@@ -39,7 +47,8 @@ VERSION = "v0.0.1"
 # Setup Trogon
 constants.APP_TITLE = "Horizon Builder"
 Trogon.CSS_PATH = PurePath(PLPath(argv[0]).resolve().parent, PLPath("resources"), PLPath("style.scss"))
-CommandBuilder.BINDINGS[0] = (Binding(key="ctrl+c", action="close", description="Close"),)
+CommandBuilder.BINDINGS.remove(Binding(key="ctrl+r", action="close_and_run", description="Close & Run"))
+CommandBuilder.BINDINGS.insert(0, Binding(key="ctrl+c", action="close", description="Close"))
 
 
 class CustomAboutDialog(TextDialog):
