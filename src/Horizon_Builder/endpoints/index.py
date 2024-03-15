@@ -20,4 +20,4 @@ from flask import (
 
 
 def index(app_handler: Flask) -> Union[dict, Response]:
-    pass
+    return {"ping": "pong"}  # TODO: Implement logic...

@@ -33,13 +33,10 @@ def invoke_server(
     config: dict,
     app_handler: Flask,
     server_only: Literal[True, False],
-    interface_only: Literal[True, False],
-) -> Union[tuple[Literal[True], Callable], None]:
+) -> Union[tuple[Literal[True], Callable, dict], None]:
     yml_data: dict = invoke_parser(action="parse", verbose=verbose, config=config)
-    yml_files: list = invoke_parser(action="parse", verbose=verbose, config=config)
-    interpreted_data: list = data_factory(data=yml_data, files=yml_files, verbose=verbose, config=config)
-    if verbose:
-        echo(style(text=f"Verbose: Interpreted data: \n{interpreted_data}\n", fg="cyan"))
+    yml_files: list = invoke_parser(action="list", verbose=verbose, config=config)
+    interpreted_data: dict = data_factory(data=yml_data, files=yml_files, verbose=verbose, config=config)
 
     app_sockets: SocketIO = SocketIO(app_handler, async_mode="gevent")  # type: ignore[no-any-unimported]
 
@@ -79,4 +76,4 @@ def invoke_server(
         return
 
     start_server()
-    return True, stop_servers  # Everything is set up, returning to main.py
+    return True, stop_servers, interpreted_data  # Everything is set up, returning to main.py

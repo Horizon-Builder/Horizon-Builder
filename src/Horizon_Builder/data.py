@@ -15,114 +15,65 @@ from typing import Literal
 
 from click import echo, style
 
-from Horizon_Builder.models import (
-    Armor,
-    ArmorCategory,
-    Background,
-    BackgroundFeature,
-    Character,
-    Class,
-    ClassFeature,
-    Damage,
-    DieRoll,
-    Feat,
-    FeatFeature,
-    Grant,
-    Language,
-    MagicArmor,
-    MagicWeapon,
-    Proficiency,
-    Property,
-    Race,
-    RaceFeature,
-    Selection,
-    Skill,
-    Spell,
-    Spellcasting,
-    Stat,
-    SubClass,
-    SubRace,
-    VariantRace,
-    Vision,
-    Weapon,
-    WeaponCategory,
-)
+
+def parse_weapon(element_data: dict) -> dict:
+    # Define required and optional attributes
+    required_attributes = ["category", "proficiency", "damage"]
+    optional_attributes = ["description", "properties", "weight"]
+
+    # Check for required attributes
+    for attributes in required_attributes:
+        if attributes not in element_data:
+            raise ValueError(f"Error: Missing required attribute '{attributes}' in subclass element")  # noqa: TRY003
+
+    # Check for optional attributes
+    for attributes in optional_attributes:
+        if attributes not in element_data:
+            element_data[attributes] = None
+
+    return element_data
 
 
-class DataStorage:
-    def __init__(self) -> None:
-        self.data = []
-        self.cls = [
-            Grant,
-            Selection,
-            DieRoll,
-            Property,
-            Stat,
-            Skill,
-            Damage,
-            Spell,
-            Spellcasting,
-            Proficiency,
-            Weapon,
-            WeaponCategory,
-            MagicWeapon,
-            Armor,
-            ArmorCategory,
-            MagicArmor,
-            Vision,
-            Language,
-            BackgroundFeature,
-            Background,
-            FeatFeature,
-            Feat,
-            RaceFeature,
-            Race,
-            SubRace,
-            VariantRace,
-            ClassFeature,
-            Class,
-            SubClass,
-            Character,
-        ]
-
-    def add_data(self, json_input: dict, name: str) -> None:
-        if json_input["type"] in [cls.__name__ for cls in self.cls]:
-            class_obj = next(cls for cls in self.cls if cls.__name__ == json_input["type"])
-            if class_obj:  # noqa: SIM102
-                if any(attr in json_input for attr in class_obj.__annotations__):
-                    json_input["name"] = name
-                    json_input.pop("type")
-                    if json_input.get("parent", None) is not None:  # TODO: Fix parent syntax
-                        parent_class = next(cls for cls in self.cls if cls.__name__ == json_input["parent"])
-                        if parent_class:
-                            json_input["parent"] = parent_class(**json_input["parent"])
-                        else:
-                            json_input.pop("Parent")
-                    instance = class_obj(**json_input)
-                    self.data.append(instance)
-        else:
-            echo(style(text=f"Error: Type '{json_input['type']}' not supported! Skipping...", fg="red"))
-
-    def get_all_data(self) -> list:
-        return self.data
-
-
-def data_factory(data: dict, files: list, verbose: Literal[True, False], config: dict) -> list:
-    storage = DataStorage()
+def data_factory(data: dict, files: list, verbose: Literal[True, False], config: dict) -> dict:
+    valid_entries: dict = {
+        "weapon": parse_weapon  # TODO: Add more types...
+    }
+    parsed_elements = {}
     for file in files:
         if verbose:
             echo(style(text=f"Verbose: Trying to process contents of '{file}'.", fg="cyan"))
-        data: dict = data[file]
-        if data.get("engine", {}).get("encoding").lower() != "utf-8":
-            echo(
-                style(
-                    text=f"Error: Unsupported encoding '{data['engine']['encoding'].lower()}'.",
-                    fg="red",
+            data: dict = data[file]
+            if data.get("engine", {}).get("encoding").lower() != "utf-8":
+                echo(
+                    style(
+                        text=f"Error: Unsupported encoding '{data['engine']['encoding'].lower()}'.",
+                        fg="red",
+                    )
                 )
-            )
-            continue
-        else:
-            for element in data["elements"]:
-                element_data: dict = data["elements"][element]
-                storage.add_data(json_input=element_data, name=element)
-    return storage.get_all_data()
+                continue
+            else:
+                data: dict = data.get("elements", {})
+                for element_name, element_data in data.items():
+                    if "type" in element_data:
+                        element_type = element_data["type"]
+                        if element_type in valid_entries:
+                            parsed_element = valid_entries[element_type](element_data)
+                            parsed_elements[element_name] = parsed_element
+                        else:
+                            echo(
+                                style(
+                                    text=f"Error: Unsupported element '{element_type}'! Skipping...",
+                                    fg="red",
+                                )
+                            )
+                            continue
+                    else:
+                        echo(
+                            style(
+                                text="Error: No element type has been given! Skipping...",
+                                fg="red",
+                            )
+                        )
+                        continue
+
+    return parsed_elements

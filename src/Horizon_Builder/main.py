@@ -23,6 +23,7 @@ from typing import Literal, Optional, Union
 
 from click import FileError, Path, command, echo, open_file, option, style
 from flask import Flask
+from trogon import tui
 from yaml import safe_load
 
 from Horizon_Builder.server import invoke_server
@@ -89,10 +90,11 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:
     return
 
 
+@tui(name="Horizon Builder", command="help", help="Open terminal UI.")
 @command()
 @option("--verbose", "-V", is_flag=True, help="Enable verbose logging.")
-@option("--address", "-A", type=str, show_default=True, help="Specify the host address.")
-@option("--port", "-P", type=int, show_default=True, help="Specify the host HTTP port.")
+@option("--address", "-A", type=str, show_default=True, help="Specify host address.")
+@option("--port", "-P", type=int, show_default=True, help="Specify host HTTP port.")
 @option(
     "--config",
     "-C",
@@ -106,18 +108,16 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:
         path_type=PLPath,
     ),
     show_default=True,
-    help="Specify the config file.",
+    help="Specify config file.",
 )
-@option("--server-only", "-So", is_flag=True, help="Only run the server.")
-@option("--interface-only", "-Io", is_flag=True, help="Only run the interface.")
+@option("--server-only", "-So", is_flag=True, help="Only run server.")
 # ^ Make the server not open connection for outside, and remove/stop protocols related to it
-def cli(  # noqa: C901
+def horizon_builder_cli(  # noqa: C901
     verbose: Literal[True, False],
     address: Union[str, None],
     port: Union[int, None],
     config: PLPath,
     server_only: Literal[True, False],
-    interface_only: Literal[True, False],
 ) -> None:
     """Horizon Builder
 
@@ -131,18 +131,8 @@ def cli(  # noqa: C901
     )
     if verbose:
         echo(style(text="Warning: Verbose logging enabled!", fg="yellow"))
-    if interface_only:
-        echo(style(text="Warning: Interface only mode enabled!", fg="yellow"))
     if server_only:
         echo(style(text="Warning: Server only mode enabled!", fg="yellow"))
-    if server_only and interface_only:
-        echo(
-            style(
-                text="Error: Server only mode and interface mode are both enabled!",
-                fg="red",
-            )
-        )
-        exit(1)
     try:
         with open_file(filename=str(config)) as f:
             config = safe_load(f.read())
@@ -165,15 +155,16 @@ def cli(  # noqa: C901
     if verbose:
         echo(style(text=f"Verbose: Host set to '{address}'.", fg="cyan"))
 
-    out, stop_servers = invoke_server(  # type: ignore[misc]
+    out, stop_servers, interpreted_data = invoke_server(  # type: ignore[misc]
         verbose=verbose,
         address=address,
         port=port,
         config=config,  # type: ignore[arg-type]
         app_handler=app_handler,
         server_only=server_only,
-        interface_only=interface_only,
     )
+    if verbose:
+        echo(style(text=f"Verbose: Interpreted data: \n{interpreted_data}\n", fg="cyan"))
     if out is True and isinstance(stop_servers, Callable):  # type: ignore[arg-type]
         while True:
             try:
@@ -183,7 +174,7 @@ def cli(  # noqa: C901
                 break
         sleep(0.01)  # Fixes some weird echo() behavior near the closing of the program.
     else:
-        echo(style(text="Error: Server had problems running! Exiting...", fg="red"))
+        echo(style(text="Error: Server encountered problems! Exiting...", fg="red"))
         exit(1)
     return
 
@@ -192,6 +183,6 @@ if __name__ == "__main__":  # pragma: no cover
     register(before_exit)
     check_environment(action="INIT")
     if len(argv) == 1:
-        cli.main(["--help"])
+        horizon_builder_cli.main(["help"])
     else:
-        cli()
+        horizon_builder_cli()

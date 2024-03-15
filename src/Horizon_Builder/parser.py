@@ -13,13 +13,13 @@
 #   limitations under the License.
 from os import listdir
 from pathlib import Path, PurePath
-from typing import Literal
+from typing import Literal, Union
 
 from click import FileError, echo, open_file, style
 from yaml import safe_load
 
 
-def invoke_parser(action: str, verbose: Literal[True, False], config: dict) -> dict | list:  # type: ignore[return]
+def invoke_parser(action: str, verbose: Literal[True, False], config: dict) -> Union[dict, list]:  # type: ignore[return]
     files_to_parse: list = []
     yml_dict: dict = {}
     if action == "parse":

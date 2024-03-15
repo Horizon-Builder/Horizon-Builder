@@ -18,7 +18,8 @@ flask-socketio = "^5.3.6"
 flask = { extras = ["async"], version = "^3.0.2" }
 gevent = "^24.2.1"
 gevent-websocket = "^0.10.1"
-pydantic = "^2.6.3"
+trogon = "^0.5.0"
+textual = "^0.52.1"
 pyopenssl = "^24.1.0"
 PyYAML = "^6.0.1"
 
@@ -32,6 +33,7 @@ pytest = "^7.2.0"
 pytest-cov = "^4.0.0"
 types-PyYAML = "^6.0.12.12"
 pyinstaller = "^6.5.0"
+textual-dev = "^1.5.1"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.4.2"

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="Black">
     <option name="enabledOnReformat" value="true" />
-    <option name="sdkName" value="Poetry (Horizon-Builder)" />
+    <option name="pathToExecutable" value="/usr/bin/black" />
+    <option name="sdkName" value="Poetry (Horizon-Builder) (3)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (Horizon-Builder) (3)" project-jdk-type="Python SDK" />
   <component name="PyCharmProfessionalAdvertiser">
