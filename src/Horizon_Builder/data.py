@@ -17,6 +17,16 @@ from click import echo, style
 
 
 def parse_weapon(element_data: dict) -> dict:
+    """
+    Parse weapon data from a dictionary and ensure all required attributes are present.
+    If optional attributes are missing, set them to None.
+
+    Parameters:
+    - element_data (dict): A dictionary containing information about the weapon.
+
+    Returns:
+    - dict: The parsed weapon data with optional attributes set to None if missing.
+    """
     # Define required and optional attributes
     required_attributes = ["category", "proficiency", "damage"]
     optional_attributes = ["description", "properties", "weight"]
@@ -35,9 +45,19 @@ def parse_weapon(element_data: dict) -> dict:
 
 
 def data_factory(data: dict, files: list, verbose: Literal[True, False], config: dict) -> dict:
-    valid_entries: dict = {
-        "weapon": parse_weapon  # TODO: Add more types...
-    }
+    """
+    Generates a dictionary of parsed elements based on the given data, files, verbose flag, and configuration.
+
+    Args:
+        data (dict): The data dictionary.
+        files (list): The list of files.
+        verbose (Literal[True, False]): The verbose flag.
+        config (dict): The configuration dictionary.
+
+    Returns:
+        dict: The dictionary of parsed elements.
+    """
+    valid_entries: dict = {"weapon": parse_weapon}  # TODO: Add more types...
     parsed_elements = {}
     for file in files:
         if verbose:

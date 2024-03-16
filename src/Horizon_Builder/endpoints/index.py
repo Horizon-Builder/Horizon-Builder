@@ -20,4 +20,7 @@ from flask import (
 
 
 def index(app_handler: Flask) -> Union[dict, Response]:
+    """
+    A function that takes in an app_handler parameter of type Flask and returns a Union of dictionary or Response.
+    """
     return {"ping": "pong"}  # TODO: Implement logic...

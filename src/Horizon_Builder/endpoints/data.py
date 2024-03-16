@@ -23,6 +23,17 @@ from Horizon_Builder.endpoints.data_endpoints.image_handler import image_handler
 
 
 def data(app_handler: Flask, action: str, **kwargs) -> Union[dict, Response]:  # type: ignore[no-untyped-def]
+    """
+    A function that handles data based on the given action.
+
+    Parameters:
+        app_handler (Flask): The Flask application handler.
+        action (str): The action to perform on the data.
+        **kwargs: Additional keyword arguments.
+
+    Returns:
+        Union[dict, Response]: The result of the data handling operation.
+    """
     valid_actions: dict = {
         "Image_handler": image_handler,  # TODO: Implement more robust endpoints.
     }

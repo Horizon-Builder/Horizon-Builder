@@ -62,6 +62,17 @@ class CustomAboutDialog(TextDialog):  # type: ignore[no-any-unimported]
     """
 
     def __init__(self) -> None:
+        """
+        Initializes the class instance.
+
+        This function is the constructor method of the class and is called when a new instance of the class is created. It sets the title and message attributes of the instance.
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
         title = "About Horizon Builder"
         message = Text.from_markup(
             "by [@click=app.visit('https://github.com/GustavoSchip')]GustavoSchip[/].\n\n"
@@ -72,10 +83,16 @@ class CustomAboutDialog(TextDialog):  # type: ignore[no-any-unimported]
 
 
 def action_close(self) -> None:  # type: ignore[no-untyped-def]
+    """
+    A description of the entire function, its parameters, and its return types.
+    """
     self.app.exit()
 
 
 def action_about(self) -> None:  # type: ignore[no-untyped-def]
+    """
+    action_about method pushes the CustomAboutDialog screen to the app.
+    """
     self.app.push_screen(CustomAboutDialog())
 
 
@@ -84,10 +101,25 @@ CommandBuilder.action_about = action_about
 
 
 def before_exit() -> None:
+    """
+    A function that is called before the program exits.
+
+    This function does not take any parameters.
+
+    This function does not return any value.
+    """
     pass  # TODO: Implement a panic save for characters and/or cache.
 
 
 def check_environment(action: str, config: Optional[dict] = None) -> None:
+    """
+    A function that checks the environment and performs necessary setup based on the provided action and config.
+    Parameters:
+        action (str): The action to be performed, either "POST" or "INIT".
+        config (Optional[dict]): The configuration settings to be used for the environment setup. Defaults to None.
+    Returns:
+        None: This function does not return anything.
+    """
     if action == "POST" and config is not None:
         folders = [
             config.get("engine", {}).get("plugins", {}).get("plugins_folder"),
@@ -439,7 +471,6 @@ Select.command-form-select:focus SelectCurrent {
     help="Specify config file.",
 )
 @option("--server-only", "-So", is_flag=True, help="Only run server.")
-# ^ Make the server not open connection for outside, and remove/stop protocols related to it
 def horizon_builder_cli(  # noqa: C901
     verbose: Literal[True, False],
     address: Union[str, None],

@@ -20,6 +20,17 @@ from yaml import safe_load
 
 
 def invoke_parser(action: str, verbose: Literal[True, False], config: dict) -> Union[dict, list]:  # type: ignore[return]
+    """
+    A function that invokes a parser based on the specified action.
+
+    Parameters:
+        action (str): The action to perform, either 'parse' or 'list'.
+        verbose (Literal[True, False]): A flag indicating whether to print verbose output.
+        config (dict): A dictionary containing configuration settings.
+
+    Returns:
+        Union[dict, list]: Depending on the action, either a dictionary of parsed YAML files or a list of files to parse.
+    """
     files_to_parse: list = []
     yml_dict: dict = {}
     if action == "parse":

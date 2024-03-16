@@ -17,5 +17,14 @@ from flask_socketio import emit  # type: ignore[import-untyped]
 
 
 def session(json: dict) -> None:
+    """
+    A function that takes in a JSON object, creates a session ID using uuid1, and emits a server message with the session data.
+
+    Parameters:
+    json (dict): A JSON object containing data for the session.
+
+    Returns:
+    None
+    """
     emit("server", {"session": {"id": str(uuid1()), "data": json}})
     return

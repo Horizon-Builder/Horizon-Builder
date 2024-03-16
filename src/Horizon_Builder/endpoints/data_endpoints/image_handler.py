@@ -20,4 +20,7 @@ from flask import (
 
 
 def image_handler(app_handler: Flask, image_id: str, **kwargs) -> Union[dict, Response]:  # type: ignore[no-untyped-def]
+    """
+    Handle the image for the given app handler and image ID, with optional additional keyword arguments, and return a dictionary or a Flask response.
+    """
     return {}  # TODO: Implement...
