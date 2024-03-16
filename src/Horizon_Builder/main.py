@@ -44,11 +44,14 @@ from Horizon_Builder.server import invoke_server
 app_handler: Flask = Flask("Horizon Builder")
 VERSION = "v0.0.1"
 
-# Setup Trogon
 constants.APP_TITLE = "Horizon Builder"
 Trogon.CSS_PATH = PurePath(PLPath(argv[0]).resolve().parent, PLPath("resources"), PLPath("style.scss"))
-CommandBuilder.BINDINGS.remove(Binding(key="ctrl+r", action="close_and_run", description="Close & Run"))
-CommandBuilder.BINDINGS.insert(0, Binding(key="ctrl+c", action="close", description="Close"))
+try:
+    CommandBuilder.BINDINGS.remove(Binding(key="ctrl+r", action="close_and_run", description="Close & Run"))
+    CommandBuilder.BINDINGS.insert(0, Binding(key="ctrl+c", action="close", description="Close"))
+except ValueError:
+    pass
+# TODO: Fix the 'BINDING'...
 
 
 class CustomAboutDialog(TextDialog):
