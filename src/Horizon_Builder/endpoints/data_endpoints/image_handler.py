@@ -19,5 +19,5 @@ from flask import (
 )
 
 
-def image_handler(app_handler: Flask, image_id: str, **kwargs) -> Union[dict, Response]:
-    pass
+def image_handler(app_handler: Flask, image_id: str, **kwargs) -> Union[dict, Response]:  # type: ignore[no-untyped-def]
+    return {}  # TODO: Implement...

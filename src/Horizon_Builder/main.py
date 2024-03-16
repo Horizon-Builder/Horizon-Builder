@@ -34,9 +34,9 @@ from click import (
 from flask import Flask
 from rich.text import Text
 from textual.binding import Binding
-from trogon import Trogon, constants, tui
-from trogon.trogon import CommandBuilder
-from trogon.widgets.about import TextDialog
+from trogon import Trogon, constants, tui  # type: ignore[import-untyped]
+from trogon.trogon import CommandBuilder  # type: ignore[import-untyped]
+from trogon.widgets.about import TextDialog  # type: ignore[import-untyped]
 from yaml import safe_load
 
 from Horizon_Builder.server import invoke_server
@@ -54,7 +54,7 @@ except ValueError:
 # TODO: Fix the 'BINDING'...
 
 
-class CustomAboutDialog(TextDialog):
+class CustomAboutDialog(TextDialog):  # type: ignore[no-any-unimported]
     DEFAULT_CSS = """
     TextDialog > Vertical {
         border: thick $primary 50%;
@@ -71,11 +71,11 @@ class CustomAboutDialog(TextDialog):
         super().__init__(title, message)
 
 
-def action_close(self) -> None:
+def action_close(self) -> None:  # type: ignore[no-untyped-def]
     self.app.exit()
 
 
-def action_about(self) -> None:
+def action_about(self) -> None:  # type: ignore[no-untyped-def]
     self.app.push_screen(CustomAboutDialog())
 
 
@@ -98,10 +98,10 @@ def check_environment(action: str, config: Optional[dict] = None) -> None:
             config.get("engine", {}).get("characters", {}).get("characters_folder", "") + "/sheets",
         ]
         try:
-            if config.get("engine", {}).get("version") != 1:  # type: ignore[index]
+            if config.get("engine", {}).get("version") != 1:
                 echo(
                     style(
-                        text=f"Error: Unsupported config version '{config.get('engine', {}).get('version').lower()}'.",  # type: ignore[index]
+                        text=f"Error: Unsupported config version '{config.get('engine', {}).get('version').lower()}'.",
                         fg="red",
                     )
                 )

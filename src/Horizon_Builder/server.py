@@ -34,8 +34,8 @@ def invoke_server(
     app_handler: Flask,
     server_only: Literal[True, False],
 ) -> Union[tuple[Literal[True], Callable, dict], None]:
-    yml_data: dict = invoke_parser(action="parse", verbose=verbose, config=config)
-    yml_files: list = invoke_parser(action="list", verbose=verbose, config=config)
+    yml_data: dict = invoke_parser(action="parse", verbose=verbose, config=config)  # type: ignore[assignment]
+    yml_files: list = invoke_parser(action="list", verbose=verbose, config=config)  # type: ignore[assignment]
     interpreted_data: dict = data_factory(data=yml_data, files=yml_files, verbose=verbose, config=config)
 
     app_sockets: SocketIO = SocketIO(app_handler, async_mode="gevent")  # type: ignore[no-any-unimported]

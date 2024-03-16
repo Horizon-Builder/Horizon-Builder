@@ -22,11 +22,11 @@ from flask import (
 from Horizon_Builder.endpoints.data_endpoints.image_handler import image_handler
 
 
-def data(app_handler: Flask, action: str, **kwargs) -> Union[dict, Response]:
+def data(app_handler: Flask, action: str, **kwargs) -> Union[dict, Response]:  # type: ignore[no-untyped-def]
     valid_actions: dict = {
         "Image_handler": image_handler,  # TODO: Implement more robust endpoints.
     }
     if action in valid_actions:
-        return valid_actions[action](app_handler, **kwargs)
+        return valid_actions[action](app_handler, **kwargs)  # type: ignore[no-any-return]
     else:
         return {"error": 404}

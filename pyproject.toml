@@ -59,7 +59,7 @@ show_error_codes = true
 pythonpath = ["src/Horizon_Builder"]
 
 [tool.deptry.per_rule_ignores]
-DEP001 = ["main", "server", "parser", "data", "models", "plugins", "websockets", "endpoints", "interfaces"]
+DEP001 = ["main", "server", "parser", "data", "models", "plugins", "websockets", "endpoints", "data_endpoints", "interfaces", "Horizon_Builder"]
 DEP002 = ["pyopenssl", "gevent", "gevent-websocket"]
 
 [tool.ruff]

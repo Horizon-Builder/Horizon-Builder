@@ -42,7 +42,7 @@ def data_factory(data: dict, files: list, verbose: Literal[True, False], config:
     for file in files:
         if verbose:
             echo(style(text=f"Verbose: Trying to process contents of '{file}'.", fg="cyan"))
-            data: dict = data[file]
+            data: dict = data[file]  # type: ignore[no-redef]
             if data.get("engine", {}).get("encoding").lower() != "utf-8":
                 echo(
                     style(
@@ -52,7 +52,7 @@ def data_factory(data: dict, files: list, verbose: Literal[True, False], config:
                 )
                 continue
             else:
-                data: dict = data.get("elements", {})
+                data: dict = data.get("elements", {})  # type: ignore[no-redef]
                 for element_name, element_data in data.items():
                     if "type" in element_data:
                         element_type = element_data["type"]
