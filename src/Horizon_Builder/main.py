@@ -39,6 +39,7 @@ from trogon.trogon import CommandBuilder  # type: ignore[import-untyped]
 from trogon.widgets.about import TextDialog  # type: ignore[import-untyped]
 from yaml import safe_load
 
+from Horizon_Builder.interface.terminal import terminal_ui
 from Horizon_Builder.server import invoke_server
 
 app_handler: Flask = Flask("Horizon Builder")
@@ -525,12 +526,13 @@ def horizon_builder_cli(  # noqa: C901
     if verbose:
         echo(style(text=f"Verbose: Interpreted data: \n{interpreted_data}\n", fg="cyan"))
     if out is True and isinstance(stop_servers, Callable):  # type: ignore[arg-type]
-        while True:
-            try:
-                sleep(0.01)  # TODO: implement interactive UI logic from this point on
-            except KeyboardInterrupt:
-                stop_servers()
-                break
+        try:
+            terminal_ui(
+                config=config,  # type: ignore[arg-type]
+                interpreted_data=interpreted_data,
+            )  # TODO: implement interactive UI logic from this point on
+        except KeyboardInterrupt:
+            stop_servers()
         sleep(0.01)  # Fixes some weird echo() behavior near the closing of the program.
     else:
         echo(style(text="Error: Server encountered problems! Exiting...", fg="red"))
@@ -541,7 +543,7 @@ def horizon_builder_cli(  # noqa: C901
 if __name__ == "__main__":  # pragma: no cover
     register(before_exit)
     check_environment(action="INIT")
-    if len(argv) == 1:
-        horizon_builder_cli.main(["help"])
-    else:
+    if len(argv) != 1 and len(argv) != 0:
         horizon_builder_cli()
+    else:
+        horizon_builder_cli.main(["help"])

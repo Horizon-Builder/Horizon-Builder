@@ -27,16 +27,13 @@ def parse_weapon(element_data: dict) -> dict:
     Returns:
     - dict: The parsed weapon data with optional attributes set to None if missing.
     """
-    # Define required and optional attributes
     required_attributes = ["category", "proficiency", "damage"]
     optional_attributes = ["description", "properties", "weight"]
 
-    # Check for required attributes
     for attributes in required_attributes:
         if attributes not in element_data:
             raise ValueError(f"Error: Missing required attribute '{attributes}' in subclass element")  # noqa: TRY003
 
-    # Check for optional attributes
     for attributes in optional_attributes:
         if attributes not in element_data:
             element_data[attributes] = None
