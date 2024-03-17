@@ -24,11 +24,11 @@ else ifeq ($(DETECTED_OS),Darwin)
     SPEC_GEN = macos.spec
     FLAGS += src/Horizon_Builder/main.py --paths=.venv/Lib/site-packages --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml --console
     GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent, --hidden-import textual.widgets._tab, --collect-all textual, --collect-all trogon,
-else ## Assume linux?
-    SPEC_PRE = ./src/
-    SPEC_GEN = linux.spec
-    FLAGS += src/Horizon_Builder/main.py --paths=.venv/Lib/site-packages --add-data src/Horizon_Builder/config.yml:Horizon_Builder/config.yml
-    GIT_FLAGS += --add-data src/Horizon_Builderc/onfig.yml:Horizon_Builder/config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent, --hidden-import textual.widgets._tab, --collect-all textual, --collect-all trogon,
+else ## Assume Windows?
+    SPEC_PRE = .\\src\\
+    SPEC_GEN = windows.spec
+    FLAGS += src\\Horizon_Builder/main.py --paths=.venv\\Lib\\site-packages --add-data src\\Horizon_Builder\\config.yml:Horizon_Builder\\config.yml
+    GIT_FLAGS += --add-data src\\Horizon_Builderc\\onfig.yml:Horizon_Builder\\config.yml, --hidden-import gevent, --collect-all gevent-websocket, --hidden-import engineio.async_drivers.gevent, --hidden-import textual.widgets._tab, --collect-all textual, --collect-all trogon,
 endif
 
 SPEC := $(strip $(SPEC_PRE))$(strip $(SPEC_GEN))
@@ -72,6 +72,9 @@ build: ## Build the executable with pyinstaller
 options: ## Configure the pyinstaller GitHub action
 	@echo "$(GIT_FLAGS)"
 
+.PHONY: os
+os: ## Debug the detected os
+	@echo "$(DETECTED_OS)"
 
 .PHONY: spec
 spec: ## Select the spec file to use
