@@ -23,7 +23,7 @@
 
 ---
 
-Attempt at a DnD 5e Character builder inspired by Aurora Builder.
+A DnD 5e Character builder inspired by Aurora Builder.
 
 - **GitHub repository**: <https://github.com/Horizon-Builder/Horizon-Builder/>
 - **Documentation**: <https://horizon-builder.github.io/Horizon-Builder/>

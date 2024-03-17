@@ -104,10 +104,23 @@ Now, validate that all unit tests are passing:
 make test
 ```
 
-This requires you to have multiple versions of python installed.
+8. Make sure that the changes provide a working binary.
+
+```bash
+make build
+```
+
+Please also manually check and test the produced binary.
+
+```bash
+cd ~/
+cp /path/to/repo/dist/Horizon\ Builder ~/
+./Horion\ Builder
+```
+
 This step is also triggered in the CI/CD pipeline, so you could also choose to skip this step locally.
 
-10. Commit your changes and push your branch to GitHub:
+9. Commit your changes and push your branch to GitHub:
 
 ```bash
 git add .
@@ -115,7 +128,7 @@ git commit -m "Your detailed description of your changes."
 git push origin name-of-your-bugfix-or-feature
 ```
 
-11. Submit a pull request through the GitHub website.
+10. Submit a pull request through the GitHub website.
 
 # Pull Request Guidelines
 
