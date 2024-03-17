@@ -3,8 +3,8 @@ GIT_FLAGS = --onefile, --name "Horizon Builder",
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS := Windows
-# else ifeq (,$(findstring WINDOWS,$(PATH)))
-#     DETECTED_OS := Windows
+else ifeq '$(findstring ;,$(PATH))' ';'
+    DETECTED_OS := Windows
 else
     DETECTED_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown')
 endif
