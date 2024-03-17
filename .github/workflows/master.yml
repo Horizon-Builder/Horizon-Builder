@@ -103,39 +103,21 @@ jobs:
       - name: Check out
         uses: actions/checkout@v4
 
-      - name: Setup options for PyInstaller (Unix)
-        if: ${{ matrix.os }} != "windows-latest"
-        id: config-unix
-        run: |
-          echo "OPTIONS=$(make options)" >> $GITHUB_OUTPUT
-          echo "SPEC=$(make spec)" >> $GITHUB_OUTPUT
-
-      - name: Setup options for PyInstaller (NT)
-        if: ${{ matrix.os }} == "windows-latest"
-        id: config-nt
+      - name: Setup options for PyInstaller
+        shell: pwsh
+        id: config
         run: |
           echo "OPTIONS=$(make options)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           echo "SPEC=$(make spec)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Create Executable (Unix)
         uses: sayyid5416/pyinstaller@v1
-        if: ${{ matrix.os }} != "windows-latest"
         with:
           python_ver: "3.11"
-          spec: "${{ steps.config-unix.outputs.SPEC }}"
+          spec: "${{ steps.config.outputs.SPEC }}"
           requirements: "src/requirements.txt"
           upload_exe_with_name: "Horizon Builder ${{ matrix.os }} ${{ runner.arch }} ${{ github.ref_name }}"
-          options: ${{ steps.config-unix.outputs.OPTIONS }}
-
-      - name: Create Executable (NT)
-        uses: sayyid5416/pyinstaller@v1
-        if: ${{ matrix.os }} == "windows-latest"
-        with:
-          python_ver: "3.11"
-          spec: "${{ steps.config-nt.outputs.SPEC }}"
-          requirements: "src/requirements.txt"
-          upload_exe_with_name: "Horizon Builder ${{ matrix.os }} ${{ runner.arch }} ${{ github.ref_name }}"
-          options: ${{ steps.config-nt.outputs.OPTIONS }}
+          options: ${{ steps.config.outputs.OPTIONS }}
 
   check-docs:
     runs-on: ubuntu-latest
