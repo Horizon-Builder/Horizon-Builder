@@ -113,8 +113,9 @@ jobs:
         id: debug
         run: |
           echo "DEBUG_OS=$(make os)" >> $GITHUB_OUTPUT
-          echo "${{ steps.debug.outputs.DEBUG_OS }}"
-          echo "$DEBUG_OS"
+
+      - name: Print the debug output
+        run: echo "${{ steps.debug.outputs.DEBUG_OS }}"
 
       - name: Create Executable
         uses: sayyid5416/pyinstaller@v1
