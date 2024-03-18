@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="horizon_builder" pattern="file:src//*.py" />
+</component>
