@@ -12,10 +12,29 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-from .cli import horizon_builder_cli
+from loguru import logger
+from textual.app import App, ComposeResult
+from textual.widgets import Footer
 
 
-__version__ = "0.0.1"
-__author__ = "GustavoSchip"
+class Interface(App):
+    BINDINGS = [
+        ("ctrl+q", "quit", "Quit"),
+    ]
 
-__all__ = [horizon_builder_cli]
+    @logger.catch()
+    def __init__(self, context: dict) -> None:
+        super().__init__()
+        self.context = context
+
+    @logger.catch()
+    def compose(self) -> ComposeResult:
+        yield Footer()
+
+    @logger.catch()
+    async def on_mount(self) -> None:
+        pass
+
+    @logger.catch()
+    def action_quit(self) -> None:
+        self.app.exit(result=None, return_code=0)

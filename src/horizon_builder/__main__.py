@@ -12,8 +12,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+from sys import argv
+
 from .cli import horizon_builder_cli
 
-
 if __name__ == "__main__":
-    horizon_builder_cli()
+    if "--help" in argv or len(argv) <= 1:
+        horizon_builder_cli(["tui-help"])
+    elif argv[1] != "start" and argv[1] != "help":
+        horizon_builder_cli(["tui-help"])
+    else:
+        horizon_builder_cli()
