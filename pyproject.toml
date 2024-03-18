@@ -1,0 +1,42 @@
+[project]
+name = "Horizon_Builder"
+version = "0.0.1"
+description = "A DnD 5e Character builder inspired by Aurora Builder."
+authors = [
+    { name = "GustavoSchip", email = "gustavoschip@proton.me" },
+]
+dependencies = [
+    "click>=8.1.7",
+    "trogon>=0.5.0",
+    "textual>=0.53.1",
+    "pyYAML>=6.0.1",
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = { file = "LICENSE" }
+
+[project.scripts]
+horizon_builder = "horizon_builder:horizon_builder_cli"
+
+[build-system]
+requires = ["setuptools>=42", "wheel", "nuitka", "toml"]
+build-backend = "nuitka.distutils.Build"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+namespaces = true
+where = ["src"]
+
+[tool.setuptools.exclude-package-data]
+horizon_builder = [".gitattributes", ".gitkeep", ".gitignore"]
+
+[tool.setuptools.package-data]
+horizon_builder = ['config.yml']
+
+[tool.nuitka]
+show-scons = true
+
+[tool.pdm]
+distribution = true
