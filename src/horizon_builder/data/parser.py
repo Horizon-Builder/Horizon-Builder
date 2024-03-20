@@ -14,32 +14,32 @@
 #
 from os import listdir, PathLike
 from pathlib import Path, PurePath
-from typing import Literal, Union
+from typing import Union
 
 from click import FileError, open_file
 from textual import log
 from yaml import safe_load
 
 
-def parse_files(
-    verbose: Literal[True, False], content_folder: Union[str, PathLike[str]]
-) -> tuple[dict, list]:
+def parse_files(content_folder: Union[str, PathLike[str]]) -> tuple[dict, list]:
     files_to_parse: list = []
     yml_dict: dict = {}
     for file in listdir(PurePath(content_folder)):
-        if (
-            str(file).endswith(".yml")
-            and PurePath(content_folder, Path(file)) not in files_to_parse
-        ):
-            files_to_parse.append(PurePath(content_folder, Path(file)))
+        try:
+            if (
+                str(file).endswith(".yml")
+                and PurePath(content_folder, Path(file)) not in files_to_parse
+            ):
+                files_to_parse.append(PurePath(content_folder, Path(file)))
+        except FileNotFoundError as error:
+            log.error(f"{error}! Aborting.")
+            exit(1)
     for yml_file in files_to_parse:
-        if verbose:
-            log.verbose(f"Trying to parse contents of '{yml_file}'.")
         try:
             with open_file(filename=str(yml_file), encoding="utf-8") as f:
                 parsed_yml: dict = safe_load(stream=f.read())
                 yml_dict[str(yml_file.name)] = parsed_yml
-        except (FileError, ValueError) as error:
+        except (FileNotFoundError, FileError, ValueError) as error:
             log.error(f"{error}! Skipping...")
             continue
     return yml_dict, files_to_parse

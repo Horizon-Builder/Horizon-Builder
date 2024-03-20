@@ -15,15 +15,17 @@
 from textual.app import App, ComposeResult
 from textual.widgets import Footer
 
+from horizon_builder.cli import Context
+
 
 class Interface(App):
     BINDINGS = [
         ("ctrl+q", "quit", "Quit"),
     ]
 
-    def __init__(self, context: dict) -> None:
+    def __init__(self, context: Context) -> None:
         super().__init__()
-        self.context: dict = context
+        self.context: Context = context
 
     def compose(self) -> ComposeResult:
         yield Footer()

@@ -30,7 +30,7 @@ def get_config(config: dict) -> Config:
     version: int = config.get("engine", {}).get("version", 0)
     if version != 1:
         raise NotImplementedError("Only version 1 is supported!")
-    kwargs = {
+    kwargs: dict = {
         "version": version,
         "content_folder": config.get("engine", {})
         .get("content", {})

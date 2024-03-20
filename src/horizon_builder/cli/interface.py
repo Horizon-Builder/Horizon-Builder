@@ -17,6 +17,7 @@ from sys import exit
 from typing import Literal, Union
 
 from click import command, option, Path, open_file
+from pydantic import BaseModel
 from textual import log
 from trogon import tui
 from yaml import safe_load
@@ -24,6 +25,12 @@ from yaml import safe_load
 from horizon_builder.cli.tui import Interface
 from horizon_builder.data import parse_files
 from horizon_builder.data.config import get_config
+
+
+class Context(BaseModel):
+    config: dict
+    verbose: bool
+    data: tuple[dict, list]
 
 
 @tui(name="horizon_builder", command="tui-help")
@@ -45,26 +52,26 @@ def horizon_builder_cli(
     config: Union[PLPath, None],
     verbose: Literal[True, False],
 ) -> None:
-    context: dict = {}
+    kwargs: dict = {}
     if config is None:
         try:
             with open(
                 file=PurePath(PLPath(__file__).parent.parent, PLPath("config.yml")),
                 mode="r",
             ) as f:
-                context["config"] = safe_load(f.read())
+                kwargs["config"] = safe_load(f.read())
         except FileNotFoundError:
             log.critical(msg="Internal config not found! Aborting.")
             exit(1)
     elif isinstance(config, (PLPath, Path)):
         with open_file(filename=str(config), encoding="utf-8") as f:
-            context["config"] = safe_load(f.read())
+            kwargs["config"] = safe_load(f.read())
     else:
         log.error(msg="No config file provided! Aborting.")
         exit(1)
-    context["verbose"] = verbose
-    context["config"] = get_config(config=context["config"])
-    context["parsed_files"] = parse_files(verbose=verbose, content_folder="")
-    app: Interface = Interface(context=context)
+    kwargs["verbose"] = verbose
+    kwargs["config"] = get_config(config=kwargs["config"])
+    kwargs["data"] = parse_files(content_folder=kwargs["config"].content_folder)
+    app: Interface = Interface(context=Context(**kwargs))
     app.run()
     return
