@@ -23,7 +23,7 @@ class Interface(App):
 
     def __init__(self, context: dict) -> None:
         super().__init__()
-        self.context = context
+        self.context: dict = context
 
     def compose(self) -> ComposeResult:
         yield Footer()

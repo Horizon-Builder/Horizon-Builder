@@ -12,10 +12,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-from .cli import horizon_builder_cli
+from typing import Sequence
 
 
-__version__ = "0.0.1"
-__author__ = "GustavoSchip"
+__version__: str = "0.0.1"
+__author__: str = "GustavoSchip"
 
-__all__ = [horizon_builder_cli]
+__all__: Sequence = []

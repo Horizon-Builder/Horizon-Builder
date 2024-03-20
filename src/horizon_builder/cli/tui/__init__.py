@@ -12,7 +12,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-from .app import Interface
+from typing import Sequence
 
+from horizon_builder.cli.tui.app import Interface
 
-__all__ = [Interface]
+__all__: Sequence[str] = ["Interface"]

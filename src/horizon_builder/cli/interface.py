@@ -16,12 +16,14 @@ from pathlib import Path as PLPath, PurePath
 from sys import exit
 from typing import Literal, Union
 
-from click import command, option, Path
+from click import command, option, Path, open_file
 from textual import log
 from trogon import tui
 from yaml import safe_load
 
-from .tui import Interface
+from horizon_builder.cli.tui import Interface
+from horizon_builder.data import parse_files
+from horizon_builder.data.config import get_config
 
 
 @tui(name="horizon_builder", command="tui-help")
@@ -54,12 +56,15 @@ def horizon_builder_cli(
         except FileNotFoundError:
             log.critical(msg="Internal config not found! Aborting.")
             exit(1)
-    elif isinstance(config, PLPath):
-        context["config"] = safe_load(config.read())
+    elif isinstance(config, (PLPath, Path)):
+        with open_file(filename=str(config), encoding="utf-8") as f:
+            context["config"] = safe_load(f.read())
     else:
         log.error(msg="No config file provided! Aborting.")
         exit(1)
     context["verbose"] = verbose
-    app = Interface(context=context)
+    context["config"] = get_config(config=context["config"])
+    context["parsed_files"] = parse_files(verbose=verbose, content_folder="")
+    app: Interface = Interface(context=context)
     app.run()
     return

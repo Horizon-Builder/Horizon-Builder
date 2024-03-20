@@ -12,4 +12,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-__all__ = []
+from typing import Sequence
+
+from horizon_builder.data.parser import parse_files
+
+__all__: Sequence[str] = ["parse_files"]

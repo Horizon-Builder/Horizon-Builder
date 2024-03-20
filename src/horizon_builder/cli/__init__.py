@@ -12,6 +12,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-from .interface import horizon_builder_cli
+from typing import Sequence
 
-__all__ = ["horizon_builder_cli"]
+from horizon_builder.cli.interface import horizon_builder_cli
+
+__all__: Sequence[str] = ["horizon_builder_cli"]
