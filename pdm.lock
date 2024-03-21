@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:696746e59412326244f9beeabcc5cb5efcc7734346cb2f96470a042a410118ce"
+content_hash = "sha256:3fe088f1fb0cec18297f25b6ae3e54c822845a50c9ca8b406c39d94a595430d9"
 
 [[package]]
 name = "annotated-types"
@@ -16,6 +16,20 @@ groups = ["default"]
 files = [
     {file = "annotated_types-0.6.0-py3-none-any.whl", hash = "sha256:0641064de18ba7a25dee8f96403ebc39113d0cb953a01429249d5c7564666a43"},
     {file = "annotated_types-0.6.0.tar.gz", hash = "sha256:563339e807e53ffd9c267e99fc6d9ea23eb8443c08f112651963e24e22f84a5d"},
+]
+
+[[package]]
+name = "auto-click-auto"
+version = "0.1.4"
+requires_python = ">=3.7,<4.0"
+summary = "Automatically enable tab autocompletion for shells in Click CLI applications."
+groups = ["default"]
+dependencies = [
+    "click<9.0.0,>=8.1.4",
+]
+files = [
+    {file = "auto_click_auto-0.1.4-py3-none-any.whl", hash = "sha256:22ea4c9a8bb5c56c251ff1d070ac4dbdf2f047084960df818f909c139d0cae68"},
+    {file = "auto_click_auto-0.1.4.tar.gz", hash = "sha256:f14f9cfadf0ba5f9ac0680c73fa0d0beb46e7e074a556f4057fe3aab999b53b8"},
 ]
 
 [[package]]

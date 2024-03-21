@@ -11,6 +11,7 @@ dependencies = [
     "textual>=0.53.1",
     "pyYAML>=6.0.1",
     "pydantic>=2.6.4",
+    "auto-click-auto>=0.1.4",
 ]
 requires-python = ">=3.9,<3.12"
 readme = "README.md"

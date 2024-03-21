@@ -17,6 +17,9 @@ from pathlib import Path as PLPath, PurePath
 from sys import exit
 from typing import Literal, Union
 
+
+from auto_click_auto import enable_click_shell_completion
+from auto_click_auto.constants import ShellType
 from click import command, option, Path, open_file, style
 from textual import log
 from trogon import tui
@@ -48,6 +51,15 @@ def horizon_builder_cli(
     config: Union[PLPath, None],
     verbose: Literal[True, False],
 ) -> None:
+    try:
+        enable_click_shell_completion(
+            program_name="horizon_builder",
+            shells={ShellType.BASH, ShellType.ZSH, ShellType.FISH},
+            verbose=verbose,
+        )
+    except NotImplementedError as error:
+        if verbose:
+            log.warning(style(text=f"{error}!", fg="yellow"))
     kwargs: dict = {}
     if config is None:
         try:
