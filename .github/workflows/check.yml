@@ -25,7 +25,7 @@ jobs:
         run: "pdm install --no-self --no-editable --check --fail-fast"
   pre-commit:
     runs-on: "ubuntu-latest"
-    if: github.event_name == 'pull_request' || github.repository == 'Horizon-Builder/Horizon-Builder'
+    if: "${{ github.event_name == 'pull_request' }}"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@main"
@@ -42,6 +42,6 @@ jobs:
           key: "pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}"
       - name: "Run pre-commit lite"
         uses: "pre-commit-ci/lite-action@main"
-        if: always()
+        if: "${{ always() }}"
       - name: "Run pre-commit"
         uses: "pre-commit/action@main"
