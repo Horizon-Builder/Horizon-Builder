@@ -26,7 +26,6 @@
 A DnD 5e Character builder inspired by Aurora Builder.
 
 - **GitHub repository**: <https://github.com/Horizon-Builder/Horizon-Builder/>
-- **Documentation**: <https://horizon-builder.github.io/Horizon-Builder/>
 
 ## Most notable packages used
 
@@ -36,7 +35,7 @@ as follows:
 <details>
 <summary>List of Packages</summary>
 
-- [trogon](https://github.com/textualize/trogon)
+- [Trogon](https://github.com/textualize/trogon)
 - [pydantic](https://github.com/pydantic/pydantic)
 - [$ click\_](https://github.com/pallets/click)
 - [PyYAML](https://github.com/yaml/pyyaml)
