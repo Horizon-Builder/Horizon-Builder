@@ -12,46 +12,21 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-from os import PathLike
-from typing import Union
+from click import style
+from pydantic import ValidationError
+from textual import log
 
-from pydantic import BaseModel, ConfigDict
-
-
-class Content(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-    content_folder: Union[str, PathLike[str]]
-
-
-class Characters(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-    characters_folder: Union[str, PathLike[str]]
-
-
-class Plugins(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-    plugins_folder: Union[str, PathLike[str]]
-    enabled: bool
-
-
-class Config(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-    version: int
-    content: Content
-    characters: Characters
-    plugins: Plugins
+from horizon_builder.data.manager.models import Config
 
 
 def get_config(config: dict) -> Config:
     engine_config = config.get("engine", {})
-    version: int = engine_config.get("version", 0)
-    if version != 1:
-        raise NotImplementedError("Only version 1 is supported!")
-    kwargs: dict = {
-        "version": version,
-        "content": Content(**engine_config.get("content", {})),
-        "characters": Characters(**engine_config.get("characters", {})),
-        "plugins": Plugins(**engine_config.get("plugins", {})),
-    }
-    processed_config = Config(**kwargs)
+    if engine_config.get("version", 0) != 1:
+        log.error(style(text="Only version 1 is supported! Aborting...", fg="red"))
+        exit(1)
+    try:
+        processed_config = Config(**engine_config)
+    except (ValidationError, AttributeError) as error:
+        log.error(style(text=f"{error}! Aborting...", fg="red"))
+        exit(1)
     return processed_config

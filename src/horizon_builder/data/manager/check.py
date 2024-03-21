@@ -17,10 +17,10 @@ from os.path import exists
 from pathlib import PurePath, Path
 from typing import Union
 
-from click import open_file, FileError
+from click import open_file, FileError, style
 from textual import log
 
-from horizon_builder.data.config import Config
+from horizon_builder.data.manager.models import Config
 
 
 def check(
@@ -37,7 +37,9 @@ def check(
             if not exists(path):
                 to_create[path] = content  # type: ignore[call-overload]
     else:
-        raise TypeError("Invalid type for entries in check!")  # TODO: Better error...
+        raise TypeError(
+            style(text="Invalid type for entries in check!", fg="red")
+        )  # TODO: Better error...
     return to_create
 
 
@@ -49,7 +51,7 @@ def create_folders(folders: list[PurePath]) -> None:
 
 def create_files(files: dict[PurePath, str]) -> None:
     for file, content in files.items():
-        with open(file=file, mode="w+") as f:
+        with open_file(filename=str(file), mode="w+", encoding="utf-8") as f:
             f.write(files.get(file, content))
     return
 
@@ -58,9 +60,9 @@ def initialize_environment(config: Config) -> None:
     try:
         working_directory: Path = Path(getcwd())
         required_folders: list = [
-            PurePath(working_directory) / config.Content.content_folder,
-            PurePath(working_directory) / config.Characters.characters_folder,
-            PurePath(working_directory) / config.Plugins.plugins_folder,
+            PurePath(working_directory) / config.content.content_folder,
+            PurePath(working_directory) / config.characters.characters_folder,
+            PurePath(working_directory) / config.plugins.plugins_folder,
         ]
         files_relative: list[str] = [
             "config.yml",
@@ -78,6 +80,7 @@ def initialize_environment(config: Config) -> None:
                     )
                 ),
                 mode="r",
+                encoding="utf-8",
             ) as f:
                 required_files[file_path] = str(f.read())
                 x += 1
@@ -86,6 +89,6 @@ def initialize_environment(config: Config) -> None:
         create_folders(checked_folders)
         create_files(checked_files)
     except (FileError, TypeError) as error:
-        log.error(f"{error}! Aborting.")
+        log.error(style(text=f"{error}! Aborting...", fg="red"))
         exit(1)
     return

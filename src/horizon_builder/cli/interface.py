@@ -12,11 +12,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+from os import getcwd
 from pathlib import Path as PLPath, PurePath
 from sys import exit
 from typing import Literal, Union
 
-from click import command, option, Path, open_file
+from click import command, option, Path, open_file, style
 from textual import log
 from trogon import tui
 from yaml import safe_load
@@ -50,26 +51,39 @@ def horizon_builder_cli(
     kwargs: dict = {}
     if config is None:
         try:
-            with open(
-                file=PurePath(
-                    PurePath(PLPath(__file__)).parents[1], PLPath("config.yml")
-                ),
+            with open_file(
+                filename=str(PurePath(PLPath(getcwd()), PLPath("config.yml"))),
                 mode="r",
+                encoding="utf-8",
             ) as f:
-                kwargs["config"] = safe_load(f.read())
+                kwargs["pre-config"] = safe_load(f.read())
         except FileNotFoundError:
-            log.critical(msg="Internal config not found! Aborting.")
-            exit(1)
+            try:
+                with open_file(
+                    filename=str(
+                        PurePath(
+                            PurePath(PLPath(__file__)).parents[1], PLPath("config.yml")
+                        )
+                    ),
+                    mode="r",
+                    encoding="utf-8",
+                ) as f:
+                    kwargs["pre-config"] = safe_load(f.read())
+            except FileNotFoundError:
+                log.error(
+                    style(text="Internal config not found! Aborting...", fg="red")
+                )
+                exit(1)
     elif isinstance(config, (PLPath, Path)):
         with open_file(filename=str(config), encoding="utf-8") as f:
-            kwargs["config"] = safe_load(f.read())
+            kwargs["pre-config"] = safe_load(f.read())
     else:
-        log.error(msg="No config file provided! Aborting.")
+        log.error(style(text="No config file provided! Aborting...", fg="red"))
         exit(1)
     kwargs["verbose"] = verbose
-    kwargs["config"] = get_config(config=kwargs["config"])
+    kwargs["config"] = get_config(config=kwargs["pre-config"])
     initialize_environment(kwargs["config"])
-    kwargs["data"] = parse_files(content_folder=kwargs["config"].content_folder)
+    kwargs["data"] = parse_files(content_folder=kwargs["config"].content.content_folder)
     app: Interface = Interface(context=Context(**kwargs))
     app.run()
     return

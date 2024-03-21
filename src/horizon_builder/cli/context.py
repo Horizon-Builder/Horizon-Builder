@@ -14,8 +14,10 @@
 #
 from pydantic import BaseModel
 
+from horizon_builder.data.manager.models import Config
+
 
 class Context(BaseModel):
-    config: dict
+    config: Config
     verbose: bool
     data: tuple[dict, list]

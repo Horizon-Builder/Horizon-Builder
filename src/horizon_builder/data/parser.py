@@ -16,7 +16,7 @@ from os import listdir, PathLike
 from pathlib import Path, PurePath
 from typing import Union
 
-from click import FileError, open_file
+from click import FileError, open_file, style
 from textual import log
 from yaml import safe_load
 
@@ -32,14 +32,14 @@ def parse_files(content_folder: Union[str, PathLike[str]]) -> tuple[dict, list]:
             ):
                 files_to_parse.append(PurePath(content_folder, Path(file)))
         except FileNotFoundError as error:
-            log.error(f"{error}! Aborting.")
-            exit(1)
+            log.error(style(text=f"{error}! Skipping...", fg="red"))
+            continue
     for yml_file in files_to_parse:
         try:
-            with open_file(filename=str(yml_file), encoding="utf-8") as f:
+            with open_file(filename=str(yml_file), mode="r", encoding="utf-8") as f:
                 parsed_yml: dict = safe_load(stream=f.read())
                 yml_dict[str(yml_file.name)] = parsed_yml
         except (FileNotFoundError, FileError, ValueError) as error:
-            log.error(f"{error}! Skipping...")
+            log.error(style(text=f"{error}! Skipping...", fg="red"))
             continue
     return yml_dict, files_to_parse
