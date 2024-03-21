@@ -14,5 +14,6 @@
 #
 from typing import Sequence
 
+from horizon_builder.data.manager.check import initialize_environment
 
-__all__: Sequence = []
+__all__: Sequence[str] = ["initialize_environment"]

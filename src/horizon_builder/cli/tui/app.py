@@ -15,7 +15,7 @@
 from textual.app import App, ComposeResult
 from textual.widgets import Footer
 
-from horizon_builder.cli import Context
+from horizon_builder.cli.context import Context
 
 
 class Interface(App):

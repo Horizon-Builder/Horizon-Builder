@@ -15,35 +15,43 @@
 from os import PathLike
 from typing import Union
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+
+
+class Content(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    content_folder: Union[str, PathLike[str]]
+
+
+class Characters(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    characters_folder: Union[str, PathLike[str]]
+
+
+class Plugins(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    plugins_folder: Union[str, PathLike[str]]
+    enabled: bool
 
 
 class Config(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     version: int
-    content_folder: Union[str, PathLike]
-    characters_folder: Union[str, PathLike]
-    plugins_folder: Union[str, PathLike]
-    plugin_mode: bool
+    content: Content
+    characters: Characters
+    plugins: Plugins
 
 
 def get_config(config: dict) -> Config:
-    version: int = config.get("engine", {}).get("version", 0)
+    engine_config = config.get("engine", {})
+    version: int = engine_config.get("version", 0)
     if version != 1:
         raise NotImplementedError("Only version 1 is supported!")
     kwargs: dict = {
         "version": version,
-        "content_folder": config.get("engine", {})
-        .get("content", {})
-        .get("content_folder", ""),
-        "characters_folder": config.get("engine", {})
-        .get("characters", {})
-        .get("characters_folder", ""),
-        "plugins_folder": config.get("engine", {})
-        .get("plugins", {})
-        .get("plugins_folder", ""),
-        "plugin_mode": config.get("engine", {})
-        .get("plugins", {})
-        .get("enabled", False),
+        "content": Content(**engine_config.get("content", {})),
+        "characters": Characters(**engine_config.get("characters", {})),
+        "plugins": Plugins(**engine_config.get("plugins", {})),
     }
     processed_config = Config(**kwargs)
     return processed_config

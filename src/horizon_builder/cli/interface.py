@@ -17,20 +17,15 @@ from sys import exit
 from typing import Literal, Union
 
 from click import command, option, Path, open_file
-from pydantic import BaseModel
 from textual import log
 from trogon import tui
 from yaml import safe_load
 
+from horizon_builder.cli.context import Context
 from horizon_builder.cli.tui import Interface
 from horizon_builder.data import parse_files
 from horizon_builder.data.config import get_config
-
-
-class Context(BaseModel):
-    config: dict
-    verbose: bool
-    data: tuple[dict, list]
+from horizon_builder.data.manager import initialize_environment
 
 
 @tui(name="horizon_builder", command="tui-help")
@@ -56,7 +51,9 @@ def horizon_builder_cli(
     if config is None:
         try:
             with open(
-                file=PurePath(PLPath(__file__).parent.parent, PLPath("config.yml")),
+                file=PurePath(
+                    PurePath(PLPath(__file__)).parents[1], PLPath("config.yml")
+                ),
                 mode="r",
             ) as f:
                 kwargs["config"] = safe_load(f.read())
@@ -71,6 +68,7 @@ def horizon_builder_cli(
         exit(1)
     kwargs["verbose"] = verbose
     kwargs["config"] = get_config(config=kwargs["config"])
+    initialize_environment(kwargs["config"])
     kwargs["data"] = parse_files(content_folder=kwargs["config"].content_folder)
     app: Interface = Interface(context=Context(**kwargs))
     app.run()

@@ -14,8 +14,9 @@
 #
 from typing import Sequence
 
+from horizon_builder.cli import horizon_builder_cli
 
 __version__: str = "0.0.1"
 __author__: str = "GustavoSchip"
 
-__all__: Sequence = []
+__all__: Sequence[str] = ["horizon_builder_cli"]

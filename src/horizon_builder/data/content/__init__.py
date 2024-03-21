@@ -15,4 +15,4 @@
 from typing import Sequence
 
 
-__all__: Sequence = []
+__all__: Sequence[str] = []
