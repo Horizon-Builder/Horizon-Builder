@@ -17,8 +17,8 @@
 # Horizon Builder
 
 [![Release](https://img.shields.io/github/v/release/Horizon-Builder/Horizon-Builder)](https://img.shields.io/github/v/release/Horizon-Builder/Horizon-Builder)
-[![Python](https://img.shields.io/badge/Python-v3.11-blue)](https://www.python.org/downloads/release/python-311/)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/Horizon-Builder/Horizon-Builder)](https://img.shields.io/github/commit-activity/m/Horizon-Builder/Horizon-Builder)
+[![Python Versions](https://img.shields.io/badge/Python-3.9%20|%203.10%20|%203.11-blue)](https://www.python.org/downloads)
+[![Commit Activity](https://img.shields.io/github/commit-activity/m/Horizon-Builder/Horizon-Builder)](https://img.shields.io/github/commit-activity/m/Horizon-Builder/Horizon-Builder)
 [![License](https://img.shields.io/github/license/Horizon-Builder/Horizon-Builder)](https://img.shields.io/github/license/Horizon-Builder/Horizon-Builder)
 
 ---
