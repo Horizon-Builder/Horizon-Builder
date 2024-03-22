@@ -14,9 +14,8 @@
 #
 from typing import Type, Optional
 
-from click import style
+from click import secho
 from pydantic import BaseModel, ValidationError
-from textual import log
 
 from horizon_builder.data.content.models import Class
 
@@ -50,19 +49,15 @@ def initialize_content(
                             IndexError,
                             KeyError,
                         ) as error:
-                            log.warning(
-                                style(
-                                    text=f"{error}! Skipping...",
-                                    fg="yellow",
-                                )
+                            secho(
+                                text=f"{error}! Skipping...",
+                                fg="yellow",
                             )
                             continue
             except (KeyError, AttributeError) as error:
-                log.warning(
-                    style(
-                        text=f"{error}! Skipping...",
-                        fg="yellow",
-                    )
+                secho(
+                    text=f"{error}! Skipping...",
+                    fg="yellow",
                 )
                 continue
     else:
@@ -80,11 +75,9 @@ def initialize_content(
                     IndexError,
                     KeyError,
                 ) as error:
-                    log.warning(
-                        style(
-                            text=f"{error}! Skipping...",
-                            fg="yellow",
-                        )
+                    secho(
+                        text=f"{error}! Skipping...",
+                        fg="yellow",
                     )
                     continue
     return model_to_dict

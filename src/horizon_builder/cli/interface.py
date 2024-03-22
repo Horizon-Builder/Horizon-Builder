@@ -19,8 +19,7 @@ from typing import Literal, Union
 
 from auto_click_auto import enable_click_shell_completion
 from auto_click_auto.constants import ShellType
-from click import command, option, Path, open_file, style
-from textual import log
+from click import command, option, Path, open_file, secho
 from trogon import tui
 from yaml import safe_load
 
@@ -58,7 +57,7 @@ def horizon_builder_cli(
         )
     except NotImplementedError as error:
         if verbose:
-            log.warning(style(text=f"{error}!", fg="yellow"))
+            secho(text=f"{error}!", fg="yellow")
     kwargs: dict = {}
     if config is None:
         try:
@@ -69,6 +68,10 @@ def horizon_builder_cli(
             ) as f:
                 kwargs["pre-config"] = safe_load(f.read())
         except FileNotFoundError:
+            secho(
+                text="Config not found in current working directory! Continuing...",
+                fg="yellow",
+            )
             try:
                 with open_file(
                     filename=str(
@@ -81,15 +84,13 @@ def horizon_builder_cli(
                 ) as f:
                     kwargs["pre-config"] = safe_load(f.read())
             except FileNotFoundError:
-                log.error(
-                    style(text="Internal config not found! Aborting...", fg="red")
-                )
+                secho(text="Internal config not found! Aborting...", fg="red")
                 exit(1)
     elif isinstance(config, (PLPath, Path)):
         with open_file(filename=str(config), encoding="utf-8") as f:
             kwargs["pre-config"] = safe_load(f.read())
     else:
-        log.error(style(text="No config file provided! Aborting...", fg="red"))
+        secho(text="No config file provided! Aborting...", fg="red")
         exit(1)
     kwargs["verbose"] = verbose
     kwargs["config"] = get_config(config=kwargs["pre-config"])

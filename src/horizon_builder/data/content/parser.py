@@ -16,9 +16,8 @@ from os import listdir, PathLike
 from pathlib import Path, PurePath
 from typing import Union, Type
 
-from click import FileError, open_file, style
+from click import FileError, open_file, secho
 from pydantic import BaseModel
-from textual import log
 from yaml import safe_load
 
 from horizon_builder.data.content.serial import initialize_content
@@ -37,14 +36,24 @@ def parse_files(
             ):
                 files_to_parse.append(PurePath(content_folder, Path(file)))
         except FileNotFoundError as error:
-            log.warning(style(text=f"{error}! Skipping...", fg="yellow"))
+            secho(text=f"{error}! Skipping...", fg="yellow")
             continue
     for yml_file in files_to_parse:
         try:
             with open_file(filename=str(yml_file), mode="r", encoding="utf-8") as f:
                 parsed_yml: dict = safe_load(stream=f.read())
-                yml_dict[str(yml_file.name)] = parsed_yml
+                if parsed_yml.get("engine", {}).get("version", 0) != 1:
+                    secho(
+                        text="Only version 1 is supported! Skipping...",
+                        fg="yellow",
+                    )
+                    continue
+                if parsed_yml.get("elements", None) is None:
+                    secho(text="No elements found! Skipping...", fg="yellow")
+                    continue
+                yml_dict[str(yml_file.name)] = parsed_yml["elements"]
         except (FileNotFoundError, FileError, ValueError) as error:
-            log.warning(style(text=f"{error}! Skipping...", fg="yellow"))
+            secho(text=f"{error}! Skipping...", fg="yellow")
             continue
+    print(files_to_parse, yml_dict, content_folder)
     return initialize_content(serial_dict=yml_dict, content_files=files_to_parse)

@@ -17,8 +17,7 @@ from os.path import exists
 from pathlib import PurePath, Path
 from typing import Union
 
-from click import open_file, FileError, style
-from textual import log
+from click import open_file, FileError, secho, style
 
 from horizon_builder.data.manager.models import Config
 
@@ -89,6 +88,6 @@ def initialize_environment(config: Config) -> None:
         create_folders(checked_folders)
         create_files(checked_files)
     except (FileError, TypeError) as error:
-        log.error(style(text=f"{error}! Aborting...", fg="red"))
+        secho(text=f"{error}! Aborting...", fg="red")
         exit(1)
     return
