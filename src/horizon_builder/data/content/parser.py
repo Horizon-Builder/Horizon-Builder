@@ -14,14 +14,19 @@
 #
 from os import listdir, PathLike
 from pathlib import Path, PurePath
-from typing import Union
+from typing import Union, Type
 
 from click import FileError, open_file, style
+from pydantic import BaseModel
 from textual import log
 from yaml import safe_load
 
+from horizon_builder.data.content.serial import initialize_content
 
-def parse_files(content_folder: Union[str, PathLike[str]]) -> tuple[dict, list]:
+
+def parse_files(
+    content_folder: Union[str, PathLike[str]]
+) -> dict[Type[BaseModel], dict]:
     files_to_parse: list = []
     yml_dict: dict = {}
     for file in listdir(PurePath(content_folder)):
@@ -42,4 +47,4 @@ def parse_files(content_folder: Union[str, PathLike[str]]) -> tuple[dict, list]:
         except (FileNotFoundError, FileError, ValueError) as error:
             log.warning(style(text=f"{error}! Skipping...", fg="yellow"))
             continue
-    return yml_dict, files_to_parse
+    return initialize_content(serial_dict=yml_dict, content_files=files_to_parse)

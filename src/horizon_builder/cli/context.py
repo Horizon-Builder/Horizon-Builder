@@ -12,6 +12,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+from typing import Type
+
 from pydantic import BaseModel
 
 from horizon_builder.data.manager.models import Config
@@ -20,4 +22,4 @@ from horizon_builder.data.manager.models import Config
 class Context(BaseModel):
     config: Config
     verbose: bool
-    data: tuple[dict, list]
+    data: dict[Type[BaseModel], dict]

@@ -28,7 +28,6 @@ from horizon_builder.cli.context import Context
 from horizon_builder.cli.tui.app import Interface
 from horizon_builder.data.config import get_config
 from horizon_builder.data.content.parser import parse_files
-from horizon_builder.data.content.serial import initialize_content
 from horizon_builder.data.manager.check import initialize_environment
 
 
@@ -95,11 +94,7 @@ def horizon_builder_cli(
     kwargs["verbose"] = verbose
     kwargs["config"] = get_config(config=kwargs["pre-config"])
     initialize_environment(kwargs["config"])
-    kwargs["pre-data"] = parse_files(
-        content_folder=kwargs["config"].content.content_folder
-    )
-    kwargs["data"] = initialize_content(*kwargs["pre-data"])
-    print(kwargs["data"])
+    kwargs["data"] = parse_files(content_folder=kwargs["config"].content.content_folder)
     app: Interface = Interface(context=Context(**kwargs))
     app.run()
     return
