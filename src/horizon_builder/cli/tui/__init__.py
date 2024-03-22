@@ -14,6 +14,5 @@
 #
 from typing import Sequence
 
-from horizon_builder.cli.tui.app import Interface
 
-__all__: Sequence[str] = ["Interface"]
+__all__: Sequence[str] = []

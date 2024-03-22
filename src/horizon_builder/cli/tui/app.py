@@ -13,7 +13,7 @@
 #   limitations under the License.
 #
 from textual.app import App, ComposeResult
-from textual.widgets import Footer
+from textual.widgets import Footer, Header, TextArea
 
 from horizon_builder.cli.context import Context
 
@@ -26,9 +26,15 @@ class Interface(App):
     def __init__(self, context: Context) -> None:
         super().__init__()
         self.context: Context = context
+        self.textbox = TextArea(
+            text=str(self.context.data),
+            read_only=True,
+        )
 
     def compose(self) -> ComposeResult:
         yield Footer()
+        yield Header(show_clock=True)
+        yield self.textbox
 
     async def on_mount(self) -> None:
         pass

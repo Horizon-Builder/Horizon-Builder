@@ -17,16 +17,17 @@ from pathlib import Path as PLPath, PurePath
 from sys import exit
 from typing import Literal, Union
 
-from click import command, option, Path, open_file, style
-from textual import log
+from auto_click_auto import enable_click_shell_completion
+from auto_click_auto.constants import ShellType
+from click import command, option, Path, open_file, secho
 from trogon import tui
 from yaml import safe_load
 
 from horizon_builder.cli.context import Context
-from horizon_builder.cli.tui import Interface
-from horizon_builder.data import parse_files
+from horizon_builder.cli.tui.app import Interface
 from horizon_builder.data.config import get_config
-from horizon_builder.data.manager import initialize_environment
+from horizon_builder.data.content.parser import parse_files
+from horizon_builder.data.manager.check import initialize_environment
 
 
 @tui(name="horizon_builder", command="tui-help")
@@ -48,6 +49,15 @@ def horizon_builder_cli(
     config: Union[PLPath, None],
     verbose: Literal[True, False],
 ) -> None:
+    try:
+        enable_click_shell_completion(
+            program_name="horizon_builder",
+            shells={ShellType.BASH, ShellType.ZSH, ShellType.FISH},
+            verbose=verbose,
+        )
+    except NotImplementedError as error:
+        if verbose:
+            secho(text=f"{error}!", fg="yellow")
     kwargs: dict = {}
     if config is None:
         try:
@@ -58,6 +68,10 @@ def horizon_builder_cli(
             ) as f:
                 kwargs["pre-config"] = safe_load(f.read())
         except FileNotFoundError:
+            secho(
+                text="Config not found in current working directory! Continuing...",
+                fg="yellow",
+            )
             try:
                 with open_file(
                     filename=str(
@@ -70,15 +84,13 @@ def horizon_builder_cli(
                 ) as f:
                     kwargs["pre-config"] = safe_load(f.read())
             except FileNotFoundError:
-                log.error(
-                    style(text="Internal config not found! Aborting...", fg="red")
-                )
+                secho(text="Internal config not found! Aborting...", fg="red")
                 exit(1)
     elif isinstance(config, (PLPath, Path)):
         with open_file(filename=str(config), encoding="utf-8") as f:
             kwargs["pre-config"] = safe_load(f.read())
     else:
-        log.error(style(text="No config file provided! Aborting...", fg="red"))
+        secho(text="No config file provided! Aborting...", fg="red")
         exit(1)
     kwargs["verbose"] = verbose
     kwargs["config"] = get_config(config=kwargs["pre-config"])

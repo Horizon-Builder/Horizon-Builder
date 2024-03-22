@@ -14,7 +14,7 @@
 #
 from sys import argv
 
-from horizon_builder.cli import horizon_builder_cli
+from horizon_builder.cli.interface import horizon_builder_cli
 
 if __name__ == "__main__":
     if "--help" in argv or len(argv) <= 1:

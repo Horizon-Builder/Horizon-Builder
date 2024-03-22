@@ -1,0 +1,52 @@
+on:
+  push:
+    tags: [ "*" ]
+  workflow_dispatch:
+concurrency: "${{ github.workflow }}-${{ github.ref }}"
+permissions:
+  contents: "write"
+jobs:
+  release:
+    strategy:
+      matrix:
+        os: [ "ubuntu-latest", "macos-latest", "windows-latest" ]
+    runs-on: "${{ matrix.os }}"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@main"
+      - name: "Set up PDM"
+        uses: "pdm-project/setup-pdm@main"
+        with:
+          cache: "true"
+          python-version: "3.11"
+          update-python: "true"
+      - name: "Install Dependencies"
+        run: "pdm install --no-self --no-editable --check --fail-fast"
+      - name: "Build with Nuitka"
+        uses: "Nuitka/Nuitka-Action@main"
+        with:
+          nuitka-version: "main"
+          script-name: "src/horizon_builder"
+          onefile: "true"
+          include-data-files: "src/horizon_builder/config.yml=horizon_builder/config.yml"
+          enable-console: "true"
+          output-dir: "build"
+          enable-plugins: "pylint-warnings, pkg-resources"
+      - name: "Upload Artifacts to action"
+        uses: "actions/upload-artifact@main"
+        with:
+          name: "${{ runner.os }} Build"
+          path: |
+            build/*.exe
+            build/*.bin
+            build/*.app/**/*
+      - name: "Upload Artifacts to release"
+        uses: "softprops/action-gh-release@master"
+        if: "${{ startsWith(github.ref, 'refs/tags/') }}"
+        with:
+          make_latest: "true"
+          generate_release_notes: "true"
+          files: |
+            build/*.exe
+            build/*.bin
+            build/*.app/**/*

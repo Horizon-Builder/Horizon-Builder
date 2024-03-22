@@ -14,6 +14,5 @@
 #
 from typing import Sequence
 
-from horizon_builder.data.parser import parse_files
 
-__all__: Sequence[str] = ["parse_files"]
+__all__: Sequence[str] = []

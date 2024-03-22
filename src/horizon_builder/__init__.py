@@ -14,7 +14,7 @@
 #
 from typing import Sequence
 
-from horizon_builder.cli import horizon_builder_cli
+from horizon_builder.__main__ import horizon_builder_cli
 
 __version__: str = "0.0.1"
 __author__: str = "GustavoSchip"

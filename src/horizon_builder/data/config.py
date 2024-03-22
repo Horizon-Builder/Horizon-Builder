@@ -12,9 +12,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-from click import style
+from click import secho
 from pydantic import ValidationError
-from textual import log
 
 from horizon_builder.data.manager.models import Config
 
@@ -22,11 +21,11 @@ from horizon_builder.data.manager.models import Config
 def get_config(config: dict) -> Config:
     engine_config = config.get("engine", {})
     if engine_config.get("version", 0) != 1:
-        log.error(style(text="Only version 1 is supported! Aborting...", fg="red"))
+        secho(text="Only version 1 is supported! Aborting...", fg="red")
         exit(1)
     try:
         processed_config = Config(**engine_config)
     except (ValidationError, AttributeError) as error:
-        log.error(style(text=f"{error}! Aborting...", fg="red"))
+        secho(text=f"{error}! Aborting...", fg="red")
         exit(1)
     return processed_config
