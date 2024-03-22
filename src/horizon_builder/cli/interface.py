@@ -17,7 +17,6 @@ from pathlib import Path as PLPath, PurePath
 from sys import exit
 from typing import Literal, Union
 
-
 from auto_click_auto import enable_click_shell_completion
 from auto_click_auto.constants import ShellType
 from click import command, option, Path, open_file, style
@@ -29,6 +28,7 @@ from horizon_builder.cli.context import Context
 from horizon_builder.cli.tui.app import Interface
 from horizon_builder.data.config import get_config
 from horizon_builder.data.content.parser import parse_files
+from horizon_builder.data.content.serial import initialize_content
 from horizon_builder.data.manager.check import initialize_environment
 
 
@@ -95,7 +95,11 @@ def horizon_builder_cli(
     kwargs["verbose"] = verbose
     kwargs["config"] = get_config(config=kwargs["pre-config"])
     initialize_environment(kwargs["config"])
-    kwargs["data"] = parse_files(content_folder=kwargs["config"].content.content_folder)
+    kwargs["pre-data"] = parse_files(
+        content_folder=kwargs["config"].content.content_folder
+    )
+    kwargs["data"] = initialize_content(*kwargs["pre-data"])
+    print(kwargs["data"])
     app: Interface = Interface(context=Context(**kwargs))
     app.run()
     return

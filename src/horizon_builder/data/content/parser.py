@@ -32,7 +32,7 @@ def parse_files(content_folder: Union[str, PathLike[str]]) -> tuple[dict, list]:
             ):
                 files_to_parse.append(PurePath(content_folder, Path(file)))
         except FileNotFoundError as error:
-            log.error(style(text=f"{error}! Skipping...", fg="red"))
+            log.warning(style(text=f"{error}! Skipping...", fg="yellow"))
             continue
     for yml_file in files_to_parse:
         try:
@@ -40,6 +40,6 @@ def parse_files(content_folder: Union[str, PathLike[str]]) -> tuple[dict, list]:
                 parsed_yml: dict = safe_load(stream=f.read())
                 yml_dict[str(yml_file.name)] = parsed_yml
         except (FileNotFoundError, FileError, ValueError) as error:
-            log.error(style(text=f"{error}! Skipping...", fg="red"))
+            log.warning(style(text=f"{error}! Skipping...", fg="yellow"))
             continue
     return yml_dict, files_to_parse
