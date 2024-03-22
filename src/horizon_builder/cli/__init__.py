@@ -14,6 +14,5 @@
 #
 from typing import Sequence
 
-from horizon_builder.cli.interface import horizon_builder_cli
 
-__all__: Sequence[str] = ["horizon_builder_cli"]
+__all__: Sequence[str] = []

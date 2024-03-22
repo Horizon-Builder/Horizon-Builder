@@ -26,10 +26,10 @@ from trogon import tui
 from yaml import safe_load
 
 from horizon_builder.cli.context import Context
-from horizon_builder.cli.tui import Interface
-from horizon_builder.data import parse_files
+from horizon_builder.cli.tui.app import Interface
 from horizon_builder.data.config import get_config
-from horizon_builder.data.manager import initialize_environment
+from horizon_builder.data.content.parser import parse_files
+from horizon_builder.data.manager.check import initialize_environment
 
 
 @tui(name="horizon_builder", command="tui-help")

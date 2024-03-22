@@ -72,6 +72,7 @@ pyenv local <x.y.z>
 Using [PDM](https://pdm-project.org/), install and activate the environment with:
 
 ```bash
+pdm venv create
 pdm update
 sh -c $(pdm venv activate)
 ```

@@ -1,7 +1,10 @@
 on:
-  release:
-    types: [ "created" ]
+  push:
+    tags: [ "*" ]
   workflow_dispatch:
+concurrency: "${{ github.workflow }}-${{ github.ref }}"
+permissions:
+  contents: "write"
 jobs:
   release:
     strategy:
@@ -28,11 +31,22 @@ jobs:
           include-data-files: "src/horizon_builder/config.yml=horizon_builder/config.yml"
           enable-console: "true"
           output-dir: "build"
-      - name: "Upload Artifacts"
+          enable-plugins: "pylint-warnings, pkg-resources"
+      - name: "Upload Artifacts to action"
         uses: "actions/upload-artifact@main"
         with:
           name: "${{ runner.os }} Build"
           path: |
+            build/*.exe
+            build/*.bin
+            build/*.app/**/*
+      - name: "Upload Artifacts to release"
+        uses: "softprops/action-gh-release@master"
+        if: "${{ startsWith(github.ref, 'refs/tags/') }}"
+        with:
+          make_latest: "true"
+          generate_release_notes: "true"
+          files: |
             build/*.exe
             build/*.bin
             build/*.app/**/*
